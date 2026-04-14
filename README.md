@@ -175,6 +175,7 @@ In case of deep customisation of detection process you can build your own tool w
  - [Mega-Linter](https://nvuillam.github.io/mega-linter/) is a 100% open-source linters aggregator for CI (GitHub Action & other CI tools) or to run locally
  - [Codacy](http://docs.codacy.com/getting-started/supported-languages-and-tools/) automatically analyzes your source code and identifies issues as you go, helping you develop software more efficiently with fewer issues down the line.
  - [Natural](https://github.com/NaturalNode/natural) is a general natural language facility for nodejs. It offers a broad range of functionalities for natural language processing.
+ - [OpenClaw](https://github.com/openclaw/openclaw) is a personal AI assistant that runs on your own devices, supporting 20+ messaging channels and multi-platform companion apps.
 
 
 ## Backers
