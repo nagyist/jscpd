@@ -200,6 +200,10 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 
 ![ga tracker](https://www.google-analytics.com/collect?v=1&a=257770996&t=pageview&dl=https%3A%2F%2Fgithub.com%2Fkucherenko%2Fjscpd&ul=en-us&de=UTF-8&cid=978224512.1377738459&tid=UA-730549-17&z=887657232 "ga tracker")
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/chart?repos=kucherenko/jscpd&type=date&legend=top-left)](https://www.star-history.com/?repos=kucherenko%2Fjscpd&type=date&legend=top-left)
+
 ## License
 
 [MIT](LICENSE) © Andrey Kucherenko
