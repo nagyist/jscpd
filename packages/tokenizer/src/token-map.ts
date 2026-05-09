@@ -5,24 +5,28 @@ import {IMapFrame, IToken, ITokensMap} from '@jscpd/core';
 
 const TOKEN_HASH_LENGTH = 20;
 
-function createTokenHash(token: IToken, hashFunction: (value: string) => string | undefined = undefined): string {
-	return hashFunction ?
-		hashFunction(token.type + token.value).substr(0, TOKEN_HASH_LENGTH) :
-		hash(token.type + token.value).substr(0, TOKEN_HASH_LENGTH);
+function createTokenHash(token: IToken, hashFn: (value: string) => string): string {
+	return hashFn(token.type + token.value).substring(0, TOKEN_HASH_LENGTH);
 }
 
 function groupByFormat(tokens: IToken[]): { [key: string]: IToken[] } {
 	const result: { [key: string]: IToken[] } = {};
-	// TODO change to reduce
-	tokens.forEach((token: IToken) => {
-		(result[token.format] = result[token.format] ? [...result[token.format], token] : [token])
-	});
+	for (const token of tokens) {
+		if (result[token.format]) {
+			result[token.format].push(token);
+		} else {
+			result[token.format] = [token];
+		}
+	}
 	return result;
 }
 
 export class TokensMap implements ITokensMap, Iterator<IMapFrame|boolean>, Iterable<IMapFrame|boolean> {
 	private position = 0;
 	private hashMap: string;
+	// Cache the resolved hash function so next() doesn't re-evaluate it on
+	// every iteration call.
+	private readonly hashFn: (value: string) => string;
 
 	constructor(
     private readonly id: string,
@@ -30,11 +34,15 @@ export class TokensMap implements ITokensMap, Iterator<IMapFrame|boolean>, Itera
     private readonly tokens: IToken[],
     private readonly format: string,
     private readonly options) {
+    this.hashFn = options.hashFunction ?? hash;
     this.hashMap = this.tokens.map((token) => {
+      // ignoreCase lowercasing is already handled upstream in
+      // createTokenMapBasedOnCode; the check here is kept only for callers
+      // that construct TokensMap directly with ignoreCase set.
       if (options.ignoreCase) {
-        token.value = token.value.toLocaleLowerCase()
+        token.value = token.value.toLocaleLowerCase();
       }
-      return createTokenHash(token, this.options.hashFunction)
+      return createTokenHash(token, this.hashFn);
     }).join('');
   }
 
@@ -59,8 +67,7 @@ export class TokensMap implements ITokensMap, Iterator<IMapFrame|boolean>, Itera
 	}
 
 	public next(): IteratorResult<IMapFrame | boolean> {
-		const hashFunction: (value: string) => string = this.options.hashFunction ? this.options.hashFunction : hash;
-		const mapFrame: string = hashFunction(
+		const mapFrame: string = this.hashFn(
 			this.hashMap.substring(
 				this.position * TOKEN_HASH_LENGTH,
 				this.position * TOKEN_HASH_LENGTH + this.options.minTokens * TOKEN_HASH_LENGTH,
