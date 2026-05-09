@@ -478,7 +478,7 @@ export const FORMATS: {
 		exts: ['g4'],
 	},
 	apex: {
-		exts: [],
+		exts: ['cls', 'trigger', 'apex'],
 	},
 	aql: {
 		exts: [],
@@ -497,6 +497,10 @@ export const FORMATS: {
 	},
 	cfscript: {
 		exts: ['cfc'],
+	},
+	cfml: {
+		exts: ['cfm'],
+		parent: 'markup',
 	},
 	cmake: {
 		exts: ['cmake'],
