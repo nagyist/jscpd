@@ -1,7 +1,7 @@
 import {join} from 'path';
 import type {IClone, IOptions, IStatistic} from '@jscpd/core';
 import {IReporter, JsonReporter} from "@jscpd/finder";
-import {copySync, writeFileSync} from "fs-extra";
+import {copySync, readJsonSync, writeFileSync} from "fs-extra";
 import {green, red} from "colors/safe";
 import * as pug from "pug";
 
@@ -12,7 +12,8 @@ export default class HtmlReporter implements IReporter {
   public report(clones: IClone[], statistic: IStatistic): void {
     const jsonReporter = new JsonReporter(this.options);
     const json = jsonReporter.generateJson(clones, statistic);
-    const result = pug.renderFile(join(__dirname, './templates/main.pug'), json)
+    const pkg = readJsonSync(join(__dirname, '../package.json'));
+    const result = pug.renderFile(join(__dirname, './templates/main.pug'), {...json, version: pkg.version})
     if (this.options.output) {
       const destination = join(this.options.output, 'html/');
       try {
