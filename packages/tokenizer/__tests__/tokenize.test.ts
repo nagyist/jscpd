@@ -112,7 +112,7 @@ describe('tokenize', () => {
   });
 
   describe('jscpd ignore blocks', () => {
-    it('includes an "ignore" token inside ignore-start/end markers', () => {
+    it('includes an "ignore" token inside ignore-start/end markers (line-comment style)', () => {
       const code = [
         '// jscpd:ignore-start',
         'const secret = 42;',
@@ -120,6 +120,27 @@ describe('tokenize', () => {
       ].join('\n');
       const tokens = tokenize(code, 'javascript');
       expect(tokens.some((t) => t.type === 'ignore')).toBe(true);
+    });
+
+    it('includes an "ignore" token inside ignore-start/end markers (block-comment style)', () => {
+      const code = [
+        '/* jscpd:ignore-start */',
+        'const secret = 42;',
+        '/* jscpd:ignore-end */',
+      ].join('\n');
+      const tokens = tokenize(code, 'javascript');
+      expect(tokens.some((t) => t.type === 'ignore')).toBe(true);
+    });
+
+    it('no non-ignore code tokens survive block-comment style ignore block in strict mode', () => {
+      const code = [
+        '/* jscpd:ignore-start */',
+        'const secret = 42;',
+        '/* jscpd:ignore-end */',
+      ].join('\n');
+      const tokens = tokenize(code, 'javascript');
+      const nonIgnore = tokens.filter((t) => t.type !== 'ignore' && t.type !== 'empty' && t.type !== 'new_line');
+      expect(nonIgnore.length).toBe(0);
     });
   });
 });
@@ -272,6 +293,58 @@ describe('createTokenMapBasedOnCode', () => {
     ])('produces maps for %s', (lang, src) => {
       const maps = createTokenMapBasedOnCode('id', src, lang, { minTokens: 3, mode: mild });
       expect(Array.isArray(maps)).toBe(true);
+    });
+  });
+});
+
+// ---------------------------------------------------------------------------
+// prismjs-backed languages — these were missing in the old vendored engine
+// ---------------------------------------------------------------------------
+
+describe('prismjs language coverage', () => {
+  describe('languages previously missing from vendored engine', () => {
+    it('tokenizes elm code', () => {
+      const tokens = tokenize('module Main exposing (..)\nimport Html', 'elm');
+      expect(tokens.length).toBeGreaterThan(0);
+    });
+
+    it('tokenizes toml code', () => {
+      const tokens = tokenize('[package]\nname = "my-project"\nversion = "1.0.0"', 'toml');
+      expect(tokens.length).toBeGreaterThan(0);
+    });
+
+    it('tokenizes zig code', () => {
+      const tokens = tokenize('const std = @import("std");\npub fn main() void {}', 'zig');
+      expect(tokens.length).toBeGreaterThan(0);
+    });
+
+    it('tokenizes hcl (terraform) code', () => {
+      const tokens = tokenize('resource "aws_instance" "example" {\n  ami = "abc-123"\n}', 'hcl');
+      expect(tokens.length).toBeGreaterThan(0);
+    });
+
+    it('tokenizes solidity code', () => {
+      const tokens = tokenize('pragma solidity ^0.8.0;\ncontract MyContract {}', 'solidity');
+      expect(tokens.length).toBeGreaterThan(0);
+    });
+
+    it('tokenizes cmake code', () => {
+      const tokens = tokenize('cmake_minimum_required(VERSION 3.10)\nproject(MyProject)', 'cmake');
+      expect(tokens.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('token shape for new languages', () => {
+    it('elm tokens have correct format field', () => {
+      const tokens = tokenize('module Main exposing (..)', 'elm');
+      expect(tokens.length).toBeGreaterThan(0);
+      expect(tokens.every((t) => t.format === 'elm')).toBe(true);
+    });
+
+    it('toml tokens have correct format field', () => {
+      const tokens = tokenize('[section]\nkey = "value"', 'toml');
+      expect(tokens.length).toBeGreaterThan(0);
+      expect(tokens.every((t) => t.format === 'toml')).toBe(true);
     });
   });
 });

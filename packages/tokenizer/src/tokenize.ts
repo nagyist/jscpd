@@ -1,27 +1,7 @@
-// @ts-ignore
-import * as syntaxes from './syntaxes/index.js';
-import {FORMATS} from './formats';
-import {createTokensMaps, TokensMap} from './token-map';
-import {IOptions, IToken} from '@jscpd/core';
-import {loadLanguages} from './grammar-loader';
-
-const ignore = {
-  ignore: [
-    {
-      pattern: /(jscpd:ignore-start)[\s\S]*?(?=jscpd:ignore-end)/,
-      lookbehind: true,
-      greedy: true,
-    },
-    {
-      pattern: /jscpd:ignore-start/,
-      greedy: false,
-    },
-    {
-      pattern: /jscpd:ignore-end/,
-      greedy: false,
-    },
-  ],
-};
+import { Prism, loadLanguages } from './grammar-loader';
+import { FORMATS } from './formats';
+import { createTokensMaps, TokensMap } from './token-map';
+import { IOptions, IToken } from '@jscpd/core';
 
 const punctuation = {
   // eslint-disable-next-line @typescript-eslint/camelcase
@@ -29,23 +9,59 @@ const punctuation = {
   empty: /\s+/,
 };
 
-
 const initializeFormats = (): void => {
   loadLanguages();
   Object
-    .keys(syntaxes.default.languages)
+    .keys(Prism.languages)
     .forEach((lang: string) => {
-      if (lang !== 'extend' && lang !== 'insertBefore' && lang !== 'DFS') {
-        syntaxes.default.languages[lang] = {
-          ...ignore,
-          ...syntaxes.default.languages[lang],
+      const grammar = Prism.languages[lang];
+      if (typeof grammar === 'object' && grammar !== null) {
+        Prism.languages[lang] = {
+          ...grammar,
           ...punctuation,
-        }
+        };
       }
     });
-}
+};
 
 initializeFormats();
+
+/**
+ * Scan the raw code string for jscpd:ignore-start / jscpd:ignore-end pairs and
+ * return their character ranges.  Using indexOf() is O(n) and produces zero
+ * regex-engine backtracking, making it safe to call on files of any size.
+ *
+ * The region spans from the beginning of the line that contains the start
+ * marker to the end of the line that contains the end marker, so that the
+ * surrounding comment delimiters (// … or /* … *​/) are included in the
+ * ignored range regardless of comment style.
+ */
+function findIgnoreRegions(code: string): Array<[number, number]> {
+  const regions: Array<[number, number]> = [];
+  const startMarker = 'jscpd:ignore-start';
+  const endMarker = 'jscpd:ignore-end';
+  let searchFrom = 0;
+
+  while (true) {
+    const startIdx = code.indexOf(startMarker, searchFrom);
+    if (startIdx === -1) break;
+
+    // Extend to the beginning of the line that contains the start marker.
+    const lineStart = code.lastIndexOf('\n', startIdx - 1) + 1; // 0 when not found
+
+    const endIdx = code.indexOf(endMarker, startIdx + startMarker.length);
+    if (endIdx === -1) break;
+
+    // Extend to the end of the line that contains the end marker.
+    const nlAfterEnd = code.indexOf('\n', endIdx + endMarker.length);
+    const lineEnd = nlAfterEnd === -1 ? code.length : nlAfterEnd;
+
+    regions.push([lineStart, lineEnd]);
+    searchFrom = lineEnd;
+  }
+
+  return regions;
+}
 
 function getLanguagePrismName(lang: string): string {
   if (lang in FORMATS && FORMATS[lang]?.parent) {
@@ -58,6 +74,9 @@ export function tokenize(code: string, language: string): IToken[] {
   let length = 0;
   let line = 1;
   let column = 1;
+
+  // Pre-scan for ignore regions using fast indexOf (no regex backtracking).
+  const ignoreRegions = findIgnoreRegions(code);
 
   function sanitizeLangName(name: string): string {
     return name && name.replace ? name.replace('language-', '') : 'unknown';
@@ -91,6 +110,17 @@ export function tokenize(code: string, language: string): IToken[] {
     };
     result.loc = {start, end};
     result.range = [length, length + result.length];
+    // Mark any token that overlaps an ignore region as type 'ignore'.
+    if (ignoreRegions.length > 0) {
+      const tokenStart = result.range[0];
+      const tokenEnd = result.range[1];
+      for (const [rs, re] of ignoreRegions) {
+        if (tokenStart < re && tokenEnd > rs) {
+          result.type = 'ignore';
+          break;
+        }
+      }
+    }
     length += result.length;
     line += newLines;
     return result;
@@ -126,12 +156,13 @@ export function tokenize(code: string, language: string): IToken[] {
 
 
   let tokens: IToken[] = [];
-  const grammar = syntaxes.default.languages[getLanguagePrismName(language)];
-  if (!syntaxes.default.languages[getLanguagePrismName(language)]) {
-    console.warn('Warn: jscpd has issue with support of "' + getLanguagePrismName(language) + '"')
+  const prismName = getLanguagePrismName(language);
+  const grammar = Prism.languages[prismName];
+  if (!grammar || typeof grammar !== 'object') {
+    console.warn('Warn: jscpd has issue with support of "' + prismName + '"');
     return [];
   }
-  syntaxes.default.tokenize(code, grammar)
+  Prism.tokenize(code, grammar)
     .forEach(
       (t: any) => (tokens = tokens.concat(createTokens(t, language))),
     );
@@ -142,26 +173,26 @@ export function tokenize(code: string, language: string): IToken[] {
     );
 }
 
-function setupIgnorePatterns(format: string, ignorePattern: string[]): void{
+function setupIgnorePatterns(format: string, ignorePattern: string[]): void {
   const language = getLanguagePrismName(format);
-  const ignorePatterns = ignorePattern.map(pattern=>({
-    pattern: new RegExp(pattern),
-    greedy: false,
-  }))
+  const extraTokens: Record<string, { pattern: RegExp; greedy: boolean }> = {};
+  ignorePattern.forEach((pattern, i) => {
+    extraTokens[`ignore_pattern_${i}`] = { pattern: new RegExp(pattern), greedy: false };
+  });
 
-  syntaxes.default.languages[language] = {
-    ...ignorePatterns,
-    ...syntaxes.default.languages[language],
-  }
+  Prism.languages[language] = {
+    ...extraTokens,
+    ...Prism.languages[language],
+  };
 }
 
 export function createTokenMapBasedOnCode(id: string, data: string, format: string, options: Partial<IOptions> = {}): TokensMap[] {
-  const {mode, ignoreCase, ignorePattern} = options;
+  const { mode, ignoreCase, ignorePattern } = options;
 
   const tokens: IToken[] = tokenize(data, format)
-    .filter((token) => mode(token, options))
+    .filter((token) => mode(token, options));
 
-  if(ignorePattern) setupIgnorePatterns(format, options.ignorePattern || [] )
+  if (ignorePattern) setupIgnorePatterns(format, options.ignorePattern || []);
 
   if (ignoreCase) {
     return createTokensMaps(id, data, tokens.map(

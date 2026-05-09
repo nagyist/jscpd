@@ -465,6 +465,207 @@ export const FORMATS: {
 	yaml: {
 		exts: ['yaml', 'yml'],
 	},
+	// ---------------------------------------------------------------------------
+	// Languages added via prismjs 1.30.0 (not present in previous vendored engine)
+	// ---------------------------------------------------------------------------
+	abnf: {
+		exts: [],
+	},
+	agda: {
+		exts: [],
+	},
+	antlr4: {
+		exts: ['g4'],
+	},
+	apex: {
+		exts: [],
+	},
+	aql: {
+		exts: [],
+	},
+	armasm: {
+		exts: [],
+	},
+	awk: {
+		exts: ['awk'],
+	},
+	bicep: {
+		exts: ['bicep'],
+	},
+	bnf: {
+		exts: [],
+	},
+	cfscript: {
+		exts: ['cfc'],
+	},
+	cmake: {
+		exts: ['cmake'],
+	},
+	cobol: {
+		exts: [],
+	},
+	csv: {
+		exts: ['csv'],
+	},
+	cypher: {
+		exts: [],
+	},
+	dhall: {
+		exts: [],
+	},
+	'dns-zone-file': {
+		exts: [],
+	},
+	dot: {
+		exts: ['dot', 'gv'],
+	},
+	ebnf: {
+		exts: [],
+	},
+	editorconfig: {
+		exts: [],
+	},
+	'excel-formula': {
+		exts: ['xlsx', 'xls'],
+	},
+	factor: {
+		exts: [],
+	},
+	ftl: {
+		exts: [],
+	},
+	gcode: {
+		exts: [],
+	},
+	gettext: {
+		exts: ['po'],
+	},
+	gml: {
+		exts: [],
+	},
+	'go-module': {
+		exts: [],
+	},
+	hcl: {
+		exts: ['tf', 'hcl'],
+	},
+	hlsl: {
+		exts: [],
+	},
+	idris: {
+		exts: ['idr'],
+	},
+	ignore: {
+		exts: ['gitignore'],
+	},
+	jq: {
+		exts: [],
+	},
+	json5: {
+		exts: ['json5'],
+	},
+	kusto: {
+		exts: [],
+	},
+	lilypond: {
+		exts: ['ly'],
+	},
+	'linker-script': {
+		exts: ['ld'],
+	},
+	llvm: {
+		exts: ['ll'],
+	},
+	log: {
+		exts: ['log'],
+	},
+	mermaid: {
+		exts: [],
+	},
+	mongodb: {
+		exts: [],
+	},
+	n1ql: {
+		exts: [],
+	},
+	odin: {
+		exts: [],
+	},
+	openqasm: {
+		exts: ['qasm'],
+	},
+	'plant-uml': {
+		exts: ['puml', 'plantuml'],
+	},
+	powerquery: {
+		exts: ['pq'],
+	},
+	promql: {
+		exts: [],
+	},
+	purescript: {
+		exts: ['purs'],
+	},
+	qsharp: {
+		exts: ['qs'],
+	},
+	racket: {
+		exts: ['rkt'],
+	},
+	regex: {
+		exts: [],
+	},
+	rego: {
+		exts: [],
+	},
+	rescript: {
+		exts: ['res'],
+	},
+	robotframework: {
+		exts: ['robot'],
+	},
+	'shell-session': {
+		exts: [],
+	},
+	smali: {
+		exts: [],
+	},
+	solidity: {
+		exts: ['sol'],
+	},
+	sparql: {
+		exts: ['rq'],
+	},
+	stata: {
+		exts: [],
+	},
+	toml: {
+		exts: ['toml'],
+	},
+	turtle: {
+		exts: ['ttl'],
+	},
+	typoscript: {
+		exts: [],
+	},
+	unrealscript: {
+		exts: ['uc'],
+	},
+	uri: {
+		exts: [],
+	},
+	vala: {
+		exts: [],
+	},
+	wgsl: {
+		exts: ['wgsl'],
+	},
+	wolfram: {
+		exts: ['wl', 'nb'],
+	},
+	zig: {
+		exts: ['zig'],
+	},
 };
 
 export function getSupportedFormats(): string[] {
