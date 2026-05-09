@@ -1,5 +1,5 @@
 // @ts-ignore
-import * as reprism from 'reprism';
+import * as syntaxes from './syntaxes/index.js';
 import {FORMATS} from './formats';
 import {createTokensMaps, TokensMap} from './token-map';
 import {IOptions, IToken} from '@jscpd/core';
@@ -33,12 +33,12 @@ const punctuation = {
 const initializeFormats = (): void => {
   loadLanguages();
   Object
-    .keys(reprism.default.languages)
+    .keys(syntaxes.default.languages)
     .forEach((lang: string) => {
       if (lang !== 'extend' && lang !== 'insertBefore' && lang !== 'DFS') {
-        reprism.default.languages[lang] = {
+        syntaxes.default.languages[lang] = {
           ...ignore,
-          ...reprism.default.languages[lang],
+          ...syntaxes.default.languages[lang],
           ...punctuation,
         }
       }
@@ -108,7 +108,7 @@ export function tokenize(code: string, language: string): IToken[] {
     ];
   }
 
-  function createTokens(token: reprism.default.Token | string, lang: string): IToken[] {
+  function createTokens(token: any, lang: string): IToken[] {
     if (token.content && typeof token.content === 'string') {
       return createTokenFromFlatToken(token, lang);
     }
@@ -126,14 +126,14 @@ export function tokenize(code: string, language: string): IToken[] {
 
 
   let tokens: IToken[] = [];
-  const grammar = reprism.default.languages[getLanguagePrismName(language)];
-  if (!reprism.default.languages[getLanguagePrismName(language)]) {
+  const grammar = syntaxes.default.languages[getLanguagePrismName(language)];
+  if (!syntaxes.default.languages[getLanguagePrismName(language)]) {
     console.warn('Warn: jscpd has issue with support of "' + getLanguagePrismName(language) + '"')
     return [];
   }
-  reprism.default.tokenize(code, grammar)
+  syntaxes.default.tokenize(code, grammar)
     .forEach(
-      (t: IToken) => (tokens = tokens.concat(createTokens(t, language))),
+      (t: any) => (tokens = tokens.concat(createTokens(t, language))),
     );
   return tokens
     .filter((t: IToken) => t.format in FORMATS)
@@ -149,9 +149,9 @@ function setupIgnorePatterns(format: string, ignorePattern: string[]): void{
     greedy: false,
   }))
 
-  reprism.default.languages[language] = {
+  syntaxes.default.languages[language] = {
     ...ignorePatterns,
-    ...reprism.default.languages[language],
+    ...syntaxes.default.languages[language],
   }
 }
 
