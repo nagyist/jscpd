@@ -1,8 +1,5 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/kucherenko/jscpd/master/assets/logo.svg?sanitize=true">
-</p>
-
 ## jscpd
+
 [![npm](https://img.shields.io/npm/v/jscpd.svg?style=flat-square)](https://www.npmjs.com/package/jscpd)
 ![jscpd](https://raw.githubusercontent.com/kucherenko/jscpd/master/assets/jscpd-badge.svg?sanitize=true)
 [![license](https://img.shields.io/github/license/kucherenko/jscpd.svg?style=flat-square)](https://github.com/kucherenko/jscpd/blob/master/LICENSE)
@@ -290,6 +287,30 @@ Example:
 $ jscpd /path/to/source --ignore-pattern "import.*from\s*'.*'"
 ```
 Excludes import statements from the calculation.
+
+### No Tips
+
+By default, jscpd prints a few tip lines after the timer output:
+
+```
+time: 1.234s
+
+💡 Auto-refactor with AI: npx skills add kucherenko/jscpd
+🎩 New: Gangsta Agents — discipline your AI coding → gangsta.page
+💖 Sponsor jscpd → https://opencollective.com/jscpd
+```
+
+Use `--noTips` to suppress these lines (useful in CI environments or when piping output).
+
+```bash
+$ jscpd --noTips /path/to/source
+```
+
+Tips are also automatically suppressed when `--silent` is active.
+
+ - Cli options: `--noTips`
+ - Type: **boolean**
+ - Default: **false**
 
 ## Config File
 

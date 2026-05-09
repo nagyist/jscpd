@@ -34,6 +34,7 @@ export interface IOptions {
 	tokensToSkip?: string[];
 	hashFunction?: (value: string) => string;
   exitCode?: number;
+  noTips?: boolean;
 }
 
 export type TOption = keyof IOptions;

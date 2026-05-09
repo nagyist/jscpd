@@ -252,3 +252,25 @@ describe('jscpd options', () => {
 
   });
 });
+
+describe('list formats', () => {
+  it('should call process.exit(0) when --list flag is passed', async () => {
+    const mockExit = vi.spyOn(process, 'exit').mockImplementation(vi.fn() as any);
+    const mockLog = vi.spyOn(console, 'log').mockImplementation(() => {});
+    await jscpd(['', '', '--list', '--silent', '--format', 'abcdefghijklmnopqrstuvwxyz']);
+    expect(mockExit).toHaveBeenCalledWith(0);
+    mockExit.mockRestore();
+    mockLog.mockRestore();
+  });
+});
+
+describe('no path provided', () => {
+  it('should run detection from cwd when no path is given', async () => {
+    const mockLog = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const mockError = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const clones = await jscpd(['', '', '--silent', '--min-lines', '999999']);
+    expect(Array.isArray(clones)).toBe(true);
+    mockLog.mockRestore();
+    mockError.mockRestore();
+  });
+});

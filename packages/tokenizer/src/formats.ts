@@ -172,7 +172,7 @@ export const FORMATS: {
 		exts: ['hb', 'hbs', 'handlebars'],
 	},
 	haskell: {
-		exts: ['hs', 'lhs '],
+		exts: ['hs', 'lhs'],
 	},
 	haxe: {
 		exts: ['hx', 'hxml'],

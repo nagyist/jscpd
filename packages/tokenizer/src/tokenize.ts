@@ -139,19 +139,26 @@ export function tokenize(code: string, language: string): IToken[] {
   }
 
   function createTokens(token: any, lang: string): IToken[] {
+    if (typeof token === 'string') {
+      return createTokenFromString(token, lang);
+    }
+
     if (token.content && typeof token.content === 'string') {
       return createTokenFromFlatToken(token, lang);
     }
 
     if (token.content && Array.isArray(token.content)) {
       let res: IToken[] = [];
+      const rawAlias = token.alias ? sanitizeLangName(token.alias as string) : null;
+      const childLang = (rawAlias && rawAlias in FORMATS) ? rawAlias : lang;
       token.content.forEach(
-        (t: IToken) => (res = res.concat(createTokens(t, token.alias ? sanitizeLangName(token.alias as string) : lang))),
+        (t: IToken) => (res = res.concat(createTokens(t, childLang))),
       );
       return res;
     }
 
-    return createTokenFromString(token as string, lang);
+    // Prism Token with empty/falsy content — skip to avoid object-valued tokens
+    return [];
   }
 
 

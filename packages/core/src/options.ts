@@ -27,6 +27,7 @@ export function getDefaultOptions(): IOptions {
 		gitignore: false,
 		reportersOptions: {},
     exitCode: 0,
+    noTips: false,
 	};
 }
 

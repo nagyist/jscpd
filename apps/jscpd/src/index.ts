@@ -37,6 +37,12 @@ export const detectClones = (opts: IOptions, store: IStore<IMapFrame> | undefine
   return detector.detect(files).then((clones: IClone[]) => {
     if (!options.silent) {
       console.timeEnd(italic(grey(TIMER_LABEL)));
+      if (!options.noTips) {
+        console.log('');
+        console.log('💡 Auto-refactor with AI: npx skills add kucherenko/jscpd');
+        console.log('🎩 New: Gangsta Agents — discipline your AI coding → gangsta.page');
+        console.log('💖 Sponsor jscpd → https://opencollective.com/jscpd');
+      }
     }
     return clones;
   });
