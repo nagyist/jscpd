@@ -456,9 +456,6 @@ importers:
       '@jscpd/core':
         specifier: workspace:*
         version: link:../core
-      reprism:
-        specifier: ^0.0.11
-        version: 0.0.11
       spark-md5:
         specifier: ^3.0.2
         version: 3.0.2
@@ -3101,9 +3098,6 @@ packages:
   repeat-string@1.6.1:
     resolution: {integrity: sha512-PV0dzCYDNfRi1jCDbJzpW7jNNDRuCOG/jI5ctQcGKt/clZD+YcPS3yIlWuTJMmESC8aevCFmWJy5wjAFgNqN6w==}
     engines: {node: '>=0.10'}
-
-  reprism@0.0.11:
-    resolution: {integrity: sha512-VsxDR5QxZo08M/3nRypNlScw5r3rKeSOPdU/QhDmu3Ai3BJxHn/qgfXGWQp/tAxUtzwYNo9W6997JZR0tPLZsA==}
 
   require-from-string@2.0.2:
     resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
@@ -6265,8 +6259,6 @@ snapshots:
       redis-errors: 1.2.0
 
   repeat-string@1.6.1: {}
-
-  reprism@0.0.11: {}
 
   require-from-string@2.0.2: {}
 
