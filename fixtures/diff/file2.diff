@@ -1,0 +1,36 @@
+--- a/src/utils/validation.js
++++ b/src/utils/validation.js
+@@ -1,20 +1,35 @@
+ const validateInput = (value) => {
+-  if (!value) {
+-    throw new Error('Input is required');
++  if (!value || value.trim() === '') {
++    throw new Error('Input cannot be empty');
+   }
+-  return value;
++  if (value.length > 255) {
++    throw new Error('Input exceeds maximum length');
++  }
++  return value.trim();
+ };
+ 
+ const parseConfig = (config) => {
+   return {
+     host:    config.host    || 'localhost',
+     port:    config.port    || 3000,
+     debug:   config.debug   || false,
++    timeout: config.timeout || 30000,
++    retries: config.retries || 3,
+   };
+ };
+ 
++const setupLogger = (level, output) => {
++  return {
++    level:  level  || 'info',
++    output: output || process.stdout,
++    log: (msg) => output.write(`[${level}] ${msg}\n`),
++  };
++};
++
+ module.exports = { validateInput, parseConfig };
++module.exports = { validateInput, parseConfig, setupLogger };

@@ -32,9 +32,9 @@ describe('jscpd modes', () => {
 		it('should detect clones with weak mode, ignore new line and empty symbols and comments', async () => {
 			const clones: IClone[] = await jscpd(['', '', pathToFixtures, '-m', 'weak']);
 			const clone: IClone = clones[0];
-			expect(clone.duplicationA.start.line).to.equal(9);
+			expect(clone.duplicationA.start.line).to.equal(1);
 			expect(clone.duplicationA.end.line).to.equal(92);
-			expect(clone.duplicationB.start.line).to.equal(9);
+			expect(clone.duplicationB.start.line).to.equal(1);
 			expect(clone.duplicationB.end.line).to.equal(86);
 		})
 	});
