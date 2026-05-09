@@ -1,5 +1,5 @@
-import SparkMD5 from "spark-md5";
+import { createHash } from 'crypto';
 
 export function hash(value: string): string {
-	return SparkMD5.hash(value);
+	return createHash('md5').update(value).digest('hex');
 }

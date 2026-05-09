@@ -15,9 +15,28 @@ interface PrismLanguageLoader {
 const loadPrismLanguages: PrismLanguageLoader =
   _require('prismjs/components/');
 
+// Track which languages have already been loaded and patched so we never pay
+// the disk-read cost more than once per language per process.
+const loadedLanguages = new Set<string>();
+
+/**
+ * Ensure a single language grammar is loaded and ready in Prism.
+ * The first call for a given language reads the grammar from disk; subsequent
+ * calls return immediately.
+ */
+export function ensureLanguageLoaded(lang: string): void {
+  if (loadedLanguages.has(lang)) return;
+
+  loadPrismLanguages.silent = true;
+  loadPrismLanguages([lang]);
+  loadedLanguages.add(lang);
+}
+
+/**
+ * @deprecated Load all languages eagerly. Prefer ensureLanguageLoaded() for
+ * on-demand loading. Kept for backward compatibility.
+ */
 export function loadLanguages(): void {
-  // Suppress the per-language "does not exist" console warnings emitted by the
-  // component loader for any optional language IDs it cannot resolve.
   loadPrismLanguages.silent = true;
   loadPrismLanguages();
 }

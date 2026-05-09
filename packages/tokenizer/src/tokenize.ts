@@ -1,4 +1,4 @@
-import { Prism, loadLanguages } from './grammar-loader';
+import { Prism, ensureLanguageLoaded } from './grammar-loader';
 import { FORMATS } from './formats';
 import { createTokensMaps, TokensMap } from './token-map';
 import { IOptions, IToken } from '@jscpd/core';
@@ -9,22 +9,26 @@ const punctuation = {
   empty: /\s+/,
 };
 
-const initializeFormats = (): void => {
-  loadLanguages();
-  Object
-    .keys(Prism.languages)
-    .forEach((lang: string) => {
-      const grammar = Prism.languages[lang];
-      if (typeof grammar === 'object' && grammar !== null) {
-        Prism.languages[lang] = {
-          ...grammar,
-          ...punctuation,
-        };
-      }
-    });
-};
+// Track which languages have been patched with the punctuation tokens so we
+// only mutate the grammar object once per language per process.
+const patchedLanguages = new Set<string>();
 
-initializeFormats();
+/**
+ * Ensure a Prism grammar is loaded for `lang` and patched with the punctuation
+ * tokens that jscpd needs.  Only the grammars actually requested are loaded,
+ * avoiding the ~300-grammar startup cost of the old eager loadLanguages() call.
+ */
+function ensureGrammarReady(prismName: string): void {
+  if (patchedLanguages.has(prismName)) return;
+
+  ensureLanguageLoaded(prismName);
+
+  const grammar = Prism.languages[prismName];
+  if (typeof grammar === 'object' && grammar !== null) {
+    Prism.languages[prismName] = { ...grammar, ...punctuation };
+  }
+  patchedLanguages.add(prismName);
+}
 
 /**
  * Scan the raw code string for jscpd:ignore-start / jscpd:ignore-end pairs and
@@ -95,14 +99,26 @@ export function tokenize(code: string, language: string): IToken[] {
 
   function calculateLocation(token: IToken, position: number): IToken {
     const result: IToken = token;
-    const lines: string[] = typeof result.value === 'string' && result.value.split ? result.value.split('\n') : [];
-    const newLines = lines.length - 1;
+    const val = result.value;
+    // Count newlines and track last-line length without allocating an array.
+    let newLines = 0;
+    let lastLineLen = 0;
+    if (typeof val === 'string') {
+      for (let i = 0; i < val.length; i++) {
+        if (val[i] === '\n') {
+          newLines++;
+          lastLineLen = 0;
+        } else {
+          lastLineLen++;
+        }
+      }
+    }
     const start = {
       line,
       column,
       position
     };
-    column = newLines >= 0 ? Number(lines[lines.length - 1]?.length) + 1 : column;
+    column = newLines > 0 ? lastLineLen + 1 : column + (typeof val === 'string' ? val.length : 0);
     const end = {
       line: line + newLines,
       column,
@@ -148,12 +164,13 @@ export function tokenize(code: string, language: string): IToken[] {
     }
 
     if (token.content && Array.isArray(token.content)) {
-      let res: IToken[] = [];
+      const res: IToken[] = [];
       const rawAlias = token.alias ? sanitizeLangName(token.alias as string) : null;
       const childLang = (rawAlias && rawAlias in FORMATS) ? rawAlias : lang;
-      token.content.forEach(
-        (t: IToken) => (res = res.concat(createTokens(t, childLang))),
-      );
+      for (const t of token.content) {
+        const sub = createTokens(t, childLang);
+        for (const s of sub) res.push(s);
+      }
       return res;
     }
 
@@ -162,17 +179,21 @@ export function tokenize(code: string, language: string): IToken[] {
   }
 
 
-  let tokens: IToken[] = [];
+  const tokens: IToken[] = [];
   const prismName = getLanguagePrismName(language);
+
+  // Load and patch the grammar lazily — only when first needed.
+  ensureGrammarReady(prismName);
+
   const grammar = Prism.languages[prismName];
   if (!grammar || typeof grammar !== 'object') {
     console.warn('Warn: jscpd has issue with support of "' + prismName + '"');
     return [];
   }
-  Prism.tokenize(code, grammar)
-    .forEach(
-      (t: any) => (tokens = tokens.concat(createTokens(t, language))),
-    );
+  for (const t of Prism.tokenize(code, grammar)) {
+    const sub = createTokens(t, language);
+    for (const s of sub) tokens.push(s);
+  }
   return tokens
     .filter((t: IToken) => t.format in FORMATS)
     .map(
