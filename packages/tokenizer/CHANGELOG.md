@@ -1,73 +1,118 @@
-## 3.3.0-rc.3 (2020-05-04)
+# @jscpd/tokenizer
 
-## 4.0.5
+Converts source code into token streams for duplicate detection. Supports 150+ languages via [Prism.js](https://prismjs.com/) grammars and handles format-to-extension mapping, hashing, and source-location calculation.
 
-### Patch Changes
+---
 
-- add ai reporter, save your tockens
-- Updated dependencies
-  - @jscpd/core@4.0.5
+## [4.1.0](https://www.npmjs.com/package/@jscpd/tokenizer/v/4.1.0) — 2026-05-09
 
-## 4.0.4
+### Performance
 
-### Patch Changes
+This release contains the most significant tokenizer performance improvements since v4.0.0:
 
-- Implement MCP server, add gdscript support
-- Updated dependencies
-  - @jscpd/core@4.0.4
+- **Lazy grammar loading** — Prism grammars are now loaded on demand (`ensureGrammarReady`) instead of all ~300 being imported at startup. Cold-start time drops dramatically on large codebases.
+- **O(n) hot paths** — replaced O(n²) `concat`/spread patterns in `createTokens` and `groupByFormat` with `push` loops.
+- **Faster line counting** — `calculateLocation` now uses a single-pass character loop instead of `split('\n')`, avoiding an extra array allocation per file.
+- **Native hashing** — swapped `spark-md5` for Node.js built-in `crypto.createHash('md5')`. This also fixes a broken local binary issue and removes an external dependency.
+- **O(1) format lookup** — added a reverse `Map` for extension→format resolution, removing a linear scan on every file.
 
-## 4.0.3
+### New Languages
 
-### Patch Changes
+- **Apex** (Salesforce) and **CFML** (ColdFusion) language support added with test fixtures (closes [#83](https://github.com/kucherenko/jscpd/issues/83), [#619](https://github.com/kucherenko/jscpd/issues/619)).
 
-- fix issue with build
-- Updated dependencies
-  - @jscpd/core@4.0.3
+### Maintenance
 
-## 4.0.2
+- Replaced the vendored `reprism` syntax library with the official `prismjs` npm package, reducing the installed footprint.
+- Added a comprehensive test suite: 117 tests covering hash, formats, token-map, and tokenize modules.
+- CI now tests against Node.js 22.x and 24.x; Node.js 20.x dropped.
 
-### Patch Changes
+### Dependency Updates
 
-- small fixes, merge suggested PRs on github
-- Updated dependencies
-  - @jscpd/core@4.0.2
+- `@jscpd/core` → 4.1.0
 
-## 4.0.1
+---
 
-### Patch Changes
+## [4.0.5](https://www.npmjs.com/package/@jscpd/tokenizer/v/4.0.5) — 2026-04-10
 
-- f50a42d: publish first public version in v4
-- Updated dependencies [f50a42d]
-  - @jscpd/core@4.0.1
+### Changes
 
-## 4.0.0
+- Aligned with the AI reporter release. No tokenizer-specific changes.
 
-### Major Changes
+### Dependency Updates
 
-- aac6f4e: make great refactoring of the code, update versions of packages (typescript, pug, etc), change builder - use tsup, change test runner to vitest, move monorepo from lerna to turborepo, add changeset as tool for releases
+- `@jscpd/core` → 4.0.5
 
-### Patch Changes
+---
 
-- Updated dependencies [aac6f4e]
-  - @jscpd/core@4.0.0
+## [4.0.4](https://www.npmjs.com/package/@jscpd/tokenizer/v/4.0.4) — 2026-01-30
 
-## 3.3.0-rc.3 (2020-05-02)
+### New Languages
 
-- v3.3.0-rc.3 ([9f388ff](https://github.com/kucherenko/jscpd/commit/9f388ff))
-- docs: ✏️ update README for the packages ([76492e6](https://github.com/kucherenko/jscpd/commit/76492e6))
-- refactor: 💡 change imports in interfaces ([f72e3e0](https://github.com/kucherenko/jscpd/commit/f72e3e0))
-- refactor: 💡 remove cyclic dependency between core and tokenizer ([6615825](https://github.com/kucherenko/jscpd/commit/6615825))
-- chore: 🤖 add tool for changing package.json before publishing ([fb9c7ec](https://github.com/kucherenko/jscpd/commit/fb9c7ec))
-- chore: 🤖 change npm script to yarn ([3729bf9](https://github.com/kucherenko/jscpd/commit/3729bf9))
-- chore: 🤖 change package json ([205136f](https://github.com/kucherenko/jscpd/commit/205136f))
-- chore: 🤖 fix issue with yarncompile ([44eef97](https://github.com/kucherenko/jscpd/commit/44eef97))
+- **GDScript** (Godot Engine) support added.
 
-## 3.3.0-rc.2 (2020-04-29)
+### Dependency Updates
 
-- v3.3.0-rc.2 ([77890f4](https://github.com/kucherenko/jscpd/commit/77890f4))
-- docs: ✏️ add screenshot to documentation ([1271d98](https://github.com/kucherenko/jscpd/commit/1271d98))
+- `@jscpd/core` → 4.0.4
 
-## 3.3.0-rc.1 (2020-04-29)
+---
 
-- v3.3.0-rc.1 ([dd2a39d](https://github.com/kucherenko/jscpd/commit/dd2a39d))
-- refactor: 💡 add new branch to git repo ([633a854](https://github.com/kucherenko/jscpd/commit/633a854))
+## [4.0.3](https://www.npmjs.com/package/@jscpd/tokenizer/v/4.0.3) — 2026-01-11
+
+### Bug Fixes
+
+- Fixed a build output issue.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.0.3
+
+---
+
+## [4.0.2](https://www.npmjs.com/package/@jscpd/tokenizer/v/4.0.2) — 2026-01-11
+
+### Changes
+
+- Merged several community pull requests; minor housekeeping.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.0.2
+
+---
+
+## [4.0.1](https://www.npmjs.com/package/@jscpd/tokenizer/v/4.0.1) — 2024-05-26
+
+### Changes
+
+- First public release as a versioned standalone package under v4.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.0.1
+
+---
+
+## [4.0.0](https://www.npmjs.com/package/@jscpd/tokenizer/v/4.0.0) — 2024-05-26
+
+### Breaking Changes
+
+- **Monorepo restructure** — package moved to `packages/tokenizer`. Build system changed from `tsc` to `tsup` (ESM+CJS dual output).
+- Replaced `prism.js` (the old bundled copy) with `reprism` during this transition.
+
+### Changes
+
+- Performance optimisation: language grammars loader refactored to load lazily.
+- Cyclic dependency between `@jscpd/tokenizer` and `@jscpd/core` resolved.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.0.0
+
+---
+
+## [3.3.0-rc.3](https://github.com/kucherenko/jscpd/commit/9f388ff) — 2020-05-02
+
+First release as a dedicated `@jscpd/tokenizer` package, extracted from the main `jscpd` package to allow independent development and versioning.
+
+- Removed cyclic dependency with `@jscpd/core`.
+- Internal imports reorganised.

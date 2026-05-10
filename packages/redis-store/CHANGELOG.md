@@ -1,66 +1,102 @@
-## 3.3.0-rc.3 (2020-05-04)
+# @jscpd/redis-store
 
-## 4.0.5
+A [Redis](https://redis.io/)-backed store for jscpd. Use this store when running jscpd across multiple machines or CI agents that need to share token data — for example, in a distributed monorepo setup where different services are scanned in parallel jobs.
 
-### Patch Changes
+---
 
-- add ai reporter, save your tockens
-- Updated dependencies
-  - @jscpd/core@4.0.5
-  - @jscpd/tokenizer@4.0.5
+## [4.1.0](https://www.npmjs.com/package/@jscpd/redis-store/v/4.1.0) — 2026-05-09
 
-## 4.0.4
+### Changes
 
-### Patch Changes
+- Aligned with the monorepo 4.1.0 release. No store-specific changes.
+- CI now tests against Node.js 22.x and 24.x.
 
-- Implement MCP server, add gdscript support
-- Updated dependencies
-  - @jscpd/core@4.0.4
-  - @jscpd/tokenizer@4.0.4
+### Dependency Updates
 
-## 4.0.3
+- `@jscpd/core` → 4.1.0
+- `@jscpd/tokenizer` → 4.1.0
 
-### Patch Changes
+---
 
-- fix issue with build
-- Updated dependencies
-  - @jscpd/tokenizer@4.0.3
-  - @jscpd/core@4.0.3
+## [4.0.5](https://www.npmjs.com/package/@jscpd/redis-store/v/4.0.5) — 2026-04-10
 
-## 4.0.2
+### Changes
 
-### Patch Changes
+- Aligned with the AI reporter release. No store-specific changes.
 
-- small fixes, merge suggested PRs on github
-- Updated dependencies
-  - @jscpd/core@4.0.2
-  - @jscpd/tokenizer@4.0.2
+### Dependency Updates
 
-## 4.0.1
+- `@jscpd/core` → 4.0.5
+- `@jscpd/tokenizer` → 4.0.5
 
-### Patch Changes
+---
 
-- f50a42d: publish first public version in v4
-- Updated dependencies [f50a42d]
-  - @jscpd/tokenizer@4.0.1
-  - @jscpd/core@4.0.1
+## [4.0.4](https://www.npmjs.com/package/@jscpd/redis-store/v/4.0.4) — 2026-01-30
 
-## 4.0.0
+### Changes
 
-### Major Changes
+- Aligned with the MCP server and GDScript support release.
 
-- aac6f4e: make great refactoring of the code, update versions of packages (typescript, pug, etc), change builder - use tsup, change test runner to vitest, move monorepo from lerna to turborepo, add changeset as tool for releases
+### Dependency Updates
 
-### Patch Changes
+- `@jscpd/core` → 4.0.4
+- `@jscpd/tokenizer` → 4.0.4
 
-- Updated dependencies [aac6f4e]
-  - @jscpd/tokenizer@4.0.0
-  - @jscpd/core@4.0.0
+---
 
-* feat: 🎸 add redis store ([2e33bfe](https://github.com/kucherenko/jscpd/commit/2e33bfe))
+## [4.0.3](https://www.npmjs.com/package/@jscpd/redis-store/v/4.0.3) — 2026-01-11
 
-## 3.3.0-rc.3 (2020-05-02)
+### Bug Fixes
 
-- v3.3.0-rc.3 ([9f388ff](https://github.com/kucherenko/jscpd/commit/9f388ff))
-- docs: ✏️ update README for the packages ([76492e6](https://github.com/kucherenko/jscpd/commit/76492e6))
-- feat: 🎸 start redis store development ([c0a1584](https://github.com/kucherenko/jscpd/commit/c0a1584))
+- Fixed a build output issue.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.0.3
+- `@jscpd/tokenizer` → 4.0.3
+
+---
+
+## [4.0.2](https://www.npmjs.com/package/@jscpd/redis-store/v/4.0.2) — 2026-01-11
+
+### Changes
+
+- Merged community PRs; minor housekeeping.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.0.2
+- `@jscpd/tokenizer` → 4.0.2
+
+---
+
+## [4.0.1](https://www.npmjs.com/package/@jscpd/redis-store/v/4.0.1) — 2024-05-26
+
+### Changes
+
+- First public release as a versioned standalone package under v4.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.0.1
+- `@jscpd/tokenizer` → 4.0.1
+
+---
+
+## [4.0.0](https://www.npmjs.com/package/@jscpd/redis-store/v/4.0.0) — 2024-05-26
+
+### Breaking Changes
+
+- **Monorepo restructure** — package moved to `packages/redis-store`. Build system changed to `tsup`.
+- Requires **Node.js 18+**.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.0.0
+- `@jscpd/tokenizer` → 4.0.0
+
+---
+
+## [3.3.0-rc.3](https://github.com/kucherenko/jscpd/commit/9f388ff) — 2020-05-02
+
+First release of `@jscpd/redis-store`. The Redis store was introduced in jscpd v3.3 to provide a shared, persistent token store for distributed CI environments. This initial standalone package release extracts it from the main monorepo for independent versioning.

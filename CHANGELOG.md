@@ -1,374 +1,526 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to **jscpd** are documented here. Releases follow [Semantic Versioning](https://semver.org/).
 
-### [3.2.1](https://github.com/kucherenko/jscpd/compare/v3.2.0...v3.2.1) (2020-04-18)
+---
 
+## [4.1.0](https://github.com/kucherenko/jscpd/compare/jscpd@4.0.7...jscpd@4.1.0) — 2026-05-09
 
-### Bug Fixes
+### New Features
 
-* **fs-extra version:** Use fs-extra version 8.0.0 for node.js v8 ([f69e7e8](https://github.com/kucherenko/jscpd/commit/f69e7e8f1ffe343810913da672ed420f404a1a94)), closes [#346](https://github.com/kucherenko/jscpd/issues/346) [#345](https://github.com/kucherenko/jscpd/issues/345)
+- **AI Reporter** — new `ai` reporter that produces compact, token-efficient clone output specifically designed for feeding results into language models and AI tooling. Use `--reporters ai` to activate it.
+- **MCP Server enhancements** — the Model Context Protocol server now exposes a `jscpd://statistics` resource and supports a recheck endpoint so AI agents can trigger a rescan without restarting the process.
+- **Apex & CFML language support** — jscpd can now detect duplicate code in Salesforce Apex and ColdFusion Markup Language (CFML) files (closes [#83](https://github.com/kucherenko/jscpd/issues/83), [#619](https://github.com/kucherenko/jscpd/issues/619)).
+- **GDScript support** — detect copy-paste duplication in Godot Engine GDScript files.
+- **HTML reporter footer** — the HTML report now displays a branded footer with the jscpd version and a sponsor link.
+- **`--noTips` flag** — suppress the usage-tip messages that appear after a detection run.
+- **CI: Node.js 22.x / 24.x** — continuous integration updated to test against the latest Node.js LTS and current releases.
 
-## [3.2.0](https://github.com/kucherenko/jscpd/compare/v3.1.0...v3.2.0) (2020-04-08)
+### Performance
 
-
-### Bug Fixes
-
-* **package:** update cli-table3 to version 0.6.0 ([0b29242](https://github.com/kucherenko/jscpd/commit/0b29242))
-* **package:** update fs-extra to version 9.0.0 ([cbae200](https://github.com/kucherenko/jscpd/commit/cbae200))
-
-
-### Features
-
-* **detector:** skip duplicates in same folder if `--skipLocal` used ([7029ddd](https://github.com/kucherenko/jscpd/commit/7029ddd)), closes [#326](https://github.com/kucherenko/jscpd/issues/326)
-
-## [3.1.0](https://github.com/kucherenko/jscpd/compare/v3.0.1...v3.1.0) (2020-03-11)
-
-
-### Features
-
-* **formats:** Add ability to find duplications in txt files ([0a46e76](https://github.com/kucherenko/jscpd/commit/0a46e76)), closes [#272](https://github.com/kucherenko/jscpd/issues/272)
-
-### [3.0.1](https://github.com/kucherenko/jscpd/compare/v3.0.0...v3.0.1) (2020-03-10)
-
+- **Tokenizer** — grammars are now loaded lazily, hot paths are O(n), and the `spark-md5` dependency has been removed in favour of a lighter built-in implementation. Startup time and memory usage are noticeably reduced on large codebases.
+- Replaced the vendored `reprism` syntax library with the official `prismjs` npm package, shrinking the installed footprint.
 
 ### Bug Fixes
 
-* **blamer:** Fix usage fix of blamer ([5f9e125](https://github.com/kucherenko/jscpd/commit/5f9e125)), closes [#238](https://github.com/kucherenko/jscpd/issues/238)
-* **package:** update blamer to version 1.0.1 ([966fca8](https://github.com/kucherenko/jscpd/commit/966fca8))
+- Restored the correct `start.line` expectation for weak-mode clone detection.
 
-## [3.0.0](https://github.com/kucherenko/jscpd/compare/v2.0.16...v3.0.0) (2020-03-08)
+---
 
+## [4.0.7](https://github.com/kucherenko/jscpd/compare/jscpd@4.0.6...jscpd@4.0.7) — 2026-01-11
 
-### ⚠ BREAKING CHANGES
+### New Features
 
-* **xml reporter:** fix #331
-
-### Bug Fixes
-
-* **package:** update commander to version 4.0.1 ([f36d545](https://github.com/kucherenko/jscpd/commit/f36d545))
-* **package:** update level to version 6.0.0 ([374f659](https://github.com/kucherenko/jscpd/commit/374f659))
-* **xml reporter:** fix issue with CDATA in xml reporter ([5643092](https://github.com/kucherenko/jscpd/commit/5643092)), closes [#331](https://github.com/kucherenko/jscpd/issues/331)
-
-
-### Features
-
-* **cli:** change cli script for running jscpd ([536c44e](https://github.com/kucherenko/jscpd/commit/536c44e))
-
-### [2.0.16](https://github.com/kucherenko/jscpd/compare/v2.0.15...v2.0.16) (2019-09-24)
-
+- **jscpd-server** — a new `jscpd-server` package ships a RESTful HTTP API for code-duplication detection. Ideal for CI pipelines, IDE plugins, and services that need on-demand analysis without spinning up a CLI process.
+- **GitHub Actions example** — an `example_github_action.yml` starter workflow is included in the repository.
 
 ### Bug Fixes
 
-* .snyk, package.json & package-lock.json to reduce vulnerabilities ([5fddd70](https://github.com/kucherenko/jscpd/commit/5fddd70))
-* **package:** update commander to version 3.0.0 ([c41cf11](https://github.com/kucherenko/jscpd/commit/c41cf11))
-* **package:** update eventemitter3 to version 4.0.0 ([cadd3ab](https://github.com/kucherenko/jscpd/commit/cadd3ab))
-* **package:** update fs-extra to version 8.0.0 ([a1c3936](https://github.com/kucherenko/jscpd/commit/a1c3936))
-* **package:** update rimraf to version 3.0.0 ([47afcca](https://github.com/kucherenko/jscpd/commit/47afcca))
-* **package:** update snyk to version 2.0.0 ([30828ee](https://github.com/kucherenko/jscpd/commit/30828ee))
-* **readme:** fix typo in readme ([a49b801](https://github.com/kucherenko/jscpd/commit/a49b801))
-* **readme:** fixes screenshot url ([ee6fd67](https://github.com/kucherenko/jscpd/commit/ee6fd67))
-* **snap:** fix tests snapshots ([cc6402d](https://github.com/kucherenko/jscpd/commit/cc6402d))
+- Ignore patterns defined in configuration files are now applied correctly (the path-matching bug in `resolveIgnorePattern` has been fixed).
+- Importing jscpd as a Node.js module no longer auto-executes the CLI entry point.
+- Fixed an invalid documentation link.
 
-## [2.0.15](https://github.com/kucherenko/jscpd/compare/v2.0.14...v2.0.15) (2019-04-24)
+---
 
+## [4.0.6](https://github.com/kucherenko/jscpd/compare/jscpd@4.0.5...jscpd@4.0.6) — 2026-01-11
 
 ### Bug Fixes
 
-* **package:** update level to version 5.0.1 ([913423a](https://github.com/kucherenko/jscpd/commit/913423a))
+- Dependency and lock-file updates to address security advisories.
 
+---
 
+## [4.0.5](https://github.com/kucherenko/jscpd/compare/jscpd@4.0.1...jscpd@4.0.5) — 2024-07-03
 
-## [2.0.14](https://github.com/kucherenko/jscpd/compare/v2.0.13...v2.0.14) (2019-04-18)
+### New Features
 
-
-### Bug Fixes
-
-* **prism tokenizer:** fix issue with empty name ([b80e4e7](https://github.com/kucherenko/jscpd/commit/b80e4e7)), closes [#223](https://github.com/kucherenko/jscpd/issues/223)
-
-
-
-## [2.0.13](https://github.com/kucherenko/jscpd/compare/v2.0.12...v2.0.13) (2019-03-29)
-
+- **SARIF reporter** — jscpd now supports the [SARIF](https://sarifweb.azurewebsites.net/) output format (Static Analysis Results Interchange Format), making it easy to integrate reports with GitHub Code Scanning and other SARIF-aware tooling. Use `--reporters sarif`.
 
 ### Bug Fixes
 
-* **html reporter:** fix empty statistic issue ([49134ab](https://github.com/kucherenko/jscpd/commit/49134ab)), closes [#214](https://github.com/kucherenko/jscpd/issues/214)
+- Fixed TypeScript type-declaration generation for the jscpd app package.
+- Fixed `colors` being a missing runtime dependency in the SARIF reporter.
 
+---
 
+## [4.0.0](https://github.com/kucherenko/jscpd/compare/v3.5.10...jscpd@4.0.0) — 2024-05-26
 
-<a name="2.0.4"></a>
-## [2.0.4](https://github.com/kucherenko/jscpd/compare/v2.0.3...v2.0.4) (2019-01-08)
+### Breaking Changes
 
+- **Monorepo restructured** — packages have been reorganised and renamed. If you import sub-packages directly (e.g. `@jscpd/core`, `@jscpd/finder`) please review the updated package names and paths.
+- **Build system replaced** — switched from the old TypeScript compiler pipeline to `tsup-node`, which produces cleaner ESM/CJS dual-mode bundles.
+- **Test framework migrated** — tests are now powered by [Vitest](https://vitest.dev/) instead of the previous runner.
 
-### Bug Fixes
+### Highlights
 
-* **tokenizer:** split c/cpp and c-header/cpp-header formats, now files in headers detects separately ([b9be29e](https://github.com/kucherenko/jscpd/commit/b9be29e)), closes [#188](https://github.com/kucherenko/jscpd/issues/188)
-* **tokenizer:** split c/cpp and c/cpp headers formats ([97bbd55](https://github.com/kucherenko/jscpd/commit/97bbd55))
+This is a major release that brings the entire jscpd ecosystem up to modern tooling standards. The public API remains largely compatible, but the internal architecture, package layout, and build artefacts have changed significantly.
 
+---
 
+## [3.5.10](https://github.com/kucherenko/jscpd/compare/v3.5.9...v3.5.10) — 2023-09-17
 
-<a name="2.0.3"></a>
-## [2.0.3](https://github.com/kucherenko/jscpd/compare/v2.0.2...v2.0.3) (2019-01-08)
+### Maintenance
 
+- Updated dependencies that had known issues.
+- Added a `dependabot.yml` configuration to keep dependencies up to date automatically.
 
-### Bug Fixes
+---
 
-* **detector:** fix bug with detection duplicates in single file ([2f4eb48](https://github.com/kucherenko/jscpd/commit/2f4eb48)), closes [#189](https://github.com/kucherenko/jscpd/issues/189)
-
-
-
-<a name="2.0.2"></a>
-## [2.0.2](https://github.com/kucherenko/jscpd/compare/v2.0.1...v2.0.2) (2018-12-28)
-
-
-### Bug Fixes
-
-* **license:** change packages with G P L to analog with MIT ([8d1081f](https://github.com/kucherenko/jscpd/commit/8d1081f))
-
-
-
-<a name="2.0.1"></a>
-## [2.0.1](https://github.com/kucherenko/jscpd/compare/v2.0.0...v2.0.1) (2018-12-28)
-
+## [3.5.9](https://github.com/kucherenko/jscpd/compare/v3.5.8...v3.5.9) — 2023-05-02
 
 ### Bug Fixes
 
-* **threshold:** add ability to use 0 value for threshold ([a18fe71](https://github.com/kucherenko/jscpd/commit/a18fe71)), closes [#182](https://github.com/kucherenko/jscpd/issues/182)
+- Fixed an issue where files that had not been published were incorrectly processed.
 
+---
 
-
-<a name="2.0.0"></a>
-# [2.0.0](https://github.com/kucherenko/jscpd/compare/v1.2.3...v2.0.0) (2018-12-28)
-
-
-### Features
-
-* **store:** Add LevelDb store for optimisation memory usage ([2f04dd8](https://github.com/kucherenko/jscpd/commit/2f04dd8)), closes [#66](https://github.com/kucherenko/jscpd/issues/66) [#184](https://github.com/kucherenko/jscpd/issues/184)
-
-
-### BREAKING CHANGES
-
-* **store:** add persistent store/db
-
-
-
-<a name="1.2.3"></a>
-## [1.2.3](https://github.com/kucherenko/jscpd/compare/v1.2.2...v1.2.3) (2018-12-27)
-
+## [3.5.8](https://github.com/kucherenko/jscpd/compare/v3.5.7...v3.5.8) — 2023-05-01
 
 ### Bug Fixes
 
-* **jscpd:** fix bug with mulitiformats files ([7d631db](https://github.com/kucherenko/jscpd/commit/7d631db))
+- Fixed the HTML reporter build script that was producing broken output.
 
+---
 
-
-<a name="1.2.2"></a>
-## [1.2.2](https://github.com/kucherenko/jscpd/compare/v1.2.1...v1.2.2) (2018-12-27)
-
-
-
-<a name="1.2.1"></a>
-## [1.2.1](https://github.com/kucherenko/jscpd/compare/v1.2.0...v1.2.1) (2018-12-23)
-
+## [3.5.7](https://github.com/kucherenko/jscpd/compare/v3.5.6...v3.5.7) — 2023-05-01
 
 ### Bug Fixes
 
-* **blamer:** Fix unhandled promise rejection in blamer ([23a9b5d](https://github.com/kucherenko/jscpd/commit/23a9b5d)), closes [#185](https://github.com/kucherenko/jscpd/issues/185)
-* **readme:** fix path to screenshot ([09ca3b8](https://github.com/kucherenko/jscpd/commit/09ca3b8))
+- Fixed a crash that occurred when a path specified for HTML reporting did not exist.
 
+---
 
-
-<a name="1.2.0"></a>
-# [1.2.0](https://github.com/kucherenko/jscpd/compare/v1.1.0...v1.2.0) (2018-12-14)
-
+## [3.5.6](https://github.com/kucherenko/jscpd/compare/v3.5.5...v3.5.6) — 2023-05-01
 
 ### Bug Fixes
 
-* **html reporter:** Fix bug with empty lines in code blocks ([af99689](https://github.com/kucherenko/jscpd/commit/af99689))
+- Fixed a missing-dependency error in the HTML reporter.
 
+---
 
-### Features
+## [3.5.5](https://github.com/kucherenko/jscpd/compare/v3.5.4...v3.5.5) — 2023-04-27
 
-* **html reporter:** add graph to report ([d051154](https://github.com/kucherenko/jscpd/commit/d051154))
+### Maintenance
 
+- Updated the `blamer` dependency to its latest version.
 
+---
 
-<a name="1.1.0"></a>
-# [1.1.0](https://github.com/kucherenko/jscpd/compare/v1.0.3...v1.1.0) (2018-12-02)
+## [3.5.4](https://github.com/kucherenko/jscpd/compare/v3.5.3...v3.5.4) — 2023-03-24
 
+### New Features
 
-### Features
+- **pre-commit hook support** — a `.pre-commit-hooks.yaml` file is now included so jscpd can be used as a [pre-commit](https://pre-commit.com/) hook with zero extra configuration.
 
-* **html,consoleFull reporters:** Add blamed lines to html and consoleFull reporters, add syntax hig ([1168bfb](https://github.com/kucherenko/jscpd/commit/1168bfb))
-* **modes:** Add custom mode ([3aba4cd](https://github.com/kucherenko/jscpd/commit/3aba4cd)), closes [#172](https://github.com/kucherenko/jscpd/issues/172)
+---
 
+## [3.5.3](https://github.com/kucherenko/jscpd/compare/v3.5.2...v3.5.3) — 2022-12-15
 
+### Maintenance
 
-<a name="1.0.3"></a>
-## [1.0.3](https://github.com/kucherenko/jscpd/compare/v1.0.2...v1.0.3) (2018-11-27)
+- Upgraded the Vue.js version used by the HTML report viewer.
 
+---
 
-### Bug Fixes
-
-* **options.path:** Fix path options ([106a6d4](https://github.com/kucherenko/jscpd/commit/106a6d4)), closes [#177](https://github.com/kucherenko/jscpd/issues/177)
-
-
-
-<a name="1.0.2"></a>
-## [1.0.2](https://github.com/kucherenko/jscpd/compare/v1.0.1...v1.0.2) (2018-11-27)
-
+## [3.5.2](https://github.com/kucherenko/jscpd/compare/v3.5.1...v3.5.2) — 2022-10-24
 
 ### Bug Fixes
 
-* support locally installed reporter and mode ([01ee5af](https://github.com/kucherenko/jscpd/commit/01ee5af))
+- Fixed incorrect HTML escaping in code snippets shown in reports.
 
+---
 
+## [3.5.1](https://github.com/kucherenko/jscpd/compare/v3.5.0...v3.5.1) — 2022-10-24
 
-<a name="1.0.1"></a>
-## [1.0.1](https://github.com/kucherenko/jscpd/compare/v1.0.0...v1.0.1) (2018-11-27)
+### New Features
 
-
-### Bug Fixes
-
-* add support for trailing slash gitignore pattern ([0a48301](https://github.com/kucherenko/jscpd/commit/0a48301))
-
-
-
-<a name="1.0.0"></a>
-# [1.0.0](https://github.com/kucherenko/jscpd/compare/v1.0.0-rc.6...v1.0.0) (2018-11-21)
-
+- **Modern JS/TS module extensions** — jscpd now detects duplicates in `.mjs`, `.cjs`, `.mts`, and `.cts` files out of the box.
 
 ### Bug Fixes
 
-* **travis:** add installation for jscpd-badge-reporter ([d09232f](https://github.com/kucherenko/jscpd/commit/d09232f))
-* **travis:** add scripts running ([1bb099c](https://github.com/kucherenko/jscpd/commit/1bb099c))
-* **travis:** fix scripts running ([fec133b](https://github.com/kucherenko/jscpd/commit/fec133b))
-* **travis:** fix scripts running again ([bdccafb](https://github.com/kucherenko/jscpd/commit/bdccafb))
+- Ensure that ignore patterns specified in configuration files are respected even when not passed on the command line.
 
+---
 
+## [3.5.0](https://github.com/kucherenko/jscpd/compare/v3.4.5...v3.5.0) — 2022-10-01
 
-<a name="1.0.0-rc.6"></a>
-# [1.0.0-rc.6](https://github.com/kucherenko/jscpd/compare/v1.0.0-rc.5...v1.0.0-rc.6) (2018-11-17)
+### New Features
 
-
-### Features
-
-* **reporter:** Add html reporter ([831447a](https://github.com/kucherenko/jscpd/commit/831447a))
-
-
-
-<a name="1.0.0-rc.5"></a>
-# [1.0.0-rc.5](https://github.com/kucherenko/jscpd/compare/v1.0.0-rc.4...v1.0.0-rc.5) (2018-11-15)
-
-
-
-<a name="1.0.0-rc.4"></a>
-# [1.0.0-rc.4](https://github.com/kucherenko/jscpd/compare/v1.0.0-rc.3...v1.0.0-rc.4) (2018-11-09)
-
-
-### Features
-
-* **cli:** Add ability to point few paths to cli as args ([d1e6cfc](https://github.com/kucherenko/jscpd/commit/d1e6cfc))
-* **readme,reporters,hooks:** Add hooks, change reporters interface, cleanup dependencies ([dc03298](https://github.com/kucherenko/jscpd/commit/dc03298))
-
-
-
-<a name="1.0.0-rc.3"></a>
-# [1.0.0-rc.3](https://github.com/kucherenko/jscpd/compare/v1.0.0-rc.2...v1.0.0-rc.3) (2018-10-11)
-
+- **HTML reporter redesigned** — the HTML report has been rebuilt as a standalone page, removing the Vue.js SPA dependency and making it simpler to open and share.
 
 ### Bug Fixes
 
-* **cli:** Change storage type ([4b1a26a](https://github.com/kucherenko/jscpd/commit/4b1a26a))
+- Fixed symlink detection so symlinked files are correctly handled when `--noSymlinks` is set.
+- Fixed HTML tag escaping in code blocks within the HTML report (rendering issues when code contained `<` / `>` characters).
+- Dropped the unused constructor that was causing a minor overhead at startup.
 
+---
 
-
-<a name="1.0.0-rc.2"></a>
-# [1.0.0-rc.2](https://github.com/kucherenko/jscpd/compare/v1.0.0-rc.1...v1.0.0-rc.2) (2018-10-11)
-
-
-### Bug Fixes
-
-* **exec-timer:** Fix bug with dependencies ([3c52587](https://github.com/kucherenko/jscpd/commit/3c52587))
-
-
-
-<a name="1.0.0-rc.1"></a>
-# [1.0.0-rc.1](https://github.com/kucherenko/jscpd/compare/v1.0.0-rc.0...v1.0.0-rc.1) (2018-10-11)
-
-
-### Features
-
-* **exec-timer:** Add exec timer reporter ([d5d865e](https://github.com/kucherenko/jscpd/commit/d5d865e))
-
-
-
-<a name="1.0.0-rc.0"></a>
-# [1.0.0-rc.0](https://github.com/kucherenko/jscpd/compare/v1.1.0-rc.0...v1.0.0-rc.0) (2018-10-07)
-
+## [3.4.5](https://github.com/kucherenko/jscpd/compare/v3.4.2...v3.4.5) — 2022-01-10
 
 ### Bug Fixes
 
-* **package.json:** Add RC prefix for releases ([5e6bf00](https://github.com/kucherenko/jscpd/commit/5e6bf00))
+- Pinned `colors` to v1.4.0 to avoid the intentionally broken `colors@1.4.1` release that caused console output corruption.
 
+---
 
-### Reverts
-
-* **wrong release:** remove wrong release ([708f98a](https://github.com/kucherenko/jscpd/commit/708f98a))
-
-
-
-<a name="1.0.0-alpha.2"></a>
-# [1.0.0-alpha.2](https://github.com/kucherenko/jscpd/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2018-08-24)
-
+## [3.4.2](https://github.com/kucherenko/jscpd/compare/v3.4.1...v3.4.2) — 2021-11-06
 
 ### Bug Fixes
 
-* **config:** Change config filename ([f693e3c](https://github.com/kucherenko/jscpd/commit/f693e3c))
-* **package.json:** Fix generation of typedoc ([4769cf5](https://github.com/kucherenko/jscpd/commit/4769cf5))
+- Fixed the exit callback not being invoked when duplicates were detected.
 
+---
 
+## [3.4.0](https://github.com/kucherenko/jscpd/compare/v3.3.26...v3.4.0) — 2021-11-06
 
-<a name="1.0.0-alpha.1"></a>
-# [1.0.0-alpha.1](https://github.com/kucherenko/jscpd/compare/v1.0.0-alpha.0...v1.0.0-alpha.1) (2018-08-18)
+### New Features
 
+- **`--exitCode` option** — you can now configure the exit code that jscpd returns when duplicates are found, making it easier to integrate into pipelines that use non-zero exit codes to signal failures.
+- **`--ignore-pattern` option** — supply a glob or regex pattern to exclude matching code fragments from detection (closes [#435](https://github.com/kucherenko/jscpd/issues/435)).
 
-### Features
+---
 
-* **package:** add bin script ([840af45](https://github.com/kucherenko/jscpd/commit/840af45))
-
-
-
-<a name="1.0.0-alpha.0"></a>
-# 1.0.0-alpha.0 (2018-08-18)
-
+## [3.3.26](https://github.com/kucherenko/jscpd/compare/v3.3.25...v3.3.26) — 2021-05-23
 
 ### Bug Fixes
 
-* **package:** update codemirror to version 5.28.0 ([6eb6eab](https://github.com/kucherenko/jscpd/commit/6eb6eab))
-* **package:** update codemirror to version 5.29.0 ([dcfa37b](https://github.com/kucherenko/jscpd/commit/dcfa37b))
-* **package:** update codemirror to version 5.31.0 ([64d0b27](https://github.com/kucherenko/jscpd/commit/64d0b27))
-* **package:** update codemirror to version 5.32.0 ([452d490](https://github.com/kucherenko/jscpd/commit/452d490))
-* **package:** update codemirror to version 5.33.0 ([f9b5e08](https://github.com/kucherenko/jscpd/commit/f9b5e08))
-* **package:** update codemirror to version 5.35.0 ([d292b73](https://github.com/kucherenko/jscpd/commit/d292b73))
-* **package:** update codemirror to version 5.36.0 ([6eb9603](https://github.com/kucherenko/jscpd/commit/6eb9603))
-* **package:** update codemirror to version 5.37.0 ([5bee414](https://github.com/kucherenko/jscpd/commit/5bee414))
-* **package:** update shelljs to version 0.8.0 ([114649d](https://github.com/kucherenko/jscpd/commit/114649d))
-* **package.json:** Remove not used [@types](https://github.com/types)/sinon ([6087a0d](https://github.com/kucherenko/jscpd/commit/6087a0d))
-* **silent:** Fix ability to use xml, json and other not console reporters in silent mode ([16d4710](https://github.com/kucherenko/jscpd/commit/16d4710))
-* **test:** Fix sinon spy ([e610f88](https://github.com/kucherenko/jscpd/commit/e610f88))
+- Silent mode is now truly silent — no output is produced when `--silent` is used.
 
+### Security
 
-### Features
+- Bumped several transitive dependencies (`hosted-git-info`, `handlebars`, `url-parse`, `ssri`, `y18n`) to patched versions to close known vulnerabilities.
 
-* **cache:** Add cache for detection results ([41ffaf4](https://github.com/kucherenko/jscpd/commit/41ffaf4))
-* **JSCPD:** Started 1.0.0 version development, move from coffee to ts, change tokenizer, new report ([68ca373](https://github.com/kucherenko/jscpd/commit/68ca373))
-* **language:** add yaml support ([7434bcc](https://github.com/kucherenko/jscpd/commit/7434bcc))
-* **options:** add ability set formats extensions ([6a1e8b1](https://github.com/kucherenko/jscpd/commit/6a1e8b1))
-* **options:** Add debug option for check options of jscpd ([aa3968b](https://github.com/kucherenko/jscpd/commit/aa3968b))
-* **reporter:** add statistic reporter ([01fc2b3](https://github.com/kucherenko/jscpd/commit/01fc2b3))
-* **reporter:** Add threshold reporter ([e8e1b25](https://github.com/kucherenko/jscpd/commit/e8e1b25))
-* **reporter:** Add xml reporter ([6ae45ca](https://github.com/kucherenko/jscpd/commit/6ae45ca))
-* **reporters:** Add silent reporter ([517d2ee](https://github.com/kucherenko/jscpd/commit/517d2ee))
-* **statistic:** Add new clones statistic ([5c4761d](https://github.com/kucherenko/jscpd/commit/5c4761d))
+---
+
+## [3.3.25](https://github.com/kucherenko/jscpd/compare/v3.3.24...v3.3.25) — 2021-03-04
+
+### Maintenance
+
+- Bumped `pug` to v3.0.1 (security fix).
+
+---
+
+## [3.3.24](https://github.com/kucherenko/jscpd/compare/v3.3.23...v3.3.24) — 2021-02-27
+
+### Bug Fixes
+
+- Fixed a tokenizer bug that caused incorrect source-location calculation.
+- Fixed a crash when `calculateLocation()` received an empty array.
+
+---
+
+## [3.3.23](https://github.com/kucherenko/jscpd/compare/v3.3.22...v3.3.23) — 2020-12-13
+
+### Bug Fixes
+
+- Added TAP format support so jscpd can now detect copy-paste in TAP (Test Anything Protocol) files.
+- Fixed a crash that occurred when an unsupported language was encountered instead of silently skipping it.
+
+---
+
+## [3.3.22](https://github.com/kucherenko/jscpd/compare/v3.3.21...v3.3.22) — 2020-12-01
+
+### New Features
+
+- **Badge reporter** — generates a jscpd shield badge (SVG/URL) showing your project's duplication percentage. Drop it straight into your README.
+
+---
+
+## [3.3.21](https://github.com/kucherenko/jscpd/compare/v3.3.20...v3.3.21) — 2020-11-20
+
+### Bug Fixes
+
+- Fixed a crash that occurred when the clone list was empty.
+
+---
+
+## [3.3.20](https://github.com/kucherenko/jscpd/compare/v3.3.19...v3.3.20) — 2020-11-20
+
+### Bug Fixes
+
+- Fixed a crash that occurred when the source list was empty.
+
+---
+
+## [3.3.19](https://github.com/kucherenko/jscpd/compare/v3.3.17...v3.3.19) — 2020-09-01
+
+### Bug Fixes
+
+- Fixed the coverage report output.
+- Removed cyclic package dependencies that caused intermittent build failures.
+
+---
+
+## [3.3.17](https://github.com/kucherenko/jscpd/compare/v3.3.16...v3.3.17) — 2020-08-30
+
+### New Features
+
+- **CSV and Markdown reporters** — two new output formats for jscpd reports. Use `--reporters csv` or `--reporters markdown` to generate spreadsheet-friendly or documentation-ready output.
+- **Duplicated lines and tokens in HTML report** — the HTML report now shows both the number of duplicated lines and the token count for each clone, giving you more context at a glance.
+- **Ability to persist the detection store** — the store can now be saved between runs, enabling incremental analysis on large codebases.
+- **Redis store** — an optional Redis-backed store (`@jscpd/redis-store`) is available for teams that want a shared, persistent store across multiple machines or CI agents.
+- **New programmatic API** — `detectClones()` and related helpers are now properly exported, making it straightforward to embed jscpd in your own tooling.
+- **Xcode reporter** — outputs results in the format Xcode's Issue Navigator understands, useful for Swift/Objective-C projects.
+- **File-search glob pattern** — you can now pass a glob pattern to control which files are scanned.
+
+### Bug Fixes
+
+- Fixed a bug with empty files being processed incorrectly.
+- Fixed filenames being escaped incorrectly in XML output.
+- Fixed an empty token-map payload in event hooks.
+- Fixed wrong exit codes in some edge cases.
+- Fixed a SQL grammar tokenization issue.
+- Fixed the path option not being resolved correctly.
+
+---
+
+## [3.3.14](https://github.com/kucherenko/jscpd/compare/v3.3.13...v3.3.14) — 2020-08-20
+
+### New Features
+
+- **Improved HTML reporter** — internal refactor to optimise language loading and tokeniser performance. The HTML report includes more detailed clone statistics.
+
+---
+
+## [3.3.1](https://github.com/kucherenko/jscpd/compare/v3.2.1...v3.3.1) — 2020-07-27
+
+### New Features
+
+- Migrated the project to a **monorepo** structure, splitting functionality into focused packages (`@jscpd/core`, `@jscpd/finder`, `@jscpd/html-reporter`, etc.).
+- Added Node.js 14 to the CI matrix.
+
+### Bug Fixes
+
+- Fixed the HTML reporter producing broken output in some configurations.
+
+---
+
+## [3.2.1](https://github.com/kucherenko/jscpd/compare/v3.2.0...v3.2.1) — 2020-04-18
+
+### Bug Fixes
+
+- Used `fs-extra` v8.0.0 for compatibility with Node.js v8 (closes [#346](https://github.com/kucherenko/jscpd/issues/346), [#345](https://github.com/kucherenko/jscpd/issues/345)).
+
+---
+
+## [3.2.0](https://github.com/kucherenko/jscpd/compare/v3.1.0...v3.2.0) — 2020-04-08
+
+### New Features
+
+- **`--skipLocal` flag** — skip duplicates that exist only within the same folder, reducing noise in reports for projects that intentionally have similar files in isolated directories (closes [#326](https://github.com/kucherenko/jscpd/issues/326)).
+
+### Bug Fixes
+
+- Updated `cli-table3` to v0.6.0.
+- Updated `fs-extra` to v9.0.0.
+
+---
+
+## [3.1.0](https://github.com/kucherenko/jscpd/compare/v3.0.1...v3.1.0) — 2020-03-11
+
+### New Features
+
+- **Plain-text file support** — jscpd can now detect duplicates in `.txt` files (closes [#272](https://github.com/kucherenko/jscpd/issues/272)).
+
+---
+
+## [3.0.1](https://github.com/kucherenko/jscpd/compare/v3.0.0...v3.0.1) — 2020-03-10
+
+### Bug Fixes
+
+- Fixed incorrect usage of the blamer module (closes [#238](https://github.com/kucherenko/jscpd/issues/238)).
+- Updated `blamer` to v1.0.1.
+
+---
+
+## [3.0.0](https://github.com/kucherenko/jscpd/compare/v2.0.16...v3.0.0) — 2020-03-08
+
+### Breaking Changes
+
+- **XML reporter** — the CDATA format in the XML report has changed to fix a correctness issue (closes [#331](https://github.com/kucherenko/jscpd/issues/331)). Tools that parse the XML output may need updating.
+
+### Bug Fixes
+
+- Updated `commander` to v4.0.1.
+- Updated `level` to v6.0.0.
+- Fixed CDATA handling in the XML reporter.
+
+### Changes
+
+- Updated the CLI entry script for running jscpd.
+
+---
+
+## [2.0.16](https://github.com/kucherenko/jscpd/compare/v2.0.15...v2.0.16) — 2019-09-24
+
+### Bug Fixes
+
+- Updated several dependencies to close known security vulnerabilities (`commander`, `eventemitter3`, `fs-extra`, `rimraf`, `snyk`).
+- Fixed a typo and a broken screenshot URL in the README.
+- Fixed failing test snapshots.
+
+---
+
+## [2.0.15](https://github.com/kucherenko/jscpd/compare/v2.0.14...v2.0.15) — 2019-04-24
+
+### Bug Fixes
+
+- Updated `level` to v5.0.1.
+
+---
+
+## [2.0.14](https://github.com/kucherenko/jscpd/compare/v2.0.13...v2.0.14) — 2019-04-18
+
+### Bug Fixes
+
+- Fixed a crash in the Prism tokenizer caused by a language entry with an empty name (closes [#223](https://github.com/kucherenko/jscpd/issues/223)).
+
+---
+
+## [2.0.13](https://github.com/kucherenko/jscpd/compare/v2.0.12...v2.0.13) — 2019-03-29
+
+### Bug Fixes
+
+- Fixed empty-statistic display in the HTML reporter (closes [#214](https://github.com/kucherenko/jscpd/issues/214)).
+
+---
+
+## [2.0.4](https://github.com/kucherenko/jscpd/compare/v2.0.3...v2.0.4) — 2019-01-08
+
+### Bug Fixes
+
+- Split C/C++ and C/C++ header formats so that header files (`.h`, `.hpp`) are now tokenised separately from source files. This prevents spurious matches across file types (closes [#188](https://github.com/kucherenko/jscpd/issues/188)).
+
+---
+
+## [2.0.3](https://github.com/kucherenko/jscpd/compare/v2.0.2...v2.0.3) — 2019-01-08
+
+### Bug Fixes
+
+- Fixed a bug where duplicates within a single file were not detected correctly (closes [#189](https://github.com/kucherenko/jscpd/issues/189)).
+
+---
+
+## [2.0.2](https://github.com/kucherenko/jscpd/compare/v2.0.1...v2.0.2) — 2018-12-28
+
+### Bug Fixes
+
+- Replaced GPL-licensed packages with MIT-licensed equivalents.
+
+---
+
+## [2.0.1](https://github.com/kucherenko/jscpd/compare/v2.0.0...v2.0.1) — 2018-12-28
+
+### Bug Fixes
+
+- The `--threshold` option now accepts `0` as a valid value (closes [#182](https://github.com/kucherenko/jscpd/issues/182)).
+
+---
+
+## [2.0.0](https://github.com/kucherenko/jscpd/compare/v1.2.3...v2.0.0) — 2018-12-28
+
+### Breaking Changes
+
+- **Persistent store** — jscpd now uses [LevelDB](https://github.com/google/leveldb) as its default store to keep memory usage low on very large codebases. The in-memory store from v1.x is no longer the default (closes [#66](https://github.com/kucherenko/jscpd/issues/66), [#184](https://github.com/kucherenko/jscpd/issues/184)).
+
+---
+
+## [1.2.3](https://github.com/kucherenko/jscpd/compare/v1.2.2...v1.2.3) — 2018-12-27
+
+### Bug Fixes
+
+- Fixed a bug with files that use multiple format extensions (e.g. `.html.erb`).
+
+---
+
+## [1.2.1](https://github.com/kucherenko/jscpd/compare/v1.2.0...v1.2.1) — 2018-12-23
+
+### Bug Fixes
+
+- Fixed an unhandled promise rejection in the blamer module (closes [#185](https://github.com/kucherenko/jscpd/issues/185)).
+
+---
+
+## [1.2.0](https://github.com/kucherenko/jscpd/compare/v1.1.0...v1.2.0) — 2018-12-14
+
+### New Features
+
+- **Graph view in HTML report** — the HTML report now includes an interactive graph showing clone relationships between files.
+
+### Bug Fixes
+
+- Fixed empty lines being rendered incorrectly in HTML code blocks.
+
+---
+
+## [1.1.0](https://github.com/kucherenko/jscpd/compare/v1.0.3...v1.1.0) — 2018-12-02
+
+### New Features
+
+- **Blamed lines in reports** — the `html` and `consoleFull` reporters now show Git blame information alongside duplicate code, so you know who introduced each clone and when.
+- **Syntax highlighting** in the HTML reporter.
+- **Custom mode** — a new `custom` detection mode that lets you tune detection behaviour beyond the built-in `strict` and `weak` presets (closes [#172](https://github.com/kucherenko/jscpd/issues/172)).
+
+---
+
+## [1.0.3](https://github.com/kucherenko/jscpd/compare/v1.0.2...v1.0.3) — 2018-11-27
+
+### Bug Fixes
+
+- Fixed the `--path` option not being applied correctly (closes [#177](https://github.com/kucherenko/jscpd/issues/177)).
+
+---
+
+## [1.0.2](https://github.com/kucherenko/jscpd/compare/v1.0.1...v1.0.2) — 2018-11-27
+
+### Bug Fixes
+
+- Added support for locally installed reporters and modes (installed in the project's `node_modules` rather than globally).
+
+---
+
+## [1.0.1](https://github.com/kucherenko/jscpd/compare/v1.0.0...v1.0.1) — 2018-11-27
+
+### Bug Fixes
+
+- Added support for trailing-slash patterns in `.gitignore`-style ignore files.
+
+---
+
+## [1.0.0](https://github.com/kucherenko/jscpd/compare/v1.0.0-rc.6...v1.0.0) — 2018-11-21
+
+First stable release of the fully rewritten jscpd. The tool was migrated from CoffeeScript to TypeScript, the tokenizer was redesigned from scratch, and a new pluggable reporter system was introduced.
+
+---
+
+## Earlier Pre-releases (1.0.0-rc.x, 1.0.0-alpha.x) — 2018
+
+These releases established the current architecture during active development:
+
+- **1.0.0-rc.6** — HTML reporter added.
+- **1.0.0-rc.4** — CLI supports multiple path arguments; hooks system introduced; reporter interface redesigned.
+- **1.0.0-rc.1** — Execution-timer reporter added.
+- **1.0.0-alpha.2** — Configuration file name finalised.
+- **1.0.0-alpha.1** — CLI binary script added.
+- **1.0.0-alpha.0** — Initial TypeScript rewrite: new tokenizer, XML/JSON/statistic/threshold/silent reporters, YAML language support, cache for detection results, and a `--debug` option.

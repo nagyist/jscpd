@@ -1,79 +1,122 @@
-## 3.3.0-rc.3 (2020-05-04)
+# @jscpd/finder
 
-## 4.0.5
+The detection engine that drives jscpd. It orchestrates file discovery, tokenisation, clone detection, and reporter invocation. Also home to the built-in reporters: `consoleFull`, `console`, `csv`, `markdown`, `json`, `xml`, `xcode`, `threshold`, `silent`, `execTime`, and the new `ai` reporter.
 
-### Patch Changes
+---
 
-- add ai reporter, save your tockens
-- Updated dependencies
-  - @jscpd/core@4.0.5
-  - @jscpd/tokenizer@4.0.5
+## [4.1.0](https://www.npmjs.com/package/@jscpd/finder/v/4.1.0) — 2026-05-09
 
-## 4.0.4
+### New Features
 
-### Patch Changes
+- **AI reporter** (`--reporters ai`) — compact, token-efficient clone output designed for piping results into language models and AI tooling. Each duplicate is formatted to minimise token usage without losing structural meaning.
+- **`--noTips` flag** — suppress the usage-tip message printed after a detection run finishes.
+- **Execution timer tip** — a timing hint is now shown after detection completes (suppressed by `--noTips`).
 
-- Implement MCP server, add gdscript support
-- Updated dependencies
-  - @jscpd/core@4.0.4
-  - @jscpd/tokenizer@4.0.4
+### Improvements
 
-## 4.0.3
+- **Test coverage** — 92 new tests added (178 → 270 total), covering reporters, subscribers, validators, hooks, and integration scenarios across all detection modes. Fixture files added for 40+ language formats.
 
-### Patch Changes
+### Bug Fixes
 
-- fix issue with build
-- Updated dependencies
-  - @jscpd/tokenizer@4.0.3
-  - @jscpd/core@4.0.3
+- Dependencies updated to consume the performance improvements in `@jscpd/tokenizer` 4.1.0 (lazy grammar loading, O(n) hot paths, native MD5 hashing).
 
-## 4.0.2
+### Dependency Updates
 
-### Patch Changes
+- `@jscpd/core` → 4.1.0
+- `@jscpd/tokenizer` → 4.1.0
 
-- small fixes, merge suggested PRs on github
-- Updated dependencies
-  - @jscpd/core@4.0.2
-  - @jscpd/tokenizer@4.0.2
+---
 
-## 4.0.1
+## [4.0.5](https://www.npmjs.com/package/@jscpd/finder/v/4.0.5) — 2026-04-10
 
-### Patch Changes
+### Changes
 
-- f50a42d: publish first public version in v4
-- Updated dependencies [f50a42d]
-  - @jscpd/tokenizer@4.0.1
-  - @jscpd/core@4.0.1
+- Aligned with the AI reporter release. The `ai` reporter is registered here; this patch updates the dependency chain.
 
-## 4.0.0
+### Dependency Updates
 
-### Major Changes
+- `@jscpd/core` → 4.0.5
+- `@jscpd/tokenizer` → 4.0.5
 
-- aac6f4e: make great refactoring of the code, update versions of packages (typescript, pug, etc), change builder - use tsup, change test runner to vitest, move monorepo from lerna to turborepo, add changeset as tool for releases
+---
 
-### Patch Changes
+## [4.0.4](https://www.npmjs.com/package/@jscpd/finder/v/4.0.4) — 2026-01-30
 
-- Updated dependencies [aac6f4e]
-  - @jscpd/tokenizer@4.0.0
-  - @jscpd/core@4.0.0
+### Changes
 
-## 3.3.0-rc.3 (2020-05-02)
+- Aligned with the MCP server and GDScript support release.
 
-- v3.3.0-rc.3 ([9f388ff](https://github.com/kucherenko/jscpd/commit/9f388ff))
-- docs: ✏️ update README for the packages ([76492e6](https://github.com/kucherenko/jscpd/commit/76492e6))
-- refactor: 💡 change imports in interfaces ([f72e3e0](https://github.com/kucherenko/jscpd/commit/f72e3e0))
-- refactor: 💡 remove cyclic dependency between core and tokenizer ([6615825](https://github.com/kucherenko/jscpd/commit/6615825))
-- chore: 🤖 add tool for changing package.json before publishing ([fb9c7ec](https://github.com/kucherenko/jscpd/commit/fb9c7ec))
-- chore: 🤖 change npm script to yarn ([3729bf9](https://github.com/kucherenko/jscpd/commit/3729bf9))
-- chore: 🤖 change package json ([205136f](https://github.com/kucherenko/jscpd/commit/205136f))
-- chore: 🤖 fix issue with yarncompile ([44eef97](https://github.com/kucherenko/jscpd/commit/44eef97))
+### Dependency Updates
 
-## 3.3.0-rc.2 (2020-04-29)
+- `@jscpd/core` → 4.0.4
+- `@jscpd/tokenizer` → 4.0.4
 
-- v3.3.0-rc.2 ([77890f4](https://github.com/kucherenko/jscpd/commit/77890f4))
-- docs: ✏️ add screenshot to documentation ([1271d98](https://github.com/kucherenko/jscpd/commit/1271d98))
+---
 
-## 3.3.0-rc.1 (2020-04-29)
+## [4.0.3](https://www.npmjs.com/package/@jscpd/finder/v/4.0.3) — 2026-01-11
 
-- v3.3.0-rc.1 ([dd2a39d](https://github.com/kucherenko/jscpd/commit/dd2a39d))
-- refactor: 💡 add new branch to git repo ([633a854](https://github.com/kucherenko/jscpd/commit/633a854))
+### Bug Fixes
+
+- Fixed a build output issue.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.0.3
+- `@jscpd/tokenizer` → 4.0.3
+
+---
+
+## [4.0.2](https://www.npmjs.com/package/@jscpd/finder/v/4.0.2) — 2026-01-11
+
+### Bug Fixes
+
+- Fixed gitignore pattern parsing: leading-slash patterns and dot-prefixed patterns are now handled correctly. The `gitignore-to-glob` dependency was removed; pattern parsing is now done inline.
+
+### Changes
+
+- Merged several community PRs including minor cleanup and improvements.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.0.2
+- `@jscpd/tokenizer` → 4.0.2
+
+---
+
+## [4.0.1](https://www.npmjs.com/package/@jscpd/finder/v/4.0.1) — 2024-05-26
+
+### Changes
+
+- First public release as a versioned standalone package under v4.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.0.1
+- `@jscpd/tokenizer` → 4.0.1
+
+---
+
+## [4.0.0](https://www.npmjs.com/package/@jscpd/finder/v/4.0.0) — 2024-05-26
+
+### Breaking Changes
+
+- **Monorepo restructure** — package moved to `packages/finder`. Build system changed to `tsup` (ESM+CJS dual output). Test runner migrated to Vitest.
+
+### Changes
+
+- Reporters and detection modes consolidated here from the old package structure.
+- Unused constructor removed.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.0.0
+- `@jscpd/tokenizer` → 4.0.0
+
+---
+
+## [3.3.0-rc.3](https://github.com/kucherenko/jscpd/commit/9f388ff) — 2020-05-02
+
+First release as a dedicated `@jscpd/finder` package.
+
+- Extracted file-finding and detection logic from the main `jscpd` package.
+- Internal imports reorganised; cyclic dependency with `@jscpd/core` removed.

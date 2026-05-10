@@ -1,37 +1,100 @@
 # @jscpd/badge-reporter
 
-## 4.0.5
+Generates a shield badge (SVG) showing your project's copy-paste duplication percentage. Drop the badge URL straight into your README to give contributors an at-a-glance view of code health.
 
-### Patch Changes
+---
 
-- add ai reporter, save your tockens
+## [4.1.0](https://www.npmjs.com/package/@jscpd/badge-reporter/v/4.1.0) — 2026-05-09
 
-## 4.0.4
+### Changes
 
-### Patch Changes
+- Aligned with the monorepo 4.1.0 release. No badge-specific changes.
+- CI now tests against Node.js 22.x and 24.x.
 
-- Implement MCP server, add gdscript support
+### Dependency Updates
 
-## 4.0.3
+- `@jscpd/core` → 4.1.0
+- `@jscpd/tokenizer` → 4.1.0
 
-### Patch Changes
+---
 
-- fix issue with build
+## [4.0.5](https://www.npmjs.com/package/@jscpd/badge-reporter/v/4.0.5) — 2026-04-10
 
-## 4.0.2
+### Changes
 
-### Patch Changes
+- Aligned with the AI reporter release. No badge-specific changes.
 
-- small fixes, merge suggested PRs on github
+### Dependency Updates
 
-## 4.0.1
+- `@jscpd/core` → 4.0.5
+- `@jscpd/tokenizer` → 4.0.5
 
-### Patch Changes
+---
 
-- f50a42d: publish first public version in v4
+## [4.0.4](https://www.npmjs.com/package/@jscpd/badge-reporter/v/4.0.4) — 2026-01-30
 
-## 4.0.0
+### Changes
 
-### Major Changes
+- Aligned with the MCP server and GDScript support release.
 
-- aac6f4e: make great refactoring of the code, update versions of packages (typescript, pug, etc), change builder - use tsup, change test runner to vitest, move monorepo from lerna to turborepo, add changeset as tool for releases
+### Dependency Updates
+
+- `@jscpd/core` → 4.0.4
+- `@jscpd/tokenizer` → 4.0.4
+
+---
+
+## [4.0.3](https://www.npmjs.com/package/@jscpd/badge-reporter/v/4.0.3) — 2026-01-11
+
+### Bug Fixes
+
+- Fixed a build output issue.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.0.3
+- `@jscpd/tokenizer` → 4.0.3
+
+---
+
+## [4.0.2](https://www.npmjs.com/package/@jscpd/badge-reporter/v/4.0.2) — 2026-01-11
+
+### Changes
+
+- Merged community PRs; minor housekeeping.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.0.2
+- `@jscpd/tokenizer` → 4.0.2
+
+---
+
+## [4.0.1](https://www.npmjs.com/package/@jscpd/badge-reporter/v/4.0.1) — 2024-05-26
+
+### Changes
+
+- First public release as a versioned standalone package under v4.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.0.1
+- `@jscpd/tokenizer` → 4.0.1
+
+---
+
+## [4.0.0](https://www.npmjs.com/package/@jscpd/badge-reporter/v/4.0.0) — 2024-05-26
+
+### Breaking Changes
+
+- **Monorepo restructure** — package moved to `packages/badge-reporter`. Build system changed to `tsup`.
+
+### Changes
+
+- `colors` added as an explicit runtime dependency (was previously an implicit transitive dependency).
+
+---
+
+## Prior history
+
+The badge reporter was first introduced in **jscpd v3.3.22** (December 2020) as part of the main `jscpd` package before being extracted into a standalone `@jscpd/badge-reporter` package in v4.0.0.

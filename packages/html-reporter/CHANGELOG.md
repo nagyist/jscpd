@@ -1,42 +1,93 @@
 # @jscpd/html-reporter
 
-## 4.0.5
+Generates a self-contained HTML report from jscpd clone results. The report shows duplicate code side-by-side with syntax highlighting, file statistics, and a summary of duplication across the scanned codebase.
 
-### Patch Changes
+---
 
-- add ai reporter, save your tockens
+## [4.1.0](https://www.npmjs.com/package/@jscpd/html-reporter/v/4.1.0) — 2026-05-09
 
-## 4.0.4
+### New Features
 
-### Patch Changes
+- **Branded footer** — the generated HTML report now includes a footer displaying the jscpd version, a project badge, and a sponsor link, making it easy to tell which version produced a given report.
 
-- Implement MCP server, add gdscript support
+### Dependency Updates
 
-## 4.0.3
+- `@jscpd/finder` → 4.1.0
 
-### Patch Changes
+---
 
-- fix issue with build
+## [4.0.5](https://www.npmjs.com/package/@jscpd/html-reporter/v/4.0.5) — 2026-04-10
 
-## 4.0.2
+### Changes
 
-### Patch Changes
+- Aligned with the AI reporter release cycle.
 
-- small fixes, merge suggested PRs on github
+### Dependency Updates
 
-## 4.0.1
+- `@jscpd/finder` → 4.0.5
 
-### Patch Changes
+---
 
-- f50a42d: publish first public version in v4
+## [4.0.4](https://www.npmjs.com/package/@jscpd/html-reporter/v/4.0.4) — 2026-01-30
 
-## 4.0.0
+### Changes
 
-### Major Changes
+- Aligned with the MCP server and GDScript support release.
 
-- aac6f4e: make great refactoring of the code, update versions of packages (typescript, pug, etc), change builder - use tsup, change test runner to vitest, move monorepo from lerna to turborepo, add changeset as tool for releases
+### Dependency Updates
 
-### Patch Changes
+- `@jscpd/finder` → 4.0.4
 
-- Updated dependencies [aac6f4e]
-  - @jscpd/finder@4.0.0
+---
+
+## [4.0.3](https://www.npmjs.com/package/@jscpd/html-reporter/v/4.0.3) — 2026-01-11
+
+### Bug Fixes
+
+- Fixed a build output issue that caused the report assets to be missing.
+
+### Dependency Updates
+
+- `@jscpd/finder` → 4.0.3
+
+---
+
+## [4.0.2](https://www.npmjs.com/package/@jscpd/html-reporter/v/4.0.2) — 2026-01-11
+
+### Changes
+
+- Merged community PRs; minor housekeeping.
+
+### Dependency Updates
+
+- `@jscpd/finder` → 4.0.2
+
+---
+
+## [4.0.1](https://www.npmjs.com/package/@jscpd/html-reporter/v/4.0.1) — 2024-05-26
+
+### Changes
+
+- First public release as a versioned standalone package under v4.
+
+### Dependency Updates
+
+- `@jscpd/finder` → 4.0.1
+
+---
+
+## [4.0.0](https://www.npmjs.com/package/@jscpd/html-reporter/v/4.0.0) — 2024-05-26
+
+### Breaking Changes
+
+- **HTML reporter rebuilt** — the report was redesigned as a standalone, dependency-free HTML page. The previous Vue.js single-page application has been removed, making the output simpler to open, share, and archive without needing a local server.
+- Build system changed from `tsc` to `tsup`.
+
+### Changes
+
+- HTML tags in code blocks are now properly escaped, fixing rendering issues when scanned code contained `<` / `>` characters.
+- `pug` dependency upgraded.
+
+### Dependency Updates
+
+- `@jscpd/finder` → 4.0.0

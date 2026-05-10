@@ -1,37 +1,48 @@
 # @jscpd/tsconfig
 
-## 5.0.5
+Shared TypeScript compiler configuration for all packages and apps in the jscpd monorepo. Other packages extend this base `tsconfig.json` to ensure consistent compiler settings across the workspace.
 
-### Patch Changes
+---
 
-- add ai reporter, save your tockens
+## [5.1.0](https://www.npmjs.com/package/@jscpd/tsconfig/v/5.1.0) — 2026-05-09
 
-## 5.0.4
+### Changes
 
-### Patch Changes
+- Aligned with the monorepo 4.1.0 release (the tsconfig package uses its own versioning scheme). No configuration changes.
+- CI now tests against Node.js 22.x and 24.x.
 
-- Implement MCP server, add gdscript support
+---
 
-## 5.0.3
+## [5.0.5](https://www.npmjs.com/package/@jscpd/tsconfig/v/5.0.5) — 2026-04-10
 
-### Patch Changes
+Aligned with the AI reporter release.
 
-- fix issue with build
+---
 
-## 5.0.2
+## [5.0.4](https://www.npmjs.com/package/@jscpd/tsconfig/v/5.0.4) — 2026-01-30
 
-### Patch Changes
+Aligned with the MCP server and GDScript release.
 
-- small fixes, merge suggested PRs on github
+---
 
-## 5.0.1
+## [5.0.3](https://www.npmjs.com/package/@jscpd/tsconfig/v/5.0.3) — 2026-01-11
 
-### Patch Changes
+Build fix patch.
 
-- f50a42d: publish first public version in v4
+---
 
-## 5.0.0
+## [5.0.2](https://www.npmjs.com/package/@jscpd/tsconfig/v/5.0.2) — 2026-01-11
 
-### Major Changes
+Minor housekeeping.
 
-- aac6f4e: make great refactoring of the code, update versions of packages (typescript, pug, etc), change builder - use tsup, change test runner to vitest, move monorepo from lerna to turborepo, add changeset as tool for releases
+---
+
+## [5.0.1](https://www.npmjs.com/package/@jscpd/tsconfig/v/5.0.1) — 2024-05-26
+
+First public release under the v4 monorepo.
+
+---
+
+## [5.0.0](https://www.npmjs.com/package/@jscpd/tsconfig/v/5.0.0) — 2024-05-26
+
+Initial release. Extracted shared TypeScript compiler settings into a standalone package as part of the v4 monorepo restructure. Packages now extend `@jscpd/tsconfig` instead of duplicating `tsconfig.json` settings.

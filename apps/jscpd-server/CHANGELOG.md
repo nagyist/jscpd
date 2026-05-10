@@ -1,49 +1,98 @@
 # jscpd-server
 
-## 4.0.9
+An HTTP server that exposes jscpd's copy-paste detection as a RESTful API. Ideal for IDE plugins, CI services, and web dashboards that need on-demand duplicate analysis without launching a CLI process for every request.
 
-### Patch Changes
+---
 
-- add ai reporter, save your tockens
-- Updated dependencies
-  - @jscpd/core@4.0.5
-  - @jscpd/finder@4.0.5
-  - @jscpd/html-reporter@4.0.5
-  - jscpd-sarif-reporter@4.0.7
-  - @jscpd/tokenizer@4.0.5
+## [4.1.0](https://www.npmjs.com/package/jscpd-server/v/4.1.0) — 2026-05-09
 
-## 4.0.8
+### New Features
 
-### Patch Changes
+- **MCP server enhancements** — the [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server now exposes a `jscpd://statistics` resource endpoint, allowing AI agents and MCP-compatible clients to query duplication statistics directly.
+- **Recheck endpoint** — a new API endpoint lets clients trigger a rescan of the codebase without restarting the server process. Useful for long-running server instances where the codebase changes over time.
 
-- Implement MCP server, add gdscript support
-- Updated dependencies
-  - @jscpd/core@4.0.4
-  - @jscpd/finder@4.0.4
-  - @jscpd/html-reporter@4.0.4
-  - jscpd-sarif-reporter@4.0.6
-  - @jscpd/tokenizer@4.0.4
+### Changes
 
-## 4.0.7
+- CI now tests against Node.js 22.x and 24.x.
 
-### Patch Changes
+### Dependency Updates
 
-- fix issue with build
-- Updated dependencies
-  - jscpd-sarif-reporter@4.0.5
-  - @jscpd/html-reporter@4.0.3
-  - @jscpd/tokenizer@4.0.3
-  - @jscpd/finder@4.0.3
-  - @jscpd/core@4.0.3
+- `@jscpd/core` → 4.1.0
+- `@jscpd/finder` → 4.1.0
+- `@jscpd/html-reporter` → 4.1.0
+- `@jscpd/tokenizer` → 4.1.0
+- `jscpd-sarif-reporter` → 4.1.0
 
-## 4.0.6
+---
 
-### Patch Changes
+## [4.0.9](https://www.npmjs.com/package/jscpd-server/v/4.0.9) — 2026-04-10
 
-- small fixes, merge suggested PRs on github
-- Updated dependencies
-  - @jscpd/core@4.0.2
-  - @jscpd/finder@4.0.2
-  - @jscpd/html-reporter@4.0.2
-  - jscpd-sarif-reporter@4.0.4
-  - @jscpd/tokenizer@4.0.2
+### Changes
+
+- Aligned with the AI reporter release.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.0.5
+- `@jscpd/finder` → 4.0.5
+- `@jscpd/html-reporter` → 4.0.5
+- `@jscpd/tokenizer` → 4.0.5
+- `jscpd-sarif-reporter` → 4.0.7
+
+---
+
+## [4.0.8](https://www.npmjs.com/package/jscpd-server/v/4.0.8) — 2026-01-30
+
+### New Features
+
+- **MCP protocol server** — the server now implements the Model Context Protocol, enabling AI agents (such as those built with Claude, GPT, or other MCP-compatible clients) to interact with jscpd programmatically. Includes an icon-menu toggle in the web UI.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.0.4
+- `@jscpd/finder` → 4.0.4
+- `@jscpd/html-reporter` → 4.0.4
+- `@jscpd/tokenizer` → 4.0.4
+- `jscpd-sarif-reporter` → 4.0.6
+
+---
+
+## [4.0.7](https://www.npmjs.com/package/jscpd-server/v/4.0.7) — 2026-01-11
+
+### Bug Fixes
+
+- Fixed a build output issue.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.0.3
+- `@jscpd/finder` → 4.0.3
+- `@jscpd/html-reporter` → 4.0.3
+- `@jscpd/tokenizer` → 4.0.3
+- `jscpd-sarif-reporter` → 4.0.5
+
+---
+
+## [4.0.6](https://www.npmjs.com/package/jscpd-server/v/4.0.6) — 2026-01-11
+
+### New Package
+
+First release of `jscpd-server`. Provides a RESTful HTTP API for code-duplication detection built on top of the jscpd engine.
+
+**Key endpoints (initial release):**
+- `POST /detect` — submit a path or code snippet for duplicate analysis.
+- `GET /report` — retrieve the latest detection results.
+
+**To start the server:**
+
+```sh
+npx jscpd-server
+```
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.0.2
+- `@jscpd/finder` → 4.0.2
+- `@jscpd/html-reporter` → 4.0.2
+- `@jscpd/tokenizer` → 4.0.2
+- `jscpd-sarif-reporter` → 4.0.4

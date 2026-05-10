@@ -1,59 +1,101 @@
-## 3.3.0-rc.3 (2020-05-04)
+# @jscpd/core
 
-## 4.0.5
+Core types, interfaces, events, and utilities shared across all jscpd packages. This package defines the fundamental data structures — clones, tokens, source files, stores, and reporters — that everything else is built on.
 
-### Patch Changes
+---
 
-- add ai reporter, save your tockens
+## [4.1.0](https://www.npmjs.com/package/@jscpd/core/v/4.1.0) — 2026-05-09
 
-## 4.0.4
+### Changes
 
-### Patch Changes
+- Updated to align with the monorepo's 4.1.0 release. No breaking API changes.
+- Tokenizer performance improvements flow through core types (lazy grammar loading, O(n) hot paths) via the updated `@jscpd/tokenizer` dependency.
+- CI now tests against Node.js 22.x and 24.x; Node.js 20.x dropped.
 
-- Implement MCP server, add gdscript support
+### Dependency Updates
 
-## 4.0.3
+- `@jscpd/tokenizer` → 4.1.0
 
-### Patch Changes
+---
 
-- fix issue with build
+## [4.0.5](https://www.npmjs.com/package/@jscpd/core/v/4.0.5) — 2026-04-10
 
-## 4.0.2
+### Changes
 
-### Patch Changes
+- Aligned with the AI reporter release cycle. No core API changes.
 
-- small fixes, merge suggested PRs on github
+### Dependency Updates
 
-## 4.0.1
+- `@jscpd/tokenizer` → 4.0.5
 
-### Patch Changes
+---
 
-- f50a42d: publish first public version in v4
+## [4.0.4](https://www.npmjs.com/package/@jscpd/core/v/4.0.4) — 2026-01-30
 
-## 4.0.0
+### Changes
 
-### Major Changes
+- Aligned with the MCP server and GDScript support release. No core API changes.
 
-- aac6f4e: make great refactoring of the code, update versions of packages (typescript, pug, etc), change builder - use tsup, change test runner to vitest, move monorepo from lerna to turborepo, add changeset as tool for releases
+### Dependency Updates
 
-## 3.3.0-rc.3 (2020-05-02)
+- `@jscpd/tokenizer` → 4.0.4
 
-- v3.3.0-rc.3 ([9f388ff](https://github.com/kucherenko/jscpd/commit/9f388ff))
-- docs: ✏️ update README for the packages ([76492e6](https://github.com/kucherenko/jscpd/commit/76492e6))
-- feat: 🎸 start redis store development ([c0a1584](https://github.com/kucherenko/jscpd/commit/c0a1584))
-- refactor: 💡 change imports in interfaces ([f72e3e0](https://github.com/kucherenko/jscpd/commit/f72e3e0))
-- refactor: 💡 remove cyclic dependency between core and tokenizer ([6615825](https://github.com/kucherenko/jscpd/commit/6615825))
-- chore: 🤖 add tool for changing package.json before publishing ([fb9c7ec](https://github.com/kucherenko/jscpd/commit/fb9c7ec))
-- chore: 🤖 change npm script to yarn ([3729bf9](https://github.com/kucherenko/jscpd/commit/3729bf9))
-- chore: 🤖 change package json ([205136f](https://github.com/kucherenko/jscpd/commit/205136f))
-- chore: 🤖 fix issue with yarncompile ([44eef97](https://github.com/kucherenko/jscpd/commit/44eef97))
+---
 
-## 3.3.0-rc.2 (2020-04-29)
+## [4.0.3](https://www.npmjs.com/package/@jscpd/core/v/4.0.3) — 2026-01-11
 
-- v3.3.0-rc.2 ([77890f4](https://github.com/kucherenko/jscpd/commit/77890f4))
-- refactor: 💡 change imports in core package ([f33a412](https://github.com/kucherenko/jscpd/commit/f33a412))
+### Bug Fixes
 
-## 3.3.0-rc.1 (2020-04-29)
+- Fixed an issue with the build output.
 
-- v3.3.0-rc.1 ([dd2a39d](https://github.com/kucherenko/jscpd/commit/dd2a39d))
-- refactor: 💡 add new branch to git repo ([633a854](https://github.com/kucherenko/jscpd/commit/633a854))
+### Dependency Updates
+
+- `@jscpd/tokenizer` → 4.0.3
+
+---
+
+## [4.0.2](https://www.npmjs.com/package/@jscpd/core/v/4.0.2) — 2026-01-11
+
+### Changes
+
+- Merged several community pull requests; minor housekeeping.
+
+### Dependency Updates
+
+- `@jscpd/tokenizer` → 4.0.2
+
+---
+
+## [4.0.1](https://www.npmjs.com/package/@jscpd/core/v/4.0.1) — 2024-05-26
+
+### Changes
+
+- First public release of `@jscpd/core` as a standalone versioned package under the v4 monorepo.
+
+### Dependency Updates
+
+- `@jscpd/tokenizer` → 4.0.1
+
+---
+
+## [4.0.0](https://www.npmjs.com/package/@jscpd/core/v/4.0.0) — 2024-05-26
+
+### Breaking Changes
+
+- **Monorepo restructure** — the package was extracted from the old monorepo layout into the new `packages/core` location. Import paths are unchanged but the build system has changed from `tsc` to `tsup`, producing clean ESM+CJS dual-mode bundles.
+- Test runner migrated from `ava` to **Vitest**.
+- Requires **Node.js 18+**.
+
+### Changes
+
+- Cyclic dependency between `@jscpd/core` and `@jscpd/tokenizer` removed.
+- Interfaces cleaned up; unused code removed.
+
+---
+
+## [3.3.0-rc.3](https://github.com/kucherenko/jscpd/commit/9f388ff) — 2020-05-02
+
+First release of `@jscpd/core` as a separate package in the monorepo, splitting core functionality out of the main `jscpd` package to enable independent versioning.
+
+- Removed cyclic dependency between core and tokenizer packages.
+- Internal imports and interfaces reorganised.
