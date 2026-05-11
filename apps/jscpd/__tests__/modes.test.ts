@@ -39,6 +39,39 @@ describe('jscpd modes', () => {
 		})
 	});
 
+	describe('weak mode (Vue files - issue #788)', () => {
+		const pathToVueFixtures = pathToFixtures + '/vue';
+		// Fixtures contain all Vue/TS comment types:
+		//   - TypeScript single-line (//)
+		//   - TypeScript multi-line (/* */)
+		//   - TypeScript JSDoc (/** */)
+		//   - HTML single-line (<!-- -->)
+		//   - HTML multi-line (<!-- ... -->)
+		// Both files share an identical copyright block (26 tokens in mild, 19 in weak).
+		// min-tokens=20 sits between those counts so mild detects the clone and weak does not.
+		it('should suppress comment-only clones in Vue SFCs with weak mode', async () => {
+			const clones: IClone[] = await jscpd([
+				'', '',
+				pathToVueFixtures,
+				'-m', 'weak',
+				'--min-tokens', '20',
+				'--min-lines', '1',
+			]);
+			expect(clones.length).to.equal(0);
+		});
+		it('should detect comment clones in Vue SFCs with mild mode', async () => {
+			const clones: IClone[] = await jscpd([
+				'', '',
+				pathToVueFixtures,
+				'-m', 'mild',
+				'--min-tokens', '20',
+				'--min-lines', '1',
+			]);
+			expect(clones.length).to.equal(1);
+			expect(clones[0].duplicationA.start.line).to.equal(1);
+		});
+	});
+
 	describe('not exist mode', () => {
 		it('should not run ', async () => {
 			try {

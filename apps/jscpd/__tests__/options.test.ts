@@ -125,7 +125,24 @@ describe('jscpd options', () => {
 		});
 	});
 
-	describe('silent', () => {
+  describe('mode as string via detectClones API', () => {
+    it('should accept string mode without throwing TypeError', async () => {
+      // Before the fix, detectClones({ mode: 'weak' }) would throw
+      // "TypeError: mode is not a function" because only the CLI path
+      // called getModeHandler() to convert the string to a function.
+      const clones = await detectClones({
+        path: [pathToFixtures + '/modes/vue'],
+        mode: 'weak',
+        minTokens: 20,
+        minLines: 1,
+        silent: true,
+      });
+      expect(Array.isArray(clones)).toBe(true);
+      expect(clones.length).toEqual(0);
+    });
+  });
+
+  describe('silent', () => {
     it('should not print more information about detection process', async () => {
       await jscpd(['', '', fileWithClones, '--silent']);
       const log = (console.log as any);
