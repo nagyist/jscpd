@@ -1,5 +1,11 @@
 # jscpd-sarif-reporter
 
+## 4.1.1
+
+### Patch Changes
+
+- Update hash function, improve performance and keep browser support
+
 Outputs jscpd clone results in [SARIF](https://sarifweb.azurewebsites.net/) (Static Analysis Results Interchange Format). SARIF is the standard format understood by GitHub Code Scanning, Azure DevOps, Visual Studio, and many other developer tools — making it straightforward to surface copy-paste duplication as first-class code-scanning alerts in your pull requests.
 
 ---

@@ -1,5 +1,17 @@
 # jscpd-server
 
+## 4.1.1
+
+### Patch Changes
+
+- Update hash function, improve performance and keep browser support
+- Updated dependencies
+  - @jscpd/core@4.1.1
+  - @jscpd/finder@4.1.1
+  - @jscpd/html-reporter@4.1.1
+  - jscpd-sarif-reporter@4.1.1
+  - @jscpd/tokenizer@4.1.1
+
 An HTTP server that exposes jscpd's copy-paste detection as a RESTful API. Ideal for IDE plugins, CI services, and web dashboards that need on-demand duplicate analysis without launching a CLI process for every request.
 
 ---
@@ -80,6 +92,7 @@ An HTTP server that exposes jscpd's copy-paste detection as a RESTful API. Ideal
 First release of `jscpd-server`. Provides a RESTful HTTP API for code-duplication detection built on top of the jscpd engine.
 
 **Key endpoints (initial release):**
+
 - `POST /detect` — submit a path or code snippet for duplicate analysis.
 - `GET /report` — retrieve the latest detection results.
 

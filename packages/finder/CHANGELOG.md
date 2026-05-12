@@ -1,5 +1,14 @@
 # @jscpd/finder
 
+## 4.1.1
+
+### Patch Changes
+
+- Update hash function, improve performance and keep browser support
+- Updated dependencies
+  - @jscpd/core@4.1.1
+  - @jscpd/tokenizer@4.1.1
+
 The detection engine that drives jscpd. It orchestrates file discovery, tokenisation, clone detection, and reporter invocation. Also home to the built-in reporters: `consoleFull`, `console`, `csv`, `markdown`, `json`, `xml`, `xcode`, `threshold`, `silent`, `execTime`, and the new `ai` reporter.
 
 ---

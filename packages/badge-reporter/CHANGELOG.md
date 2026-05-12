@@ -1,5 +1,11 @@
 # @jscpd/badge-reporter
 
+## 4.1.1
+
+### Patch Changes
+
+- Update hash function, improve performance and keep browser support
+
 Generates a shield badge (SVG) showing your project's copy-paste duplication percentage. Drop the badge URL straight into your README to give contributors an at-a-glance view of code health.
 
 ---

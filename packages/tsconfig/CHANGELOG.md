@@ -1,5 +1,11 @@
 # @jscpd/tsconfig
 
+## 5.1.1
+
+### Patch Changes
+
+- Update hash function, improve performance and keep browser support
+
 Shared TypeScript compiler configuration for all packages and apps in the jscpd monorepo. Other packages extend this base `tsconfig.json` to ensure consistent compiler settings across the workspace.
 
 ---

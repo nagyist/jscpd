@@ -1,5 +1,14 @@
 # @jscpd/leveldb-store
 
+## 4.1.1
+
+### Patch Changes
+
+- Update hash function, improve performance and keep browser support
+- Updated dependencies
+  - @jscpd/core@4.1.1
+  - @jscpd/tokenizer@4.1.1
+
 A [LevelDB](https://github.com/google/leveldb)-backed persistent store for jscpd. Use this store when scanning very large codebases where keeping the entire token map in memory is impractical. Token data is flushed to disk and read back on demand, keeping the Node.js heap small.
 
 ---

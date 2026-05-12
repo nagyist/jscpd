@@ -1,5 +1,13 @@
 # @jscpd/tokenizer
 
+## 4.1.1
+
+### Patch Changes
+
+- Update hash function, improve performance and keep browser support
+- Updated dependencies
+  - @jscpd/core@4.1.1
+
 Converts source code into token streams for duplicate detection. Supports 150+ languages via [Prism.js](https://prismjs.com/) grammars and handles format-to-extension mapping, hashing, and source-location calculation.
 
 ---

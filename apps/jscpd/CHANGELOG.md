@@ -1,5 +1,18 @@
 # jscpd
 
+## 4.1.1
+
+### Patch Changes
+
+- Update hash function, improve performance and keep browser support
+- Updated dependencies
+  - @jscpd/badge-reporter@4.1.1
+  - @jscpd/core@4.1.1
+  - @jscpd/finder@4.1.1
+  - @jscpd/html-reporter@4.1.1
+  - jscpd-sarif-reporter@4.1.1
+  - @jscpd/tokenizer@4.1.1
+
 Copy-paste detector for programming source code. Detects duplicated blocks across 150+ languages and outputs results in a variety of formats: console, HTML, JSON, XML, CSV, Markdown, SARIF, and more.
 
 ---

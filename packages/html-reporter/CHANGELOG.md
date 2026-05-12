@@ -1,5 +1,11 @@
 # @jscpd/html-reporter
 
+## 4.1.1
+
+### Patch Changes
+
+- Update hash function, improve performance and keep browser support
+
 Generates a self-contained HTML report from jscpd clone results. The report shows duplicate code side-by-side with syntax highlighting, file statistics, and a summary of duplication across the scanned codebase.
 
 ---

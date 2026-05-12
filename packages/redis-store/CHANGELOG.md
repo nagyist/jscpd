@@ -1,5 +1,14 @@
 # @jscpd/redis-store
 
+## 4.1.1
+
+### Patch Changes
+
+- Update hash function, improve performance and keep browser support
+- Updated dependencies
+  - @jscpd/core@4.1.1
+  - @jscpd/tokenizer@4.1.1
+
 A [Redis](https://redis.io/)-backed store for jscpd. Use this store when running jscpd across multiple machines or CI agents that need to share token data — for example, in a distributed monorepo setup where different services are scanned in parallel jobs.
 
 ---

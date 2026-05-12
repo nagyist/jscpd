@@ -1,5 +1,11 @@
 # @jscpd/core
 
+## 4.1.1
+
+### Patch Changes
+
+- Update hash function, improve performance and keep browser support
+
 Core types, interfaces, events, and utilities shared across all jscpd packages. This package defines the fundamental data structures — clones, tokens, source files, stores, and reporters — that everything else is built on.
 
 ---
