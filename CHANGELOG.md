@@ -4,6 +4,21 @@ All notable changes to **jscpd** are documented here. Releases follow [Semantic 
 
 ---
 
+## [Unreleased]
+
+### Breaking Changes
+
+- **Vue SFC tokenization** — `.vue` files are no longer tokenized as `markup`. They are now processed as `vue` format with per-block sub-format detection: `<script>` → `javascript`, `<script lang="ts">` → `typescript`, `<template>` → `markup`, `<style>` → `css`, `<style lang="scss">` → `scss`, `<style lang="less">` → `less`. Clone reports for `.vue` files now appear under these resolved sub-format names. Any existing tooling or configuration that relied on `.vue` clones being reported under `markup` must be updated.
+- **`--formatsExts` users** — custom mappings that pointed `.vue` to `markup` (e.g. `"formatsExts": { "markup": ["vue"] }`) will no longer take effect because `.vue` is handled by the dedicated `vue` format processor. Remove or update such mappings.
+
+### Known Limitations
+
+- Token column numbers in Vue SFC clone reports are block-relative, not file-absolute. Line numbers are correct and offset-adjusted to the position of each block within the source file.
+- Template blocks with a preprocessor `lang` attribute (e.g. `lang="pug"`, `lang="haml"`) are tokenized as plain `markup`. Token quality may be reduced for non-HTML template languages.
+- Malformed SFC blocks (e.g. unclosed tags, invalid attributes) are silently skipped and do not contribute tokens.
+
+---
+
 ## [4.1.0](https://github.com/kucherenko/jscpd/compare/jscpd@4.0.7...jscpd@4.1.0) — 2026-05-09
 
 ### New Features

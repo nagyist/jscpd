@@ -166,9 +166,9 @@ describe('jscpd formats', () => {
 				folder: pathToFixtures + '/htmlmixed',
 			},
 			{
-				name: 'markup',
+				name: 'vue',
 				descr: 'Vue',
-				clonesCount: 2,
+				clonesCount: 4,
 				folder: pathToFixtures + '/vue',
 			},
 			{

@@ -95,6 +95,7 @@ describe('getFormatByFile', () => {
     ['file.lua', 'lua'],
     ['file.dart', 'dart'],
     ['file.md', 'markdown'],
+    ['file.vue', 'vue'],
   ])('returns %s for %s', (filename, expectedFormat) => {
     expect(getFormatByFile(filename)).toBe(expectedFormat);
   });
