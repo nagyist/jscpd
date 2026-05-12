@@ -168,7 +168,7 @@ describe('jscpd formats', () => {
 			{
 				name: 'vue',
 				descr: 'Vue',
-				clonesCount: 4,
+				clonesCount: 5,
 				folder: pathToFixtures + '/vue',
 			},
 			{

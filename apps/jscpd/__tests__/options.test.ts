@@ -1,5 +1,8 @@
-import {describe, it, expect, beforeEach, vi, afterEach} from "vitest";
+import {describe, it, expect, beforeEach, vi, afterEach, beforeAll, afterAll} from "vitest";
 import {isAbsolute} from 'path';
+import * as os from 'os';
+import * as fs from 'fs';
+import * as path from 'path';
 import {IClone} from '@jscpd/core';
 import {jscpd, detectClones} from '../src';
 import {bold, yellow} from 'colors/safe';
@@ -126,14 +129,36 @@ describe('jscpd options', () => {
 	});
 
   describe('mode as string via detectClones API', () => {
+    let vueDir: string;
+
+    beforeAll(() => {
+      vueDir = fs.mkdtempSync(path.join(os.tmpdir(), 'jscpd-opts-vue-'));
+      // Two Vue SFCs that share only HTML comments — weak mode strips them → 0 clones
+      const makeVue = (cls: string) => `<template>
+<!-- copyright comment 1 -->
+<!-- copyright comment 2 -->
+<!-- copyright comment 3 -->
+<!-- copyright comment 4 -->
+<!-- copyright comment 5 -->
+<!-- copyright comment 6 -->
+<div class="${cls}"></div>
+</template>`;
+      fs.writeFileSync(path.join(vueDir, 'a.vue'), makeVue('alpha'));
+      fs.writeFileSync(path.join(vueDir, 'b.vue'), makeVue('beta'));
+    });
+
+    afterAll(() => {
+      fs.rmSync(vueDir, { recursive: true, force: true });
+    });
+
     it('should accept string mode without throwing TypeError', async () => {
       // Before the fix, detectClones({ mode: 'weak' }) would throw
       // "TypeError: mode is not a function" because only the CLI path
       // called getModeHandler() to convert the string to a function.
       const clones = await detectClones({
-        path: [pathToFixtures + '/modes/vue'],
+        path: [vueDir],
         mode: 'weak',
-        minTokens: 20,
+        minTokens: 5,
         minLines: 1,
         silent: true,
       });
