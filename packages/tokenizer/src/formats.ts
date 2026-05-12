@@ -466,7 +466,9 @@ export const FORMATS: {
 		exts: ['yaml', 'yml'],
 	},
 	// ---------------------------------------------------------------------------
-	// Languages added via prismjs 1.30.0 (not present in previous vendored engine)
+	// Additional languages (not provided by the reprism engine)
+	// These formats are available for file-extension detection but have no
+	// bundled grammar, so tokenization returns an empty array for them.
 	// ---------------------------------------------------------------------------
 	abnf: {
 		exts: [],

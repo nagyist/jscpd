@@ -1,44 +1,81 @@
-import Prism from 'prismjs';
-import { createRequire } from 'module';
+import Prism from './engine/prism-core';
+import { LANGUAGE_DEFINITIONS, LANGUAGE_NAMES } from './languages/index';
 
-// createRequire lets us call require() from an ESM or CJS context.
-// import.meta.url is provided by esbuild/tsup for the CJS build as well.
-const _require = createRequire(import.meta.url);
+// ---------------------------------------------------------------------------
+// Eagerly initialize all bundled language grammars in dependency order.
+// They are pure in-memory operations (no disk I/O), so startup cost is
+// negligible even with 146 languages.
+// ---------------------------------------------------------------------------
 
-// The prismjs component loader: loadLanguages() with no args loads all
-// available language grammars from prismjs/components/.
-interface PrismLanguageLoader {
-  (langs?: string | string[]): void;
-  silent: boolean;
+let _initialized = false;
+
+function initializeAll(): void {
+  if (_initialized) return;
+  _initialized = true;
+
+  for (const def of LANGUAGE_DEFINITIONS) {
+    try {
+      def.init(Prism);
+    } catch {
+      // Skip silently — individual language init failures must not abort the
+      // whole module (e.g., a language that depends on another that wasn't
+      // yet loaded would normally throw; the dependency-ordered list above
+      // prevents that, but guard defensively anyway).
+    }
+  }
 }
 
-const loadPrismLanguages: PrismLanguageLoader =
-  _require('prismjs/components/');
+// Initialize on first module load.
+initializeAll();
 
-// Track which languages have already been loaded and patched so we never pay
-// the disk-read cost more than once per language per process.
-const loadedLanguages = new Set<string>();
+// ---------------------------------------------------------------------------
+// Punctuation tokens injected by jscpd into every grammar.
+// ---------------------------------------------------------------------------
+
+const punctuation = {
+  new_line: /\n/,
+  empty: /\s+/,
+};
+
+// Track which languages have already been patched so we never mutate the
+// grammar object more than once per process.
+const patchedLanguages = new Set<string>();
+
+// ---------------------------------------------------------------------------
+// Public API
+// ---------------------------------------------------------------------------
 
 /**
- * Ensure a single language grammar is loaded and ready in Prism.
- * The first call for a given language reads the grammar from disk; subsequent
- * calls return immediately.
+ * Returns the list of language names provided by the bundled grammar engine.
+ */
+export function getAvailableGrammars(): string[] {
+  return LANGUAGE_NAMES.slice();
+}
+
+/**
+ * Ensure a language grammar is loaded and patched with jscpd punctuation
+ * tokens.  With the bundled engine all languages are pre-loaded, so this
+ * is effectively a patch-once guard.
  */
 export function ensureLanguageLoaded(lang: string): void {
-  if (loadedLanguages.has(lang)) return;
+  if (patchedLanguages.has(lang)) return;
 
-  loadPrismLanguages.silent = true;
-  loadPrismLanguages([lang]);
-  loadedLanguages.add(lang);
+  // With the bundled engine all grammars were loaded eagerly — nothing to
+  // fetch from disk.  We still respect the patchedLanguages guard so that
+  // callers can rely on idempotent behaviour.
+  const grammar = Prism.languages[lang];
+  if (typeof grammar === 'object' && grammar !== null) {
+    Prism.languages[lang] = { ...grammar, ...punctuation };
+  }
+  patchedLanguages.add(lang);
 }
 
 /**
- * @deprecated Load all languages eagerly. Prefer ensureLanguageLoaded() for
- * on-demand loading. Kept for backward compatibility.
+ * @deprecated Load all languages eagerly.  Kept for backward compatibility;
+ * with the bundled engine all languages are already loaded at module init.
  */
 export function loadLanguages(): void {
-  loadPrismLanguages.silent = true;
-  loadPrismLanguages();
+  // no-op — all languages were loaded at module initialisation
 }
 
 export { Prism };

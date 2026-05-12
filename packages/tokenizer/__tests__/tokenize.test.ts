@@ -298,53 +298,60 @@ describe('createTokenMapBasedOnCode', () => {
 });
 
 // ---------------------------------------------------------------------------
-// prismjs-backed languages — these were missing in the old vendored engine
+// Bundled engine language coverage
+// Languages provided by the reprism-based bundled engine
 // ---------------------------------------------------------------------------
 
-describe('prismjs language coverage', () => {
-  describe('languages previously missing from vendored engine', () => {
-    it('tokenizes elm code', () => {
-      const tokens = tokenize('module Main exposing (..)\nimport Html', 'elm');
-      expect(tokens.length).toBeGreaterThan(0);
-    });
-
-    it('tokenizes toml code', () => {
-      const tokens = tokenize('[package]\nname = "my-project"\nversion = "1.0.0"', 'toml');
-      expect(tokens.length).toBeGreaterThan(0);
-    });
-
-    it('tokenizes zig code', () => {
-      const tokens = tokenize('const std = @import("std");\npub fn main() void {}', 'zig');
-      expect(tokens.length).toBeGreaterThan(0);
-    });
-
-    it('tokenizes hcl (terraform) code', () => {
-      const tokens = tokenize('resource "aws_instance" "example" {\n  ami = "abc-123"\n}', 'hcl');
-      expect(tokens.length).toBeGreaterThan(0);
-    });
-
-    it('tokenizes solidity code', () => {
-      const tokens = tokenize('pragma solidity ^0.8.0;\ncontract MyContract {}', 'solidity');
-      expect(tokens.length).toBeGreaterThan(0);
-    });
-
-    it('tokenizes cmake code', () => {
-      const tokens = tokenize('cmake_minimum_required(VERSION 3.10)\nproject(MyProject)', 'cmake');
+describe('bundled engine language coverage', () => {
+  describe('reprism-provided languages', () => {
+    it.each([
+      ['abap', 'REPORT hello_world.'],
+      ['bash', '#!/bin/bash\necho "hello"'],
+      ['coffeescript', 'square = (x) -> x * x'],
+      ['dart', 'void main() { print("hello"); }'],
+      ['elixir', 'defmodule Hello do\n  def world, do: "Hello"\nend'],
+      ['erlang', '-module(hello).\n-export([world/0]).'],
+      ['haskell', 'main :: IO ()\nmain = putStrLn "Hello"'],
+      ['kotlin', 'fun main() { println("Hello") }'],
+      ['lua', 'print("hello world")'],
+      ['perl', 'print "Hello, World!\\n";'],
+      ['scala', 'object Hello extends App { println("Hello") }'],
+      ['swift', 'let x: Int = 42\nprint(x)'],
+    ])('tokenizes %s code', (lang, code) => {
+      const tokens = tokenize(code, lang);
       expect(tokens.length).toBeGreaterThan(0);
     });
   });
 
-  describe('token shape for new languages', () => {
-    it('elm tokens have correct format field', () => {
-      const tokens = tokenize('module Main exposing (..)', 'elm');
+  describe('token shape for reprism languages', () => {
+    it('kotlin tokens have correct format field', () => {
+      const tokens = tokenize('fun main() {}', 'kotlin');
       expect(tokens.length).toBeGreaterThan(0);
-      expect(tokens.every((t) => t.format === 'elm')).toBe(true);
+      expect(tokens.every((t) => t.format === 'kotlin')).toBe(true);
     });
 
-    it('toml tokens have correct format field', () => {
-      const tokens = tokenize('[section]\nkey = "value"', 'toml');
+    it('swift tokens have correct format field', () => {
+      const tokens = tokenize('let x = 42', 'swift');
       expect(tokens.length).toBeGreaterThan(0);
-      expect(tokens.every((t) => t.format === 'toml')).toBe(true);
+      expect(tokens.every((t) => t.format === 'swift')).toBe(true);
     });
+  });
+
+  describe('prismjs-only languages now have bundled grammars', () => {
+    it.each([
+      ['elm', 'module Main exposing (..)'],
+      ['toml', '[section]\nkey = "value"'],
+      ['zig', 'const x: u32 = 42;'],
+      ['hcl', 'resource "aws_instance" "example" {}'],
+      ['solidity', 'pragma solidity ^0.8.0;'],
+      ['cmake', 'cmake_minimum_required(VERSION 3.10)'],
+    ])(
+      'tokenizes %s with the bundled prismjs grammar',
+      (lang, code) => {
+        const tokens = tokenize(code, lang);
+        expect(Array.isArray(tokens)).toBe(true);
+        expect(tokens.length).toBeGreaterThan(0);
+      },
+    );
   });
 });
