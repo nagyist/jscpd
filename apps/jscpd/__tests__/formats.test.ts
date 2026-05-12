@@ -74,7 +74,7 @@ describe('jscpd formats', () => {
 		'Scripts': [
 			{
 				name: 'javascript',
-				clonesCount: 10,
+				clonesCount: 9,
 				folder: pathToFixtures + '/javascript',
 			},
 			{
@@ -630,7 +630,7 @@ describe('jscpd formats', () => {
 			},
 		{
 			name: 'rust',
-			clonesCount: 4,
+			clonesCount: 6,
 			folder: pathToFixtures + '/rust',
 		},
 			{
