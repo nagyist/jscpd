@@ -256,7 +256,7 @@ export const FORMATS: {
 		exts: ['md', 'markdown', 'mkd', 'txt'],
 	},
 	markup: {
-		exts: ['html', 'htm', 'xml', 'xsl', 'xslt', 'svg', 'vue', 'ejs', 'jsp'],
+		exts: ['html', 'htm', 'xml', 'xsl', 'xslt', 'svg', 'ejs', 'jsp'],
 	},
 	matlab: {
 		exts: [],
@@ -443,6 +443,9 @@ export const FORMATS: {
 	},
 	'visual-basic': {
 		exts: ['vb'],
+	},
+	vue: {
+		exts: ['vue'],
 	},
 	wasm: {
 		exts: [],

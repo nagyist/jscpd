@@ -74,7 +74,7 @@ describe('jscpd formats', () => {
 		'Scripts': [
 			{
 				name: 'javascript',
-				clonesCount: 10,
+				clonesCount: 9,
 				folder: pathToFixtures + '/javascript',
 			},
 			{
@@ -166,9 +166,9 @@ describe('jscpd formats', () => {
 				folder: pathToFixtures + '/htmlmixed',
 			},
 			{
-				name: 'markup',
+				name: 'vue',
 				descr: 'Vue',
-				clonesCount: 2,
+				clonesCount: 5,
 				folder: pathToFixtures + '/vue',
 			},
 			{
@@ -630,7 +630,7 @@ describe('jscpd formats', () => {
 			},
 		{
 			name: 'rust',
-			clonesCount: 4,
+			clonesCount: 6,
 			folder: pathToFixtures + '/rust',
 		},
 			{

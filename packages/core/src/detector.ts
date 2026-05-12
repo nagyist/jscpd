@@ -33,6 +33,7 @@ export class Detector extends EventEmitter<DetectorEvents> {
     // @ts-ignore
     const detect = async (tokenMap: ITokensMap, clones: IClone[]): Promise<IClone[]> => {
       if (tokenMap) {
+        this.store.namespace(tokenMap.getFormat());
         this.emit('START_DETECTION', {source: tokenMap});
         return this.algorithm
           .run(tokenMap, this.store)
