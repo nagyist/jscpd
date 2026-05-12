@@ -1,6 +1,7 @@
 import { IOptions, IToken } from '@jscpd/core';
 import { tokenize } from '../tokenize';
 import { createTokensMaps, TokensMap } from '../token-map';
+import { FORMATS } from '../formats';
 
 function extractLang(attrs: string): string {
   const m = /\blang\s*=\s*["']([^"']+)["']/.exec(attrs);
@@ -10,7 +11,8 @@ function extractLang(attrs: string): string {
 function resolveBlockFormat(tagName: string, lang: string): string {
   switch (tagName) {
     case 'template':
-      return 'markup';
+      // Use the specified lang if it maps to a registered format; otherwise fall back to markup.
+      return (lang && lang in FORMATS) ? lang : 'markup';
     case 'script':
       return lang === 'ts' || lang === 'typescript' ? 'typescript' : 'javascript';
     case 'style':
@@ -56,18 +58,30 @@ export function tokenizeVue(source: string, id: string, options: Partial<IOption
       // Line offset: count newlines in source before this block's opening tag
       const lineOffset = countNewlines(source.substring(0, match.index));
 
+      // Column offset: number of characters between the last newline before the
+      // inner content start and that start position.  Applied only to tokens on
+      // the first block-relative line (those whose opening tag and content share
+      // the same source line).
+      const contentAbsStart = match.index + openTagEnd;
+      const lastNlBeforeContent = source.lastIndexOf('\n', contentAbsStart - 1);
+      const colOffset = contentAbsStart - lastNlBeforeContent - 1;
+
       // Tokenize block content with the resolved format
       const blockTokens = tokenize(innerContent, resolvedFormat);
 
-      // Apply line offset correction to each token
+      // Apply line and column offset corrections, then collect
       for (const token of blockTokens) {
         if (token.loc) {
+          // Column offset applies only to tokens whose block-relative line is 1
+          if (token.loc.start.line === 1) {
+            token.loc.start.column = (token.loc.start.column ?? 1) + colOffset;
+          }
+          if (token.loc.end.line === 1) {
+            token.loc.end.column = (token.loc.end.column ?? 1) + colOffset;
+          }
           token.loc.start.line += lineOffset;
           token.loc.end.line += lineOffset;
         }
-      }
-
-      for (const token of blockTokens) {
         allTokens.push(token);
       }
     } catch (_e) {

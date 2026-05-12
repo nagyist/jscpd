@@ -13,8 +13,6 @@ All notable changes to **jscpd** are documented here. Releases follow [Semantic 
 
 ### Known Limitations
 
-- Token column numbers in Vue SFC clone reports are block-relative, not file-absolute. Line numbers are correct and offset-adjusted to the position of each block within the source file.
-- Template blocks with a preprocessor `lang` attribute (e.g. `lang="pug"`, `lang="haml"`) are tokenized as plain `markup`. Token quality may be reduced for non-HTML template languages.
 - Malformed SFC blocks (e.g. unclosed tags, invalid attributes) are silently skipped and do not contribute tokens.
 
 ---

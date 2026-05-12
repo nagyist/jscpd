@@ -155,16 +155,43 @@ const d: number = 4;
     }).not.toThrow();
   });
 
-  it('unknown lang on template produces tokens under markup without throwing', () => {
-    const source = `<template lang="pug">
-  div.foo
-    span hello world
-    span goodbye world
+  it('truly unknown lang on template produces tokens under markup without throwing', () => {
+    const source = `<template lang="kirby-unknown-xyz">
+  <div>hello world</div>
+  <div>goodbye world</div>
+  <div>foo bar</div>
 </template>`;
     expect(() => {
       const formats = getFormats(source);
       expect(formats).toContain('markup');
     }).not.toThrow();
+  });
+
+  it('<template lang="pug"> produces tokens under pug when pug is a registered format', () => {
+    // pug is registered in FORMATS with exts: ['pug', 'jade']
+    const source = `<template lang="pug">
+div.foo Hello world foo bar baz
+div.bar Something else here too
+div.baz Another element right here
+</template>`;
+    const formats = getFormats(source);
+    expect(formats).toContain('pug');
+    expect(formats).not.toContain('markup');
+  });
+
+  it('column offset: tokens on the same line as the opening tag have file-absolute columns', () => {
+    // All content is on the same line as the opening tag:
+    // <script>const x = 1; const y = 2; const z = 3;</script>
+    //         ^ column 9 (1-based)
+    const source = '<script>const x = 1; const y = 2; const z = 3;</script>';
+    const maps = getMaps(source);
+    const jsMap = maps.find((m) => m.getFormat() === 'javascript');
+    expect(jsMap).toBeDefined();
+    const firstFrame = jsMap![Symbol.iterator]().next();
+    if (!firstFrame.done && typeof firstFrame.value !== 'boolean') {
+      // 'const' starts at column 9 (1-based) in the source, after '<script>'
+      expect(firstFrame.value.start.loc.start.column).toBe(9);
+    }
   });
 
   it('cross-format detection: script tokens carry typescript format field', () => {
