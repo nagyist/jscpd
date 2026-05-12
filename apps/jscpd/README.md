@@ -183,6 +183,20 @@ The mode of detection quality.
  - Cli options: `--mode`, `-m`
  - Type: **string**
  - Default: **mild**
+
+### Skip Comments
+Ignore comments during detection. Shorthand for `--mode weak`; comments are stripped before the duplicate-detection pass so comment-only blocks are never reported as clones.
+
+If `--mode` is also provided, `--mode` takes precedence.
+
+Example:
+```bash
+$ jscpd --skipComments /path/to/source
+```
+
+ - Cli options: `--skipComments`
+ - Type: **boolean**
+ - Default: **false**
 ### Format
 
 The list of formats to detect for duplications. Available over [150 formats](../../supported_formats.md).
