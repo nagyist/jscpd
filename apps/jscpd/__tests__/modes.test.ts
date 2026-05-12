@@ -131,4 +131,42 @@ describe('jscpd modes', () => {
 			}
 		});
 	});
+
+	describe('--skipComments flag (alias for --mode weak)', () => {
+		it('should strip comments and detect only non-comment clones, like --mode weak', async () => {
+			const clones: IClone[] = await jscpd([
+				'', '', tmpDir,
+				'--skipComments',
+				'--min-tokens', '5',
+				'--min-lines', '1',
+			]);
+			expect(clones.length).to.equal(1);
+			// comments stripped → first shared token is `const` on line 6
+			expect(clones[0].duplicationA.start.line).to.equal(6);
+		});
+
+		it('should suppress comment-only clones in Vue SFCs, like --mode weak', async () => {
+			const clones: IClone[] = await jscpd([
+				'', '',
+				vueDir,
+				'--skipComments',
+				'--min-tokens', '5',
+				'--min-lines', '1',
+			]);
+			expect(clones.length).to.equal(0);
+		});
+
+		it('should let explicit --mode override --skipComments', async () => {
+			const clones: IClone[] = await jscpd([
+				'', '', tmpDir,
+				'--skipComments',
+				'--mode', 'strict',
+				'--min-tokens', '5',
+				'--min-lines', '1',
+			]);
+			expect(clones.length).to.equal(1);
+			// strict mode keeps comments → clone starts at line 1
+			expect(clones[0].duplicationA.start.line).to.equal(1);
+		});
+	});
 });

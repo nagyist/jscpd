@@ -46,7 +46,7 @@ const convertCliToOptions = (cli: Command): Partial<IOptions> => {
     format: cli.format,
     formatsExts: parseFormatsExtensions(cli.formatsExts),
     list: cli.list,
-    mode: cli.mode,
+    mode: cli.skipComments && !cli.mode ? 'weak' : cli.mode,
     absolute: cli.absolute,
     noSymlinks: cli.noSymlinks,
     skipLocal: cli.skipLocal,

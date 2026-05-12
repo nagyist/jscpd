@@ -52,6 +52,7 @@ export function initCli(packageJson: any, argv: string[]): Command {
 		.option('--skipLocal', 'skip duplicates in local folders, just detect cross folders duplications')
     .option('--exitCode [number]', 'exit code to use when code duplications are detected')
     .option('--noTips', 'do not print tips and promotional messages after detection')
+    .option('--skipComments', 'ignore comments during detection (alias for --mode weak)')
 
 	cli.parse(argv);
 	return cli as Command;

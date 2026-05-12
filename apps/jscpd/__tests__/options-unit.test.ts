@@ -60,6 +60,7 @@ const makeCmd = (overrides: Record<string, any> = {}) =>
     reporters: undefined,
     ignore: undefined,
     ignorePattern: undefined,
+    skipComments: undefined,
     ...overrides,
   } as any);
 
