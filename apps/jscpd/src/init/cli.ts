@@ -46,6 +46,7 @@ export function initCli(packageJson: any, argv: string[]): Command {
 		.option('--ignoreCase', 'ignore case of symbols in code (experimental)')
 		.option('-g, --gitignore', 'ignore all files from .gitignore file')
 		.option('--formats-exts [string]', 'list of formats with file extensions (javascript:es,es6;dart:dt)')
+		.option('--formats-names [string]', 'list of formats with specific filenames (makefile:Makefile,GNUmakefile;docker:Dockerfile)')
 		.option('-d, --debug', 'show debug information, not run detection process(options list and selected files)')
 		.option('-v, --verbose', 'show full information during detection process')
 		.option('--list', 'show list of total supported formats')

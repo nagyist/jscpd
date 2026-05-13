@@ -1,5 +1,9 @@
 import {Entry} from 'fast-glob';
 
-export interface EntryWithContent extends Entry {
+export interface IEntry extends Entry {
+	detectedFormat?: string;
+}
+
+export interface EntryWithContent extends IEntry {
 	content: string;
 }

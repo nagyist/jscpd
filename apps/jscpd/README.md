@@ -25,7 +25,10 @@ The jscpd tool implements [Rabin-Karp](https://en.wikipedia.org/wiki/Rabin%E2%80
   - [Installation](#installation)
   - [Usage](#usage)
 - [JSCPD Server](#jscpd-server)
+- [Shebang Detection](#shebang-detection)
 - [Options](#options)
+  - [Formats Extensions](#formats-extensions)
+  - [Formats Names](#formats-names)
 - [Config File](#config-file)
 - [Ignored Blocks](#ignored-blocks)
 - [Reporters](#jscpd-reporters)
@@ -45,6 +48,7 @@ The jscpd tool implements [Rabin-Karp](https://en.wikipedia.org/wiki/Rabin%E2%80
 ## Features
  - Detect duplications in programming source code, use semantic of programing languages, can skip comments, empty lines etc.
  - Detect duplications in embedded blocks of code, like `<script>` or `<style>` sections in html
+ - Detect duplications in executable script files without extensions via [shebang detection](#shebang-detection)
  - Blame authors of duplications
  - Generate XML report in pmd-cpd format, JSON report, [HTML report](http://kucherenko.github.io/jscpd-report.html)
  - Integrate with CI systems, use thresholds for level of duplications
@@ -74,6 +78,44 @@ $ jscpd --pattern "src/**/*.js"
 
 If you need a standalone application that provides an API for detecting code duplication, you can use [jscpd-server](../jscpd-server).
 It allows you to integrate duplication detection into your services or tools via HTTP API.
+
+## Shebang Detection
+
+jscpd can detect duplications in script files that have no file extension, such as shell scripts, Python scripts, or other executables deployed without an extension (e.g. `deploy`, `build`, `entrypoint`).
+
+### How it works
+
+When jscpd encounters a file with no recognized extension, it checks two conditions:
+
+1. The file has the executable bit set (`chmod +x`)
+2. The first line is a shebang (`#!...`)
+
+If both conditions are met, jscpd reads the interpreter from the shebang line and maps it to a supported format.
+
+### Supported interpreters
+
+| Interpreter | Detected format |
+|-------------|-----------------|
+| `bash`, `sh`, `zsh`, `fish`, `dash`, `ksh` | `shell` |
+| `python`, `python3`, `python2` | `python` |
+| `node`, `nodejs` | `javascript` |
+| `ruby` | `ruby` |
+| `perl` | `perl` |
+| `php` | `php` |
+| `lua` | `lua` |
+| `tclsh`, `wish` | `tcl` |
+| `Rscript` | `r` |
+| `groovy` | `groovy` |
+| `swift` | `swift` |
+| `kotlin` | `kotlin` |
+
+Both direct (`#!/usr/bin/bash`) and `env`-mediated (`#!/usr/bin/env python3`) shebangs are supported. Version suffixes are stripped automatically (`python3.11` → `python`).
+
+### Limitations
+
+- Files without the executable bit are **not** inspected for shebangs and are skipped if they have no recognized extension — same behaviour as before.
+- Symlinks are always excluded from shebang detection.
+- If your interpreter is not in the table above, use [`--formats-names`](#formats-names) to map specific filenames to a format.
 
 ## Options
 ### Pattern
@@ -273,6 +315,22 @@ $ jscpd --formats-exts javascript:es,es6;dart:dt /path/to/code
 > Note: formats defined in the option redefine default configuration, you should define all need formats manually or create two configuration for run `jscpd`
 
  - Cli options: `--formats-exts`
+ - Type: **string**
+ - Default: **null**
+
+### Formats Names
+Define the list of formats for files matched by exact filename (no extension required). This is independent of `--formats-exts` and does not affect extension-based detection.
+
+Use this when you have extensionless files that are not covered by [shebang detection](#shebang-detection) — for example `Makefile`, `Dockerfile`, `Jenkinsfile`, or any script not starting with `#!/`.
+
+```bash
+$ jscpd --formats-names makefile:Makefile,GNUmakefile /path/to/code
+$ jscpd --formats-names docker:Dockerfile;makefile:Makefile /path/to/code
+```
+
+The syntax mirrors `--formats-exts`: `format:name1,name2;format2:name3`.
+
+ - Cli options: `--formats-names`
  - Type: **string**
  - Default: **null**
 

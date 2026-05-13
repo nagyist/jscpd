@@ -13,3 +13,5 @@ export function parseFormatsExtensions(extensions = ''): { [key: string]: string
 
 	return result;
 }
+
+export const parseFormatsNames = parseFormatsExtensions;

@@ -148,4 +148,35 @@ describe('getFormatByFile', () => {
     const customFormats = { myformat: ['xyz'] };
     expect(getFormatByFile('file.js', customFormats)).toBeUndefined();
   });
+
+  describe('formatsNames parameter', () => {
+    it('matches extensionless file by exact filename', () => {
+      expect(getFormatByFile('Makefile', undefined, { makefile: ['Makefile'] })).toBe('makefile');
+    });
+
+    it('matches extensionless file by basename when full path given', () => {
+      expect(getFormatByFile('/path/to/project/Makefile', undefined, { makefile: ['Makefile'] })).toBe('makefile');
+    });
+
+    it('matches multiple filenames for the same format', () => {
+      const names = { makefile: ['Makefile', 'GNUmakefile'] };
+      expect(getFormatByFile('GNUmakefile', undefined, names)).toBe('makefile');
+    });
+
+    it('does not interfere with extension-based detection', () => {
+      // formatsNames provided but file has an extension — falls through to EXT_TO_FORMAT
+      expect(getFormatByFile('index.js', undefined, { makefile: ['Makefile'] })).toBe('javascript');
+    });
+
+    it('does not interfere with formatsExts', () => {
+      // Both options provided — formatsExts handles .es, formatsNames handles Makefile
+      expect(getFormatByFile('index.es', { javascript: ['es'] }, { makefile: ['Makefile'] })).toBe('javascript');
+      expect(getFormatByFile('Makefile', { javascript: ['es'] }, { makefile: ['Makefile'] })).toBe('makefile');
+    });
+
+    it('formatsNames takes precedence over EXT_TO_FORMAT for extensionless files', () => {
+      // A file called "Dockerfile" has no extension — formatsNames wins
+      expect(getFormatByFile('Dockerfile', undefined, { docker: ['Dockerfile'] })).toBe('docker');
+    });
+  });
 });

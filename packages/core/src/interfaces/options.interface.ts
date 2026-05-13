@@ -6,6 +6,7 @@ export interface IOptions {
   minTokens?: number;
   threshold?: number;
   formatsExts?: Record<string, string[]>;
+  formatsNames?: Record<string, string[]>;
   output?: string;
   path?: string[];
   pattern?: string;
