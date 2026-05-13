@@ -1,9 +1,10 @@
 {
   "name": "jscpd-monorepo",
   "private": true,
+  "packageManager": "pnpm@10.28.0",
   "npmClient": "pnpm",
   "useWorkspaces": true,
-  "version": "4.0.0-rc.0",
+  "version": "4.1.1",
   "scripts": {
     "build": "turbo run build",
     "commit": "cz",
@@ -20,7 +21,7 @@
     "@changesets/cli": "^2.29.8",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
-    "turbo": "^1.13.4"
+    "turbo": "^2.9.12"
   },
   "config": {
     "commitizen": {

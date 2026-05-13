@@ -190,6 +190,7 @@ import wgsl from './wgsl';
 import wolfram from './wolfram';
 import xquery from './xquery';
 import zig from './zig';
+import txt from './txt';
 
 export interface LanguageDefinition {
   language: string;
@@ -388,6 +389,8 @@ export const LANGUAGE_DEFINITIONS: LanguageDefinition[] = [
   xquery,        // extends markup
   // Group C: prismjs-only grammars that depend on other new grammars
   sparql,        // extends turtle
+  // Self-contained plain-text grammar
+  txt,           // self-contained
 ];
 
 export const LANGUAGE_NAMES: string[] = LANGUAGE_DEFINITIONS.map((d) => d.language);

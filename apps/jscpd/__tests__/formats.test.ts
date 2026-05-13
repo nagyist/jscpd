@@ -171,12 +171,12 @@ describe('jscpd formats', () => {
 				clonesCount: 5,
 				folder: pathToFixtures + '/vue',
 			},
-			{
-				name: 'markdown',
-				descr: 'Text',
-				clonesCount: 1,
-				folder: pathToFixtures + '/text',
-			},
+		{
+			name: 'txt',
+			descr: 'Text',
+			clonesCount: 1,
+			folder: pathToFixtures + '/text',
+		},
 			{
 				name: 'jsx',
 				clonesCount: 1,
@@ -198,11 +198,11 @@ describe('jscpd formats', () => {
 				clonesCount: 1,
 				folder: pathToFixtures + '/jsx',
 			},
-		{
-			name: 'markdown',
-			clonesCount: 3,
-			folder: pathToFixtures + '/markdown',
-		},
+	{
+		name: 'markdown',
+		clonesCount: 7,
+		folder: pathToFixtures + '/markdown',
+	},
 			{
 				name: 'pug',
 				clonesCount: 1,
