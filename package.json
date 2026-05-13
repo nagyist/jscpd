@@ -18,7 +18,7 @@
     "publish-packages": "changeset version && changeset publish"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.8",
+    "@changesets/cli": "^2.31.0",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
     "turbo": "^2.9.12"
@@ -42,7 +42,10 @@
       "rollup": "^4.60.3",
       "postcss": "^8.5.14",
       "@isaacs/brace-expansion": "^5.0.1",
-      "vite": "^6.4.2"
+      "vite": "^6.4.2",
+      "glob@>=10.2.0 <10.5.0": "^10.5.0",
+      "ajv": "^8.18.0",
+      "brace-expansion@<1.1.13": "^1.1.13"
     }
   }
 }
