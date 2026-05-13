@@ -120,6 +120,17 @@ describe('readPackageJsonConfig (via prepareOptions)', () => {
     const opts = prepareOptions(makeCmd());
     expect(opts.ignore).toContain('**/node_modules/**');
   });
+
+  it('returns empty config and does not throw when package.json is malformed JSON', () => {
+    vi.mocked(existsSync).mockImplementation((p) => String(p) === fakePackageJson);
+    vi.mocked(readJSONSync).mockImplementation(() => {
+      throw new SyntaxError('Unexpected token } in JSON at position 42');
+    });
+    // Must not throw — jscpd should continue with defaults
+    expect(() => prepareOptions(makeCmd())).not.toThrow();
+    const opts = prepareOptions(makeCmd());
+    expect(opts).not.toHaveProperty('config');
+  });
 });
 
 // ─── resolveIgnorePattern ─────────────────────────────────────────────────────

@@ -109,7 +109,13 @@ const readConfigJson = (config: string | undefined): Partial<IOptions> => {
 const readPackageJsonConfig = (): Partial<IOptions> => {
   const config = resolve(process.cwd() + '/package.json');
   if (existsSync(config)) {
-    const json = readJSONSync(config);
+    let json: Record<string, any>;
+    try {
+      json = readJSONSync(config);
+    } catch (e) {
+      console.warn(`Warning: Could not parse ${config}: ${(e as Error).message}`);
+      return {};
+    }
     const configDir = dirname(config);
     if (json.jscpd && json.jscpd.path) {
       json.jscpd.path = json.jscpd.path.map((path: string) => resolve(configDir, path));
