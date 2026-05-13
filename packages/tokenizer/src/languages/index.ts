@@ -96,7 +96,7 @@ import livescript from './livescript';
 import lolcode from './lolcode';
 import lua from './lua';
 import makefile from './makefile';
-import markdown from './markdown';
+import markdown from './markdown-format';
 import matlab from './matlab';
 import mel from './mel';
 import mizar from './mizar';

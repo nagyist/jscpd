@@ -253,7 +253,7 @@ export const FORMATS: {
 		exts: [],
 	},
 	markdown: {
-		exts: ['md', 'markdown', 'mkd', 'txt'],
+		exts: ['md', 'markdown', 'mkd'],
 	},
 	markup: {
 		exts: ['html', 'htm', 'xml', 'xsl', 'xslt', 'svg', 'ejs', 'jsp'],
@@ -428,6 +428,9 @@ export const FORMATS: {
 	},
 	typescript: {
 		exts: ['ts', 'mts', 'cts'],
+	},
+	txt: {
+		exts: ['txt'],
 	},
 	vbnet: {
 		exts: ['vb'],
@@ -690,7 +693,7 @@ export function getSupportedFormats(): string[] {
 // Pre-built reverse map: file extension → format name.  Built once at module
 // load time from the FORMATS constant so that getFormatByFile() is O(1) per
 // call instead of O(#formats × avg_exts).
-const EXT_TO_FORMAT = new Map<string, string>();
+export const EXT_TO_FORMAT = new Map<string, string>();
 for (const [fmt, meta] of Object.entries(FORMATS)) {
 	for (const ext of meta.exts) {
 		// First writer wins — preserves the same behaviour as the original

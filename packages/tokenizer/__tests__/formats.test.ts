@@ -32,6 +32,12 @@ describe('FORMATS', () => {
     expect(FORMATS['javascript']?.parent).toBeUndefined();
     expect(FORMATS['typescript']?.parent).toBeUndefined();
   });
+
+  it('txt format has txt extension', () => {
+    expect(FORMATS['txt']).toBeDefined();
+    expect(FORMATS['txt']?.exts).toContain('txt');
+    expect(FORMATS['markdown']?.exts).not.toContain('txt');
+  });
 });
 
 describe('getSupportedFormats', () => {
@@ -97,6 +103,7 @@ describe('getFormatByFile', () => {
     ['file.lua', 'lua'],
     ['file.dart', 'dart'],
     ['file.md', 'markdown'],
+    ['file.txt', 'txt'],
     ['file.vue', 'vue'],
     ['file.astro', 'astro'],
     ['file.svelte', 'svelte'],
