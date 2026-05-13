@@ -1,4 +1,4 @@
-import {extname} from "path";
+import {extname, basename} from "path";
 import {IFormatMeta} from './interfaces';
 
 export const FORMATS: {
@@ -704,8 +704,19 @@ for (const [fmt, meta] of Object.entries(FORMATS)) {
 	}
 }
 
-export function getFormatByFile(path: string, formatsExts?: { [key: string]: string[] }): string | undefined {
+export function getFormatByFile(
+	path: string,
+	formatsExts?: { [key: string]: string[] },
+	formatsNames?: { [key: string]: string[] },
+): string | undefined {
 	const ext: string = extname(path).slice(1);
+	const name: string = basename(path);
+
+	if (formatsNames && Object.keys(formatsNames).length) {
+		const byName = Object.keys(formatsNames).find((format) => formatsNames[format]?.includes(name));
+		if (byName) return byName;
+	}
+
 	if (formatsExts && Object.keys(formatsExts).length) {
 		return Object.keys(formatsExts).find((format) => formatsExts[format]?.includes(ext));
 	}

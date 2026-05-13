@@ -4,7 +4,7 @@ import {existsSync} from "fs";
 import {Command} from 'commander';
 import {readJSONSync} from 'fs-extra';
 import {getDefaultOptions, IOptions} from '@jscpd/core';
-import {parseFormatsExtensions} from '@jscpd/finder';
+import {parseFormatsExtensions, parseFormatsNames} from '@jscpd/finder';
 
 const resolveIgnorePattern = (configDir: string, pattern: string): string => {
   // Don't modify if pattern is already absolute
@@ -45,6 +45,7 @@ const convertCliToOptions = (cli: Command): Partial<IOptions> => {
     output: cli.output,
     format: cli.format,
     formatsExts: parseFormatsExtensions(cli.formatsExts),
+    formatsNames: parseFormatsNames(cli.formatsNames),
     list: cli.list,
     mode: cli.skipComments && !cli.mode ? 'weak' : cli.mode,
     absolute: cli.absolute,

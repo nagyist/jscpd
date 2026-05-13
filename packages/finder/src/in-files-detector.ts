@@ -66,7 +66,7 @@ export class InFilesDetector {
 
     const detect = (entry: EntryWithContent, clones: IClone[] = []): Promise<IClone[]> => {
       const {path, content} = entry;
-      const format: string|undefined = getFormatByFile(path, options.formatsExts);
+      const format: string|undefined = entry.detectedFormat ?? getFormatByFile(path, options.formatsExts, options.formatsNames);
       return format !== undefined ? detector
         .detect(path, content, format)
         .then((clns: IClone[]) => {

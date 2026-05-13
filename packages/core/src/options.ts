@@ -16,6 +16,7 @@ export function getDefaultOptions(): IOptions {
     ignore: [],
     threshold: undefined,
     formatsExts: {},
+    formatsNames: {},
     debug: false,
 		silent: false,
 		blame: false,
