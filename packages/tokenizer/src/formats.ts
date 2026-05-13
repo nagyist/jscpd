@@ -444,6 +444,9 @@ export const FORMATS: {
 	'visual-basic': {
 		exts: ['vb'],
 	},
+	astro: {
+		exts: ['astro'],
+	},
 	vue: {
 		exts: ['vue'],
 	},

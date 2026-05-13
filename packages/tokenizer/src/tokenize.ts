@@ -3,6 +3,7 @@ import { FORMATS } from './formats';
 import { createTokensMaps, TokensMap } from './token-map';
 import { IOptions, IToken } from '@jscpd/core';
 import { tokenizeVue } from './languages/vue';
+import { tokenizeAstro } from './languages/astro';
 
 const punctuation = {
   // eslint-disable-next-line @typescript-eslint/camelcase
@@ -218,6 +219,9 @@ function setupIgnorePatterns(format: string, ignorePattern: string[]): void {
 export function createTokenMapBasedOnCode(id: string, data: string, format: string, options: Partial<IOptions> = {}): TokensMap[] {
   if (format === 'vue') {
     return tokenizeVue(data, id, options);
+  }
+  if (format === 'astro') {
+    return tokenizeAstro(data, id, options);
   }
 
   const { mode, ignoreCase, ignorePattern } = options;

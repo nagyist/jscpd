@@ -290,6 +290,7 @@ describe('createTokenMapBasedOnCode', () => {
       ['go', 'package main\nfunc main() {}'],
       ['rust', 'fn main() { let x = 1; }'],
       ['css', 'body { margin: 0; }'],
+      ['astro', '<div><p>Hello World</p><p>Foo Bar Baz</p></div>'],
     ])('produces maps for %s', (lang, src) => {
       const maps = createTokenMapBasedOnCode('id', src, lang, { minTokens: 3, mode: mild });
       expect(Array.isArray(maps)).toBe(true);
