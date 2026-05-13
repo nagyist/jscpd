@@ -10,6 +10,7 @@ describe('FORMATS', () => {
     expect(FORMATS).toHaveProperty('go');
     expect(FORMATS).toHaveProperty('ruby');
     expect(FORMATS).toHaveProperty('rust');
+    expect(FORMATS).toHaveProperty('astro');
   });
 
   it('every entry has an exts array', () => {
@@ -96,6 +97,7 @@ describe('getFormatByFile', () => {
     ['file.dart', 'dart'],
     ['file.md', 'markdown'],
     ['file.vue', 'vue'],
+    ['file.astro', 'astro'],
   ])('returns %s for %s', (filename, expectedFormat) => {
     expect(getFormatByFile(filename)).toBe(expectedFormat);
   });
