@@ -4,6 +4,7 @@ import { createTokensMaps, TokensMap } from './token-map';
 import { IOptions, IToken } from '@jscpd/core';
 import { tokenizeVue } from './languages/vue';
 import { tokenizeAstro } from './languages/astro';
+import { tokenizeSvelte } from './languages/svelte';
 
 const punctuation = {
   // eslint-disable-next-line @typescript-eslint/camelcase
@@ -222,6 +223,9 @@ export function createTokenMapBasedOnCode(id: string, data: string, format: stri
   }
   if (format === 'astro') {
     return tokenizeAstro(data, id, options);
+  }
+  if (format === 'svelte') {
+    return tokenizeSvelte(data, id, options);
   }
 
   const { mode, ignoreCase, ignorePattern } = options;
