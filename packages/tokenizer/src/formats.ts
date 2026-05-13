@@ -387,6 +387,9 @@ export const FORMATS: {
 	scss: {
 		exts: ['scss'],
 	},
+	svelte: {
+		exts: ['svelte'],
+	},
 	smalltalk: {
 		exts: ['st'],
 	},
