@@ -1,6 +1,6 @@
 # jscpd-server
 
-## 4.2.0
+## 4.2.0 — 2026-05-14
 
 ### New Features
 

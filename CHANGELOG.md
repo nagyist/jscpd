@@ -4,7 +4,7 @@ All notable changes to **jscpd** are documented here. Releases follow [Semantic 
 
 ---
 
-## 4.2.0
+## 4.2.0 — 2026-05-14
 
 ### Breaking Changes
 
