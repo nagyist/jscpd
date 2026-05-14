@@ -1,11 +1,11 @@
 ---
 name: jscpd
-description: Detect and eliminate copy-paste duplication in source code using jscpd with the AI reporter.
+description: Copy-paste detector for 150+ languages. Detect duplicated code and measure duplication percentages.
 ---
 
 # jscpd
 
-Copy-paste detector for programming source code, supports 150+ languages. Use this skill to find duplicated code and refactor it away.
+Copy-paste detector for programming source code, supports 150+ languages. Use this skill to run jscpd and understand its output.
 
 ## Quick Start
 
@@ -37,56 +37,46 @@ Each line represents one clone pair:
 - **Same directory**: `shared/prefix/ file-a.ts:10-25 ~ file-b.ts:42-57` (common prefix factored out)
 - **Different paths**: `path/a.ts:10-25 ~ path/b.ts:42-57`
 
-## Common Options
+## Options
 
 | Option | Description |
 |--------|-------------|
-| `--reporters ai` | Use the AI-optimized reporter (required for this skill) |
+| `--reporters ai` | Use the AI-optimized reporter (compact clone list for agents) |
+| `--reporters html` | Generate HTML report |
+| `--reporters json` | Output JSON report |
 | `--min-tokens N` | Minimum tokens to consider a duplication (default: 50) |
 | `--min-lines N` | Minimum lines to consider a duplication (default: 5) |
+| `--min-similarity N` | Minimum similarity percentage (default: 100, range: 1-100) |
 | `--threshold N` | Exit with error if duplication % exceeds N |
 | `--ignore "glob"` | Ignore patterns (comma-separated) |
 | `--format "list"` | Limit to specific languages (e.g. `typescript,javascript`) |
 | `--pattern "glob"` | Glob pattern to select files |
 | `--gitignore` | Respect .gitignore |
+| `--output "path"` | Directory to write reports to |
 | `--silent` | Suppress output (useful with `--output` only) |
+| `--list-output` | Print clone list to stdout (alternative to ai reporter) |
+| `--store-path "path"` | Directory for LevelDB cache |
+| `--no-tips` | Disable tips in output (enabled by default in CI) |
+| `--config "path"` | Path to .jscpd.json config file |
 
-## Workflow
+## Configuration File
 
-1. Run jscpd with `--reporters ai` on the target path
-2. Parse each clone line to identify the two duplicated locations (file + line range)
-3. Read both code fragments from the source files
-4. Understand what the duplicated code does
-5. Design a refactoring: extract a shared function, class, module, or constant
-6. Apply the refactoring — update both locations and all other usages
-7. Re-run jscpd to confirm the clone is eliminated
-8. Repeat for remaining clones, highest-impact first
+Create a `.jscpd.json` in your project root:
 
-## Refactoring Strategies
-
-**Extract function** — when the duplicate is a block of logic:
-```ts
-// Before: same block in two places
-// After: shared function called from both places
+```json
+{
+  "threshold": 0,
+  "reporters": ["ai"],
+  "ignore": ["**/node_modules/**", "**/dist/**", "**/*.min.*"],
+  "format": ["typescript", "javascript"],
+  "minLines": 5,
+  "minTokens": 50,
+  "output": "./reports/jscpd"
+}
 ```
 
-**Extract module/utility** — when the duplicate spans multiple files in different domains:
-```ts
-// Move shared logic to a shared utility file and import it
-```
+## Refactoring Duplicated Code
 
-**Extract constant or config** — when the duplicate is repeated data or configuration.
+Once you've detected clones, use the **dry-refactoring** skill for a guided workflow to eliminate them:
 
-**Template/base class** — when the duplicate is structural (e.g., repeated class shape).
-
-Always ensure:
-- All call sites are updated, not just the two reported by jscpd
-- Tests still pass after refactoring
-- The extracted abstraction has a clear, descriptive name
-
-## Tips
-
-- Start with clones that have the highest line count — they have the most impact
-- A clone between test files may indicate a missing test helper
-- Clones across unrelated modules may signal a missing shared utility
-- Use `--min-lines 10` to filter noise and focus on meaningful duplications
+→ **[dry-refactoring](../dry-refactoring/SKILL.md)** — step-by-step refactoring strategies and workflow for removing duplication.

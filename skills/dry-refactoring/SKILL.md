@@ -1,55 +1,21 @@
 ---
 name: dry-refactoring
-description: Detect and eliminate copy-paste duplication in source code using jscpd with the AI reporter.
+description: Guided workflow to eliminate copy-paste duplication detected by jscpd. Refactor clones using extract function, module, constant, or base class strategies.
 ---
 
-# jscpd
+# dry-refactoring
 
-Copy-paste detector for programming source code, supports 150+ languages. Use this skill to find duplicated code and refactor it away.
+Guided workflow to eliminate copy-paste duplication in source code. Use after running [jscpd](../jscpd/SKILL.md) to detect clones.
 
-## Quick Start
+## Prerequisites
+
+First, run jscpd to identify duplications:
 
 ```bash
-# Run with ai reporter (compact output optimized for agents)
 npx jscpd --reporters ai <path>
-
-# With ignore patterns
-npx jscpd --reporters ai --ignore "**/node_modules/**,**/dist/**" <path>
-
-# Scope to specific formats
-npx jscpd --reporters ai --format "javascript,typescript" <path>
 ```
 
-## AI Reporter Output Format
-
-The `ai` reporter produces compact, token-efficient output designed for agent consumption:
-
-```
-Clones:
-src/ foo.ts:10-25 ~ bar.ts:42-57
-src/utils/helpers.ts:100-120 ~ src/utils/other.ts:5-25
----
-3 clones · 4.2% duplication
-```
-
-Each line represents one clone pair:
-- **Same file**: `path/file.ts 10-25 ~ 45-60` (shared path shown once)
-- **Same directory**: `shared/prefix/ file-a.ts:10-25 ~ file-b.ts:42-57` (common prefix factored out)
-- **Different paths**: `path/a.ts:10-25 ~ path/b.ts:42-57`
-
-## Common Options
-
-| Option | Description |
-|--------|-------------|
-| `--reporters ai` | Use the AI-optimized reporter (required for this skill) |
-| `--min-tokens N` | Minimum tokens to consider a duplication (default: 50) |
-| `--min-lines N` | Minimum lines to consider a duplication (default: 5) |
-| `--threshold N` | Exit with error if duplication % exceeds N |
-| `--ignore "glob"` | Ignore patterns (comma-separated) |
-| `--format "list"` | Limit to specific languages (e.g. `typescript,javascript`) |
-| `--pattern "glob"` | Glob pattern to select files |
-| `--gitignore` | Respect .gitignore |
-| `--silent` | Suppress output (useful with `--output` only) |
+See the **[jscpd](../jscpd/SKILL.md)** skill for full option reference.
 
 ## Workflow
 
