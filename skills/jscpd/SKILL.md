@@ -1,6 +1,6 @@
 ---
 name: jscpd
-description: Copy-paste detector for 150+ languages. Detect duplicated code and measure duplication percentages.
+description: Copy-paste detector for 220+ languages. Detect duplicated code and measure duplication percentages.
 ---
 
 # jscpd
@@ -79,4 +79,7 @@ Create a `.jscpd.json` in your project root:
 
 Once you've detected clones, use the **dry-refactoring** skill for a guided workflow to eliminate them:
 
-→ **[dry-refactoring](../dry-refactoring/SKILL.md)** — step-by-step refactoring strategies and workflow for removing duplication.
+→ **dry-refactoring** — step-by-step refactoring strategies and workflow for removing duplication. Install with:
+  ```bash
+  npx skills add https://github.com/kucherenko/jscpd --skill dry-refactoring
+  ```
