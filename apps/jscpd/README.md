@@ -13,7 +13,7 @@
 
 [![NPM](https://nodei.co/npm/jscpd.png)](https://nodei.co/npm/jscpd/)
 
-> Copy/paste detector for programming source code, supports [223 formats](https://github.com/kucherenko/jscpd/blob/master/FORMATS.md). AI-ready with MCP server and token-efficient reporter.
+> Copy/paste detector for programming source code, supports [223 formats](https://github.com/kucherenko/jscpd/blob/master/FORMATS.md). AI-ready with AI skills, MCP server and token-efficient reporter.
 
 Copy/paste is a common technical debt on a lot of projects. The jscpd gives the ability to find duplicated blocks implemented on more than 223 programming languages and digital formats of documents.
 The jscpd tool implements [Rabin-Karp](https://en.wikipedia.org/wiki/Rabin%E2%80%93Karp_algorithm) algorithm for searching duplications.
@@ -418,7 +418,7 @@ By default, jscpd prints a few tip lines after the timer output:
 ```
 time: 1.234s
 
-💡 Auto-refactor with AI: npx skills add kucherenko/jscpd
+💡 Auto-refactor with AI: npx skills add kucherenko/jscpd --skill dry-refactoring
 🎩 New: Gangsta Agents — discipline your AI coding → gangsta.page
 💖 Sponsor jscpd → https://opencollective.com/jscpd
 ```
@@ -545,13 +545,17 @@ src/ utils/auth.ts:10-25 ~ api/routes.ts:5-20
 
 Activate with: `jscpd --reporters ai`
 
-To use jscpd with an AI coding assistant, install the agent skill:
+To use jscpd with an AI coding assistant, install the agent skills:
 
+**jscpd** — tool reference skill (all CLI options, AI reporter format, config file syntax):
 ```bash
-npx skills add kucherenko/jscpd
+npx skills add kucherenko/jscpd --skill jscpd
 ```
 
-The skill teaches your agent to run jscpd with the `ai` reporter and refactor detected duplications automatically.
+**dry-refactoring** — guided refactoring workflow (read clones, choose strategy, apply refactor, verify):
+```bash
+npx skills add kucherenko/jscpd --skill dry-refactoring
+```
 
 ### PMD CPD XML
 ```xml
