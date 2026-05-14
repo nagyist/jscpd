@@ -1,5 +1,28 @@
 # @jscpd/tokenizer
 
+## 4.2.0
+
+### New Features
+
+- **reprism-based grammar engine** — replaced the `prismjs` npm package with a self-contained [reprism](https://github.com/tannerlinsley/reprism)-based backend. ~11.5% faster tokenization on real projects (avg 1126 ms → 997 ms on a 548-file, 223-format scan). Startup overhead is slightly higher (more grammars initialised) but per-file throughput is meaningfully faster.
+- **Vue SFC per-block tokenization** — `.vue` files are now processed with sub-format dispatch: `<script>` → `javascript`, `<script lang="ts">` → `typescript`, `<template>` → `markup`, `<style>` → `css`, `<style lang="scss">` → `scss`, `<style lang="less">` → `less`. Enables cross-format duplicate detection between Vue SFC blocks and standalone source files.
+- **Svelte SFC support** — `.svelte` files are tokenized per-block (script, style, markup), enabling detection of duplicated logic shared between Svelte components and standalone files.
+- **Astro SFC support** — `.astro` files have their frontmatter and template blocks tokenized independently.
+- **Markdown cross-format detection** — fenced code blocks in `.md` files are tokenized by the declared language, so a ` ```python ` block in Markdown can match a `.py` source file.
+- **`txt` grammar** — plain-text files (`.txt`) are now a recognised format.
+- **223 total supported formats** — up from 152 at 4.1.1.
+
+### Bug Fixes
+
+- **ReDoS hang on Lisp/Elisp files** (#737) — the Lisp string pattern `/"(?:[^"\\]*|\\.)*"/` could catastrophically backtrack (O(2ⁿ)) on unterminated string literals. Replaced with the linear equivalent `/"(?:[^"\\]|\\[\s\S])*"/`.
+- **Vue SFC incorrect column numbers** — tokens on the first line of a block carried block-relative column 1. The offset (characters from the last newline to the block content start) is now added to every token on the block's opening line, producing correct file-absolute column numbers.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.2.0
+
+---
+
 ## 4.1.1
 
 ### Patch Changes

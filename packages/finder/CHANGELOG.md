@@ -1,5 +1,19 @@
 # @jscpd/finder
 
+## 4.2.0
+
+### New Features
+
+- **Shebang-based format detection** — extensionless files that are executable (`chmod +x`) are now inspected for a `#!` shebang line. The interpreter path is mapped to a detection format (e.g. `/usr/bin/env python3` → `python`, `#!/bin/bash` → `bash`). Symlinks are excluded. This allows jscpd to tokenize scripts like `Makefile` runners, deployment helpers, and other extensionless executables that would previously be silently skipped.
+- **`--formats-names` option** — map specific filenames to a format independent of file extension. Example: `--formats-names '{"python": ["Pipfile"], "yaml": ["Dockerfile.prod"]}'`. Useful for project-specific conventions where the filename is the canonical indicator of language.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.2.0
+- `@jscpd/tokenizer` → 4.2.0
+
+---
+
 ## 4.1.1
 
 ### Patch Changes

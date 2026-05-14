@@ -1,5 +1,14 @@
 # jscpd-sarif-reporter
 
+## 4.2.0
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.2.0
+- `@jscpd/finder` → 4.2.0
+
+---
+
 ## 4.1.1
 
 ### Patch Changes

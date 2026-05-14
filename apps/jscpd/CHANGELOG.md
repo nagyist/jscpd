@@ -1,5 +1,37 @@
 # jscpd
 
+## 4.2.0
+
+### New Features
+
+- **Custom tokenizer backend** — `@jscpd/tokenizer` now uses a self-contained reprism-based engine. ~11.5% faster tokenization on real projects (avg 1126 ms → 997 ms on a 548-file, 223-format scan).
+- **Cross-format detection** — Vue SFC (`.vue`), Svelte (`.svelte`), Astro (`.astro`), and Markdown files are tokenized per-block/per-section. Enables duplicate detection between embedded blocks and standalone source files.
+- **223 supported formats** — Apex, CFML/ColdFusion, GDScript, Svelte, Astro, and 70+ additional languages (up from 152). Run `jscpd --list` to see the full list.
+- **Shebang detection** — extensionless executable scripts are auto-detected via their `#!` shebang line.
+- **`--store-path`** — specify a custom directory for the LevelDB token cache, eliminating collisions when multiple jscpd processes run concurrently. Example: `jscpd --store-path /tmp/jscpd-worker-1 src/`.
+- **`--skipComments`** — shorthand for `--mode weak`. Strips comments before tokenization.
+- **`--formats-names`** — map specific filenames (e.g. `Makefile`, `Dockerfile`) to a detection format.
+
+### Bug Fixes
+
+- **Entire-file duplicates silently dropped** (#728) — files that are complete copies of each other were previously undetected due to a RabinKarp end-of-file flush bug. Fixed in `@jscpd/core`.
+- **ReDoS hang on Lisp/Elisp files** (#737) — catastrophic backtracking in the Lisp string regex replaced with a linear pattern. Fixed in `@jscpd/tokenizer`.
+- **Process crash on malformed `package.json`** (#739) — invalid JSON in `package.json` threw an unhandled `SyntaxError`. jscpd now emits a warning and continues with an empty config.
+- **Vue SFC cross-file detection broken** — SFC blocks now use their resolved sub-format as the store namespace, enabling cross-file clone detection.
+- **Vue SFC incorrect column numbers** — fixed in `@jscpd/tokenizer`.
+- **50 dependency security vulnerabilities** remediated.
+
+### Dependency Updates
+
+- `@jscpd/badge-reporter` → 4.2.0
+- `@jscpd/core` → 4.2.0
+- `@jscpd/finder` → 4.2.0
+- `@jscpd/html-reporter` → 4.2.0
+- `jscpd-sarif-reporter` → 4.2.0
+- `@jscpd/tokenizer` → 4.2.0
+
+---
+
 ## 4.1.1
 
 ### Patch Changes

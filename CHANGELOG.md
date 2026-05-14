@@ -4,16 +4,31 @@ All notable changes to **jscpd** are documented here. Releases follow [Semantic 
 
 ---
 
-## [Unreleased]
+## 4.2.0
 
 ### Breaking Changes
 
-- **Vue SFC tokenization** — `.vue` files are no longer tokenized as `markup`. They are now processed as `vue` format with per-block sub-format detection: `<script>` → `javascript`, `<script lang="ts">` → `typescript`, `<template>` → `markup`, `<style>` → `css`, `<style lang="scss">` → `scss`, `<style lang="less">` → `less`. Clone reports for `.vue` files now appear under these resolved sub-format names. Any existing tooling or configuration that relied on `.vue` clones being reported under `markup` must be updated.
+- **Vue SFC tokenization** — `.vue` files are no longer tokenized as `markup`. Each block is now dispatched to its own sub-format: `<script>` → `javascript`, `<script lang="ts">` → `typescript`, `<template>` → `markup`, `<style>` → `css`, `<style lang="scss">` → `scss`, `<style lang="less">` → `less`. Clone reports for `.vue` files now appear under these resolved sub-format names. Any tooling or configuration that relied on `.vue` clones being reported under `markup` must be updated.
 - **`--formatsExts` users** — custom mappings that pointed `.vue` to `markup` (e.g. `"formatsExts": { "markup": ["vue"] }`) will no longer take effect because `.vue` is handled by the dedicated `vue` format processor. Remove or update such mappings.
+
+### New Features
+
+- **Custom tokenizer backend** — replaced the `prismjs` npm package with a self-contained [reprism](https://github.com/tannerlinsley/reprism)-based grammar engine. ~11.5% faster tokenization on real projects (avg 1126 ms → 997 ms on a 548-file, 223-format scan).
+- **Cross-format detection** — Vue SFC (`.vue`), Svelte (`.svelte`), Astro (`.astro`), and Markdown files are now tokenized per-block/per-section. A `<script>` block in a `.vue` file can match a `.ts` file; a fenced code block in Markdown can match a `.py` file.
+- **223 supported formats** — Apex, CFML/ColdFusion, GDScript, Svelte, Astro, and 70+ additional languages added (up from 152). See [supported_formats.md](supported_formats.md).
+- **Shebang detection** — extensionless executable scripts (e.g. `/usr/bin/env python3`) are auto-detected by their `#!` shebang line and tokenized in the correct language.
+- **`--store-path`** — configure a custom directory for the LevelDB cache, eliminating collisions when multiple jscpd processes run in parallel on the same machine.
+- **`--skipComments`** — shorthand flag for `--mode weak`, which strips comments before detection.
+- **`--formats-names`** — map specific filenames (e.g. `Makefile`, `Dockerfile`) to a detection format.
 
 ### Bug Fixes
 
-- **Cross-file Vue SFC clone detection** — `Detector` now switches the store namespace to each token map's resolved format (e.g. `javascript`, `scss`) rather than the file's top-level format (`vue`) before running Rabin-Karp. This enables detection of duplicate code between `.vue` SFC blocks and standalone files of the same format (e.g. a `<script>` block in a `.vue` file is now compared against `.js`/`.ts` files in the same run).
+- **Entire-file duplicates silently dropped** (`@jscpd/core` #728) — RabinKarp flushed the pending clone on a store *hit* at end-of-file instead of on a *miss*. Files that are complete copies of each other were undetected. Fixed.
+- **ReDoS hang on Lisp/Elisp files** (`@jscpd/tokenizer` #737) — the Lisp string regex `/"(?:[^"\\]*|\\.)*"/` could catastrophically backtrack (O(2ⁿ)) on unterminated strings. Replaced with a linear `/"(?:[^"\\]|\\[\s\S])*"/` pattern.
+- **Process crash on malformed `package.json`** (#739) — `readJSONSync` threw an unhandled `SyntaxError` when `package.json` contained invalid JSON, killing the process. Now emits a warning and continues with an empty config.
+- **Vue SFC cross-file detection broken** — the detector used the file-level format (`vue`) as the store namespace for all SFC blocks, preventing a `<script>` block in one `.vue` file from ever matching a `<script>` block in another. The namespace now reflects each block's resolved sub-format.
+- **Vue SFC incorrect column numbers** — tokens on the first line of a block carried block-relative column 1 instead of file-absolute column numbers. Fixed in `@jscpd/tokenizer`.
+- **50 dependency security vulnerabilities** remediated across the monorepo (Dependabot batches).
 
 ### Known Limitations
 

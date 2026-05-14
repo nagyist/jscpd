@@ -1,5 +1,25 @@
 # jscpd-server
 
+## 4.2.0
+
+### New Features
+
+- **`--store-path` support** — the server now accepts a `storePath` option to configure a custom LevelDB cache directory, consistent with the `jscpd` CLI. Useful when running multiple server instances or integrating with CI environments that run parallel scans.
+
+### Bug Fixes
+
+- **Process crash on malformed `package.json`** (#739) — invalid JSON in the project's `package.json` threw an unhandled `SyntaxError` that killed the server process. The server now emits a warning and continues with an empty config.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.2.0
+- `@jscpd/finder` → 4.2.0
+- `@jscpd/html-reporter` → 4.2.0
+- `@jscpd/tokenizer` → 4.2.0
+- `jscpd-sarif-reporter` → 4.2.0
+
+---
+
 ## 4.1.1
 
 ### Patch Changes

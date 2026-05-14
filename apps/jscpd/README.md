@@ -13,13 +13,14 @@
 
 [![NPM](https://nodei.co/npm/jscpd.png)](https://nodei.co/npm/jscpd/)
 
-> Copy/paste detector for programming source code, supports [150+ formats](../../supported_formats.md).
+> Copy/paste detector for programming source code, supports [223 formats](../../supported_formats.md). AI-ready with MCP server and token-efficient reporter.
 
-Copy/paste is a common technical debt on a lot of projects. The jscpd gives the ability to find duplicated blocks implemented on more than 150 programming languages and digital formats of documents.
+Copy/paste is a common technical debt on a lot of projects. The jscpd gives the ability to find duplicated blocks implemented on more than 223 programming languages and digital formats of documents.
 The jscpd tool implements [Rabin-Karp](https://en.wikipedia.org/wiki/Rabin%E2%80%93Karp_algorithm) algorithm for searching duplications.
 
 ## Table of content
 
+- [What's New](#whats-new)
 - [Features](#features)
 - [Getting started](#getting-started)
   - [Installation](#installation)
@@ -49,9 +50,34 @@ The jscpd tool implements [Rabin-Karp](https://en.wikipedia.org/wiki/Rabin%E2%80
  - Detect duplications in programming source code, use semantic of programing languages, can skip comments, empty lines etc.
  - Detect duplications in embedded blocks of code, like `<script>` or `<style>` sections in html
  - Detect duplications in executable script files without extensions via [shebang detection](#shebang-detection)
+ - Detect duplications in Svelte (`.svelte`), Astro (`.astro`), Vue SFC (`.vue`), and Markdown — tokenized per-block/per-section with cross-format duplicate detection across file types
+ - Support for Apex, CFML/ColdFusion, and GDScript (Godot)
  - Blame authors of duplications
  - Generate XML report in pmd-cpd format, JSON report, [HTML report](http://kucherenko.github.io/jscpd-report.html)
+ - Token-efficient `ai` reporter (~79% fewer tokens) for piping to LLM tools
  - Integrate with CI systems, use thresholds for level of duplications
+
+## What's New
+
+**v4.2.x**
+
+- **Custom tokenizer backend** — replaced `prismjs` with an own backend built on the [reprism](https://github.com/tannerlinsley/reprism) grammar engine. ~11.5% faster tokenization on real projects (avg 1126ms → 997ms on a 548-file, 223-format scan).
+- **Cross-format detection** — Vue SFC (`.vue`), Svelte (`.svelte`), Astro (`.astro`), and Markdown files are tokenized per-block/per-section, enabling duplicate detection across file types (e.g. a `<script>` block in `.vue` matched against `.ts` files).
+- **New formats**: Apex, CFML/ColdFusion, GDScript, and 70+ additional formats (223 total, up from 152)
+- **`--skipComments`**: shorthand flag for `--mode weak` (strip comments before detection)
+- **Shebang detection**: auto-detect language for extensionless executable scripts
+- **`--store-path`**: configure LevelDB cache directory for parallel runs
+- **`--formats-names`**: map specific filenames (e.g. `Makefile`, `Dockerfile`) to a format
+- **`--noTips`**: suppress tip output in CI environments
+
+### Bug Fixes
+
+- **Entire-file duplicates silently dropped** — RabinKarp flushed the pending clone on a store *hit* at end-of-file instead of on a *miss*, causing files that are complete copies of each other to go undetected. Fixed in `@jscpd/core` (#728).
+- **ReDoS hang on Lisp/Elisp files** — the Lisp string regex could catastrophically backtrack (O(2ⁿ)) on unterminated strings. Replaced with a linear alternative in `@jscpd/tokenizer` (#737).
+- **Process crash on malformed `package.json`** — invalid JSON in `package.json` threw an unhandled `SyntaxError` that killed the process. Now emits a warning and continues (#739).
+- **Vue SFC cross-file detection broken** — the detector used the file-level format (`vue`) as the store namespace for all SFC blocks, preventing cross-file matches. Namespace now reflects each block's resolved sub-format.
+- **Vue SFC incorrect column numbers** — tokens on the first line of a block carried block-relative column 1 instead of the file-absolute column.
+- **50 dependency security vulnerabilities** remediated across the monorepo.
 
 ## Getting started
 
@@ -241,7 +267,7 @@ $ jscpd --skipComments /path/to/source
  - Default: **false**
 ### Format
 
-The list of formats to detect for duplications. Available over [150 formats](../../supported_formats.md).
+The list of formats to detect for duplications. Available [223 formats](../../supported_formats.md).
 
 Example:
 ```bash
@@ -306,7 +332,7 @@ will detect clones in separate folders only, clones from same folder will be ski
  - Default: **false**
 
 ### Formats Extensions
-Define the list of formats with file extensions. Available over [150 formats](../../supported_formats.md).
+Define the list of formats with file extensions. Available [223 formats](../../supported_formats.md).
 
 In following example jscpd will analyze files `*.es` and `*.es6` as javascript and `*.dt` files as dart:
 ```bash

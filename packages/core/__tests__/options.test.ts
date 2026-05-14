@@ -21,7 +21,7 @@ describe('getDefaultOptions', () => {
     expect(opts.ignoreCase).toBe(false);
     expect(opts.gitignore).toBe(false);
     expect(opts.exitCode).toBe(0);
-    expect(opts.noTips).toBe(false);
+    expect(opts.noTips).toBe(!!process.env['CI']);
   });
 
   it('path defaults to [cwd]', () => {

@@ -1,8 +1,10 @@
-# JSCPD Server API Documentation
+# JSCPD Server
 
 ## Overview
 
-The JSCPD Server provides a RESTful API for detecting code duplications. It scans a codebase on startup and allows clients to check code snippets for duplications against the scanned codebase.
+The JSCPD Server is a standalone REST API server for on-demand code duplication detection. It scans a codebase on startup, then accepts snippet check requests via HTTP and [Model Context Protocol (MCP)](https://modelcontextprotocol.io).
+
+**AI-ready**: the server exposes an MCP endpoint that AI assistants (Claude Desktop, Cursor, Copilot, etc.) can use to detect duplication directly from the editor. See the [MCP Server](#mcp-server) section.
 
 ## Starting the Server
 
@@ -134,6 +136,10 @@ curl -X POST http://localhost:3000/api/check \
 }
 ```
 
+**400 Bad Request** - Validation error (missing field):
+```json
+{
+  "error": "ValidationError",
   "message": "Missing required field: code",
   "statusCode": 400
 }

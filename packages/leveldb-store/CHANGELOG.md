@@ -1,5 +1,17 @@
 # @jscpd/leveldb-store
 
+## 4.2.0
+
+### New Features
+
+- **`--store-path` / `storePath` option** — the store now accepts a configurable root directory for its LevelDB data files. Previously the store always wrote to `.jscpd/` relative to the working directory, causing collisions when multiple jscpd processes ran in parallel. Set `storePath` to a unique path per process to avoid contention.
+
+### Dependency Updates
+
+- `@jscpd/core` → 4.2.0
+
+---
+
 ## 4.1.1
 
 ### Patch Changes
