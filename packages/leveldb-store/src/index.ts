@@ -8,6 +8,11 @@ export default class LevelDbStore implements IStore<IMapFrame> {
   private name: string = '';
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private dbs: Record<string, any> = {};
+  private readonly storeDir: string;
+
+  constructor(storeDir: string = '.jscpd') {
+    this.storeDir = storeDir;
+  }
 
   get(key: string): Promise<IMapFrame> {
     return this.dbs[this.name].get(key).then((value: string) => JSON.parse(value));
@@ -16,7 +21,7 @@ export default class LevelDbStore implements IStore<IMapFrame> {
   namespace(name: string): void {
     this.name = name;
     if (!(name in this.dbs)) {
-      const path = `.jscpd/${name}`;
+      const path = `${this.storeDir}/${name}`;
       sync(path);
       ensureDirSync(path);
       this.dbs[name] = new Level(path);
@@ -31,12 +36,12 @@ export default class LevelDbStore implements IStore<IMapFrame> {
     Object.entries(this.dbs).forEach(([name, db]) => {
       db.close(() => {
         try {
-          sync('.jscpd/' + name)
+          sync(`${this.storeDir}/${name}`)
         } catch (e) {
           console.log(e);
         }
       });
     });
-    sync('.jscpd');
+    sync(this.storeDir);
   }
 }

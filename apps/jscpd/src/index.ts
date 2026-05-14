@@ -38,7 +38,7 @@ export const detectClones = (
     return createHash("md5").update(value).digest("hex");
   };
   options.hashFunction = options.hashFunction || hashFunction;
-  const currentStore: IStore<IMapFrame> = store || getStore(options.store);
+  const currentStore: IStore<IMapFrame> = store || getStore(options.store, options.storePath);
   const statistic = new Statistic();
   const tokenizer = new Tokenizer();
   const detector = new InFilesDetector(
@@ -104,7 +104,7 @@ export async function jscpd(
     printFiles(files);
     return Promise.resolve([]);
   } else {
-    const store = getStore(options.store);
+    const store = getStore(options.store, options.storePath);
     return detectClones(options, store)
       .then((clones) => {
         if (clones.length > 0) {

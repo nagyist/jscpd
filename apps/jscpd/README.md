@@ -347,6 +347,31 @@ Available stores:
  - Type: **string**
  - Default: **null**
 
+### Store Path
+
+The directory used by the store for its cache files. By default, `--store leveldb` creates a `.jscpd/` directory in the current working directory. Use `--store-path` to override this location.
+
+This is especially useful when running multiple `jscpd` processes in parallel — give each process a unique path to avoid LevelDB file conflicts:
+
+```bash
+# Two parallel runs, each with its own isolated cache
+jscpd /data/files/1 /data/repo/ --store leveldb --store-path /tmp/jscpd-run1 --reporters json
+jscpd /data/files/2 /data/repo/ --store leveldb --store-path /tmp/jscpd-run2 --reporters json
+```
+
+Can also be set in the config file:
+
+```json
+{
+  "store": "leveldb",
+  "storePath": "/tmp/my-jscpd-cache"
+}
+```
+
+ - Cli options: `--store-path`
+ - Type: **string**
+ - Default: **`.jscpd`** (relative to current working directory)
+
 ### Ignore Pattern
 Ignore code blocks matching the regexp patterns.
 

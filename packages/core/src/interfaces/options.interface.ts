@@ -17,6 +17,7 @@ export interface IOptions {
   ignore?: string[];
   format?: string[];
   store?: string;
+  storePath?: string;
   reporters?: string[];
   listeners?: string[];
   blame?: boolean;
