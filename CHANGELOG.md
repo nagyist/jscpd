@@ -15,7 +15,7 @@ All notable changes to **jscpd** are documented here. Releases follow [Semantic 
 
 - **Custom tokenizer backend** — replaced the `prismjs` npm package with a self-contained [reprism](https://github.com/tannerlinsley/reprism)-based grammar engine. ~11.5% faster tokenization on real projects (avg 1126 ms → 997 ms on a 548-file, 223-format scan).
 - **Cross-format detection** — Vue SFC (`.vue`), Svelte (`.svelte`), Astro (`.astro`), and Markdown files are now tokenized per-block/per-section. A `<script>` block in a `.vue` file can match a `.ts` file; a fenced code block in Markdown can match a `.py` file.
-- **223 supported formats** — Apex, CFML/ColdFusion, GDScript, Svelte, Astro, and 70+ additional languages added (up from 152). See [supported_formats.md](supported_formats.md).
+- **223 supported formats** — Apex, CFML/ColdFusion, GDScript, Svelte, Astro, and 70+ additional languages added (up from 152). See [FORMATS.md](FORMATS.md).
 - **Shebang detection** — extensionless executable scripts (e.g. `/usr/bin/env python3`) are auto-detected by their `#!` shebang line and tokenized in the correct language.
 - **`--store-path`** — configure a custom directory for the LevelDB cache, eliminating collisions when multiple jscpd processes run in parallel on the same machine.
 - **`--skipComments`** — shorthand flag for `--mode weak`, which strips comments before detection.

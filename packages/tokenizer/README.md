@@ -33,7 +33,7 @@ const maps: ITokensMap[] = tokenizer.generateMaps('source_id', 'let a = "11"', '
 
 ## Supported formats
 
-The full list of 223 supported formats is available in [supported_formats.md](../../supported_formats.md) at the repository root, or at runtime:
+The full list of 223 supported formats is available in [FORMATS.md](../../FORMATS.md) at the repository root, or at runtime:
 
 ```bash
 jscpd --list

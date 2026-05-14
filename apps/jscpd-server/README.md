@@ -440,7 +440,7 @@ Common format identifiers:
 - Go: `go`
 - Rust: `rust`, `rs`
 
-For a complete list, see the [supported formats documentation](../../supported_formats.md).
+For a complete list, see the [supported formats documentation](../../FORMATS.md).
 
 ## Error Handling
 
