@@ -19,6 +19,7 @@
   "scripts": {
     "build": "tsup-node --dts",
     "dev": "nodemon",
+    "test": "vitest run",
     "test:dev": "vitest",
     "typecheck": "tsc",
     "cleanup": "rimraf ./dist .turbo"

@@ -49,6 +49,9 @@ export class RabinKarp {
               }
               loop();
             } else {
+              if (clone && this.validate(clone)) {
+                clones.push(clone);
+              }
               resolve(clones);
             }
           });
