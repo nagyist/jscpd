@@ -356,3 +356,25 @@ describe('bundled engine language coverage', () => {
     );
   });
 });
+
+// ---------------------------------------------------------------------------
+// Regression tests
+// ---------------------------------------------------------------------------
+
+describe('regression', () => {
+  // https://github.com/kucherenko/jscpd/issues/737
+  // Elisp files with strings containing backslash-newline line continuations
+  // triggered catastrophic backtracking (ReDoS) in the lisp string regex,
+  // causing jscpd to hang indefinitely.
+  it('tokenizes Elisp with backslash-newline line continuation in string (issue #737)', { timeout: 5000 }, () => {
+    const code = `(defun my-fn (arg)
+  "A docstring."
+  (message
+   (format
+    "Function \`%s\` is implemented in C source code. \\
+Use this tool to get its docstring."
+    arg)))`;
+    const tokens = tokenize(code, 'lisp');
+    expect(Array.isArray(tokens)).toBe(true);
+  });
+});

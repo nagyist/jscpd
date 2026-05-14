@@ -36,7 +36,7 @@ export default {
         },
         comment: /;.*/,
         string: {
-          pattern: /"(?:[^"\\]*|\\.)*"/,
+          pattern: /"(?:[^"\\]|\\[\s\S])*"/,
           greedy: true,
           inside: {
             argument: /[-A-Z]+(?=[.,\s])/,
