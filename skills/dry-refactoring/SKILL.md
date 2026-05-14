@@ -1,5 +1,5 @@
 ---
-name: jscpd
+name: dry-refactoring
 description: Detect and eliminate copy-paste duplication in source code using jscpd with the AI reporter.
 ---
 
