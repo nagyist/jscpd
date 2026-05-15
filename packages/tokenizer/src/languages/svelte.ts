@@ -198,6 +198,23 @@ export function tokenizeSvelte(source: string, id: string, options: Partial<IOpt
   }
 
   // -------------------------------------------------------------------------
+  // Renumber positions sequentially across all blocks.
+  // tokenize() resets its position counter (array index) to 0 for every call.
+  // A Svelte file can have two script blocks (<script context="module"> +
+  // <script>), both producing the same format.  When that happens, positions
+  // are non-monotonic across the combined token list, which causes negative
+  // getTokensCount() / duplicatedTokens values.  Assigning a single global
+  // sequential index here matches the semantics of the main tokenize.ts
+  // tokenizer and prevents that.
+  // -------------------------------------------------------------------------
+  allTokens.forEach((token, idx) => {
+    if (token.loc) {
+      token.loc.start.position = idx;
+      token.loc.end.position = idx;
+    }
+  });
+
+  // -------------------------------------------------------------------------
   // Mode filter and case normalization
   // -------------------------------------------------------------------------
 
