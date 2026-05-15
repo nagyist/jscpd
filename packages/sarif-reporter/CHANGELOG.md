@@ -1,5 +1,11 @@
 # jscpd-sarif-reporter
 
+## 4.2.1
+
+### Patch Changes
+
+- fix tokenization issue for cross formats detection
+
 ## 4.2.0 — 2026-05-14
 
 ### Dependency Updates

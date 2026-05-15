@@ -1,5 +1,18 @@
 # jscpd
 
+## 4.2.1
+
+### Patch Changes
+
+- fix tokenization issue for cross formats detection
+- Updated dependencies
+  - @jscpd/badge-reporter@4.2.1
+  - @jscpd/core@4.2.1
+  - @jscpd/finder@4.2.1
+  - @jscpd/html-reporter@4.2.1
+  - jscpd-sarif-reporter@4.2.1
+  - @jscpd/tokenizer@4.2.1
+
 ## 4.2.0 — 2026-05-14
 
 ### New Features

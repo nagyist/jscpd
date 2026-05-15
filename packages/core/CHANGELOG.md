@@ -1,10 +1,16 @@
 # @jscpd/core
 
+## 4.2.1
+
+### Patch Changes
+
+- fix tokenization issue for cross formats detection
+
 ## 4.2.0 — 2026-05-14
 
 ### Bug Fixes
 
-- **Entire-file duplicates silently dropped** (#728) — the RabinKarp detector flushed the pending clone on a store *hit* at end-of-file instead of on a *miss*. When the sentinel frame triggered a hit, the final pending clone was validated and discarded rather than added to the results. Files that are complete copies of each other were silently undetected.
+- **Entire-file duplicates silently dropped** (#728) — the RabinKarp detector flushed the pending clone on a store _hit_ at end-of-file instead of on a _miss_. When the sentinel frame triggered a hit, the final pending clone was validated and discarded rather than added to the results. Files that are complete copies of each other were silently undetected.
 - **Vue SFC cross-file detection broken** — `Detector` called `store.namespace(format)` once using the file-level format (`vue`) for all SFC block token maps. The namespace now switches per token map to the resolved sub-format (e.g. `javascript`, `typescript`, `scss`), enabling cross-file detection between SFC blocks and standalone files of the same language.
 
 ### Breaking Changes

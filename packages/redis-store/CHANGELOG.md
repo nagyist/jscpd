@@ -1,5 +1,14 @@
 # @jscpd/redis-store
 
+## 4.2.1
+
+### Patch Changes
+
+- fix tokenization issue for cross formats detection
+- Updated dependencies
+  - @jscpd/core@4.2.1
+  - @jscpd/tokenizer@4.2.1
+
 ## 4.1.1
 
 ### Patch Changes

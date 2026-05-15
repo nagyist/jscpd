@@ -1,5 +1,11 @@
 # @jscpd/tsconfig
 
+## 5.2.1
+
+### Patch Changes
+
+- fix tokenization issue for cross formats detection
+
 ## 5.1.1
 
 ### Patch Changes
