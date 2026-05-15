@@ -216,6 +216,22 @@ export function tokenizeMarkdown(source: string, id: string, options: Partial<IO
   }
 
   // -------------------------------------------------------------------------
+  // Renumber positions sequentially across all code blocks.
+  // tokenizeWithPrism() uses per-block character offsets that reset to 0 for
+  // each fenced block, so positions are non-monotonic when the same language
+  // appears in multiple blocks (e.g. JS inside an HTML block AND in a
+  // dedicated ```js block).  Assigning a global sequential index here matches
+  // the semantics of the main tokenize.ts tokenizer and prevents negative
+  // getTokensCount() / duplicatedTokens values in the statistics.
+  // -------------------------------------------------------------------------
+  allTokens.forEach((token, idx) => {
+    if (token.loc) {
+      token.loc.start.position = idx;
+      token.loc.end.position = idx;
+    }
+  });
+
+  // -------------------------------------------------------------------------
   // Mode filter and case normalization
   // -------------------------------------------------------------------------
   let processedTokens = options.mode
