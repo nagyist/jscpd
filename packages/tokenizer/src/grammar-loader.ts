@@ -34,7 +34,7 @@ initializeAll();
 
 const punctuation = {
   new_line: /\n/,
-  empty: /\s+/,
+  empty: /[ \t\r\n\f\v]+/,
 };
 
 // Track which languages have already been patched so we never mutate the

@@ -377,4 +377,14 @@ Use this tool to get its docstring."
     const tokens = tokenize(code, 'lisp');
     expect(Array.isArray(tokens)).toBe(true);
   });
+
+  // https://github.com/kucherenko/jscpd/issues/716
+  // Bash scripts with multiple double-quoted strings on the same line caused
+  // quadratic blow-up in Prism's greedy string matcher, tokenizing very slowly.
+  it('tokenizes bash with multiple double-quoted strings on the same line (issue #716)', { timeout: 5000 }, () => {
+    const code = '      printXmlTest "compare" "compared-files-count" "2" "${totalFile}" "../artifact/$(basename "${totalFile}")" >> "${unitFile}"';
+    const tokens = tokenize(code, 'bash');
+    expect(Array.isArray(tokens)).toBe(true);
+    expect(tokens.length).toBeGreaterThan(0);
+  });
 });

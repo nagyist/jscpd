@@ -42,7 +42,7 @@ export default {
           alias: 'important',
         },
         comment: {
-          pattern: /(^|[^"{\\])#.*/,
+          pattern: /(^|[^"{\$])#.*/,
           lookbehind: true,
         },
         string: [
@@ -54,9 +54,19 @@ export default {
             inside: insideString,
           },
           {
-            pattern: /(["'])(?:\\[\s\S]|\$\([^)]+\)|`[^`]+`|(?!\1)[^\\])*\1/,
+            // Double-quoted strings with command substitution and variable expansion.
+            // Derived from upstream Prism.js to avoid quadratic blow-up from greedy
+            // matching on lines with multiple double-quoted strings (issue #716).
+            pattern: /(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"/,
+            lookbehind: true,
             greedy: true,
             inside: insideString,
+          },
+          {
+            // Single-quoted strings — no variable expansion inside.
+            pattern: /(^|[^$\\])'[^']*'/,
+            lookbehind: true,
+            greedy: true,
           },
         ],
         variable: insideString.variable,

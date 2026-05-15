@@ -10,7 +10,7 @@ import { tokenizeMarkdown } from './languages/markdown-tokenizer';
 const punctuation = {
   // eslint-disable-next-line @typescript-eslint/camelcase
   new_line: /\n/,
-  empty: /\s+/,
+  empty: /[ \t\r\n\f\v]+/,
 };
 
 // Track which languages have been patched with the punctuation tokens so we
