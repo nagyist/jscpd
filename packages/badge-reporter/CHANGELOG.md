@@ -1,5 +1,11 @@
 # @jscpd/badge-reporter
 
+## 4.2.2
+
+### Patch Changes
+
+- fix(tokenizer): resolve quadratic bash tokenization hang
+
 ## 4.2.1
 
 ### Patch Changes

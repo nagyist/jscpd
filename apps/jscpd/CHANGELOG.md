@@ -1,5 +1,18 @@
 # jscpd
 
+## 4.2.2
+
+### Patch Changes
+
+- fix(tokenizer): resolve quadratic bash tokenization hang
+- Updated dependencies
+  - @jscpd/badge-reporter@4.2.2
+  - @jscpd/core@4.2.2
+  - @jscpd/finder@4.2.2
+  - @jscpd/html-reporter@4.2.2
+  - jscpd-sarif-reporter@4.2.2
+  - @jscpd/tokenizer@4.2.2
+
 ## 4.2.1
 
 ### Patch Changes

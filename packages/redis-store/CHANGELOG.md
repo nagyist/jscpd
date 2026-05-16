@@ -1,5 +1,14 @@
 # @jscpd/redis-store
 
+## 4.2.2
+
+### Patch Changes
+
+- fix(tokenizer): resolve quadratic bash tokenization hang
+- Updated dependencies
+  - @jscpd/core@4.2.2
+  - @jscpd/tokenizer@4.2.2
+
 ## 4.2.1
 
 ### Patch Changes

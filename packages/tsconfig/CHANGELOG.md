@@ -1,5 +1,11 @@
 # @jscpd/tsconfig
 
+## 5.2.2
+
+### Patch Changes
+
+- fix(tokenizer): resolve quadratic bash tokenization hang
+
 ## 5.2.1
 
 ### Patch Changes
